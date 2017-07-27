@@ -22,6 +22,8 @@ export class FeaturesPage {
     console.log('ionViewDidLoad FeaturesPage');
   }
 featurespage(){
+
   this.navCtrl.push(QuizPage);
+
 }
 }
