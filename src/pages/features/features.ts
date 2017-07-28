@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {NavController, NavParams} from 'ionic-angular';
 
-import { QuizPage } from '../quiz/quiz';
+import {QuizPage} from '../quiz/quiz';
+
 /**
  * Generated class for the FeaturesPage page.
  *
@@ -10,20 +11,21 @@ import { QuizPage } from '../quiz/quiz';
  */
 
 @Component({
-  selector: 'page-features',
-  templateUrl: 'features.html',
+    selector: 'page-features',
+    templateUrl: 'features.html',
 })
 export class FeaturesPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+    constructor(public navCtrl: NavController, public navParams: NavParams) {
+    }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad FeaturesPage');
-  }
-featurespage(){
+    ionViewDidLoad() {
+        console.log('ionViewDidLoad FeaturesPage');
+    }
 
-  this.navCtrl.push(QuizPage);
+    featurespage() {
 
-}
+        this.navCtrl.push(QuizPage);
+
+    }
 }
