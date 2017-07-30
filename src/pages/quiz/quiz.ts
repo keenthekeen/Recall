@@ -15,12 +15,6 @@ import { QuizModel } from '../../models/quiz';
 })
 export class QuizPage {
   public quiz: any;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-     this.quiz = this.navParams.get('quiz');
-  }
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad QuizPage');
-  }
   /**
      * 'plug into' DOM canvas element using @ViewChild
      */
@@ -28,6 +22,7 @@ export class QuizPage {
 
     constructor(public navCtrl: NavController, public navParams: NavParams) {
         //this.navParams.get('data');
+        this.quiz = this.navParams.get('quiz');
 
     }
 
