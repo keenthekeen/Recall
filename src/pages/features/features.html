@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Featured Quiz</ion-title>
+    <ion-title>Features Quiz!</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -15,27 +15,30 @@
 
 <ion-content padding>
 
-
-	<ion-card (click)="featurespage()">
-  <img src="images/bird.jpg"/>
+<!-- Start loop -->
+<div *ngFor="let quiz of Quizs">
+	<ion-card (click)="featurespage(quiz)">
+  <img src="images/{{ quiz.pic }}.jpg"/>
+  <ion-card-content>
+    <ion-card-title>
+      {{ quiz.name }}
+      </ion-card-title>
+    <p>
+      {{ quiz.caption }}
+    </p>
+  </ion-card-content>
+</ion-card>
+</div>
+<!-- End loop-->
+<!--
+  <ion-card (click)="featurespage()">
+  <img src="images/peacock.jpg"/>
   <ion-card-content>
     <ion-card-title>
       Bird Anatomy Quiz
       </ion-card-title>
     <p>
-      Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, 
-    </p>
-  </ion-card-content>
-</ion-card>
-
-  <ion-card (click)="featurespage()">
-  <img src="images/peacock.jpg"/>
-  <ion-card-content>
-    <ion-card-title>
-      Duck Anatomy Quiz
-      </ion-card-title>
-    <p>
-      Everything we do is connected with career: death, stigma, politics, purpose. Who can respect the milk and result of a thing if he has the searious stigma of the follower?
+      Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam 
   </ion-card-content>
 </ion-card>
 
@@ -44,12 +47,14 @@
   <img src="images/sunflower.jpg"/>
   <ion-card-content>
     <ion-card-title>
-      Chicken Anatomy Quiz
+      Bird Anatomy Quiz
       </ion-card-title>
     <p>
-      All children like fluffed chickpeas in sour milk and parsley. Celery combines greatly with raw mackerel. Rice can be mixed with squeezed raspberries, also try seasoning the pie with fish sauce,
+      Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, 
   </ion-card-content>
 </ion-card>
+
+-->
 
 <ion-fab right bottom>
   <button ion-fab mini><ion-icon name="add"></ion-icon></button>
