@@ -15,19 +15,22 @@
 
 <ion-content padding>
 
-
-	<ion-card (click)="featurespage()">
-  <img src="images/bird.jpg"/>
+<!-- Start loop -->
+<div *ngFor="let quiz of Quizs">
+	<ion-card (click)="featurespage(quiz)">
+  <img src="images/{{ quiz.pic }}.jpg"/>
   <ion-card-content>
     <ion-card-title>
-      Bird Anatomy Quiz
+      {{ quiz.name }}
       </ion-card-title>
     <p>
-      Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, 
+      {{ quiz.caption }}
     </p>
   </ion-card-content>
 </ion-card>
-
+</div>
+<!-- End loop-->
+<!--
   <ion-card (click)="featurespage()">
   <img src="images/peacock.jpg"/>
   <ion-card-content>
@@ -50,6 +53,8 @@
       Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, 
   </ion-card-content>
 </ion-card>
+
+-->
 
 <ion-fab right bottom>
   <button ion-fab mini><ion-icon name="add"></ion-icon></button>

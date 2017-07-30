@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
+import { QuizModel } from '../../models/quiz';
 /**
  * Generated class for the QuizPage page.
  *
@@ -13,10 +14,9 @@ import { NavController, NavParams } from 'ionic-angular';
   templateUrl: 'quiz.html',
 })
 export class QuizPage {
-  
+  public quiz: any;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-     //this.navParams.get('data');
- 
+     this.quiz = this.navParams.get('quiz');
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad QuizPage');
