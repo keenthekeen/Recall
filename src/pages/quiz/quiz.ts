@@ -1,9 +1,7 @@
-import {
-    Component,
-    ElementRef, ViewChild
-} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
+import { Component,ElementRef, ViewChild } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
 
+import { QuizModel } from '../../models/quiz';
 /**
  * Generated class for the QuizPage page.
  *
@@ -12,12 +10,18 @@ import {NavController, NavParams} from 'ionic-angular';
  */
 
 @Component({
-    selector: 'page-quiz',
-    templateUrl: 'quiz.html',
+  selector: 'page-quiz',
+  templateUrl: 'quiz.html',
 })
 export class QuizPage {
-
-    /**
+  public quiz: any;
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
+     this.quiz = this.navParams.get('quiz');
+  }
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad QuizPage');
+  }
+  /**
      * 'plug into' DOM canvas element using @ViewChild
      */
     @ViewChild('canvas') canvasEl: ElementRef;
@@ -105,4 +109,5 @@ export class QuizPage {
     static coordinateDistance(a, b) {
         return Math.sqrt(Math.pow((a.x-b.x), 2) + Math.pow((a.y-b.y), 2));
     }
+
 }
