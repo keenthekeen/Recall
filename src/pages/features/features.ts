@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
 import { QuizPage } from '../quiz/quiz';
+import { AddquizPage } from  '../addquiz/addquiz';
 
 import { QuizModel } from '../../models/quiz';
+
 /**
  * Generated class for the FeaturesPage page.
  *
@@ -34,6 +36,9 @@ featurespage(quiz: any){
     quiz: quiz,
   });
 
+}
+addquiz(){
+  this.navCtrl.push(AddquizPage);
 }
 
 }

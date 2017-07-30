@@ -9,13 +9,15 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { MasterPage } from '../pages/master/master';
 import { QuizPage } from '../pages/quiz/quiz';
+import { AddquizPage } from  '../pages/addquiz/addquiz';
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     FeaturesPage,
     MasterPage,
-    QuizPage
+    QuizPage,
+    AddquizPage
   ],
   imports: [
     BrowserModule,
@@ -27,7 +29,8 @@ import { QuizPage } from '../pages/quiz/quiz';
     HomePage,
     FeaturesPage,
     MasterPage,
-    QuizPage
+    QuizPage,
+    AddquizPage
   ],
   providers: [
     StatusBar,

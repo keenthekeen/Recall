@@ -18,7 +18,7 @@
 <!-- Start loop -->
 <div *ngFor="let quiz of Quizs">
 	<ion-card (click)="featurespage(quiz)">
-  <img src="images/{{ quiz.pic }}.jpg"/>
+  <img src="assets/images/{{ quiz.pic }}.jpg"/>
   <ion-card-content>
     <ion-card-title>
       {{ quiz.name }}
@@ -57,7 +57,7 @@
 -->
 
 <ion-fab right bottom>
-  <button ion-fab mini><ion-icon name="add"></ion-icon></button>
+  <button ion-fab mini (click)="addquiz()"><ion-icon name="add"></ion-icon></button>
 </ion-fab>
 
 </ion-content>

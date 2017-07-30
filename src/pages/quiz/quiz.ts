@@ -32,7 +32,7 @@ export class QuizPage {
         let canvas = this.canvasEl.nativeElement;
         canvas.width = 500;
         canvas.height = 500;
-
+        //!!! Insert Canvas Image Here by using " "assets/images/" + this.quiz.pic + ".jpg"; "
         let context = canvas.getContext('2d');
 
         const coordinates = JSON.parse('[{"x":721,"y":364,"name":"ertert"},{"x":420,"y":230,"name":"hello"},{"x":792,"y":132,"name":"world"},{"x":220,"y":434,"name":"keen"}]');
@@ -45,7 +45,7 @@ export class QuizPage {
                 context.drawImage(img, element.x, element.y, pinSize, pinSize);
             });
         }, false);
-        img.src = '/assets/dot.png'; // Set source path
+        img.src = 'assets/dot.png'; // Set source path
 
         let pinSize = QuizPage.getMinimum(canvas.height,canvas.width)/14; // Calculate pin size
 
