@@ -11,7 +11,19 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { MasterPage } from '../pages/master/master';
 import { QuizPage } from '../pages/quiz/quiz';
-import { AddquizPage } from  '../pages/addquiz/addquiz';
+
+import { AngularFireModule } from 'angularfire2';
+
+export const firebaseConfig = {
+    apiKey: "AIzaSyDfUf1_8WfdaxNY5SJkA8SxMqPY-c1iNZs",
+    authDomain: "recall-6c78e.firebaseapp.com",
+    databaseURL: "https://recall-6c78e.firebaseio.com",
+    projectId: "recall-6c78e",
+    storageBucket: "recall-6c78e.appspot.com",
+    messagingSenderId: "642647451373"
+};
+
+
 @NgModule({
   declarations: [
     MyApp,
@@ -19,11 +31,11 @@ import { AddquizPage } from  '../pages/addquiz/addquiz';
     FeaturesPage,
     MasterPage,
     QuizPage,
-    AddquizPage
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    AngularFireModule.initializeApp(firebaseConfig)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -32,7 +44,6 @@ import { AddquizPage } from  '../pages/addquiz/addquiz';
     FeaturesPage,
     MasterPage,
     QuizPage,
-    AddquizPage
   ],
   providers: [
     StatusBar,
