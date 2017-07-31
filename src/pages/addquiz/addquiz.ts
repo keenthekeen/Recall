@@ -15,28 +15,26 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 
 export class AddquizPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private camera: Camera) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private Camera: Camera,) {
 
   }
 
-
+  	public imageSrc:any;
   	getpicture(){
   		console.log('runned');
-  		const options: CameraOptions = {
-		  quality: 100,
-		  destinationType: this.camera.DestinationType.DATA_URL,
-		  encodingType: this.camera.EncodingType.JPEG,
-		  mediaType: this.camera.MediaType.PICTURE,
-		  sourceType: 0,
-		}
+  		let cameraOptions = {
+		    sourceType: this.Camera.PictureSourceType.PHOTOLIBRARY,
+		    destinationType: this.Camera.DestinationType.FILE_URI,      
+		    quality: 100,
+		    targetWidth: 1000,
+		    targetHeight: 1000,
+		    encodingType: this.Camera.EncodingType.JPEG,      
+		    correctOrientation: true
+		  }
 
-  		this.camera.getPicture(options).then((imageData) => {
-		 // imageData is either a base64 encoded string or a file URI
-		 // If it's base64:
-		 let base64Image = 'data:image/jpeg;base64,' + imageData;
-		}, (err) => {
-		 // Handle error
-		});
+		  this.Camera.getPicture(cameraOptions)
+		    .then(file_uri => this.imageSrc = file_uri, 
+		    err => console.log(err));   
   	}
 
   ionViewDidLoad() {
