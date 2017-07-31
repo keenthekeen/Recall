@@ -18,7 +18,8 @@ export class AddquizPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, private Camera: Camera,) {
 
   }
-
+  	public isUp = false;
+  	public isNotup = !this.isUp;
   	public imageSrc:any;
   	getpicture(){
   
@@ -30,9 +31,9 @@ export class AddquizPage {
 		    targetWidth: 1000,
 		    targetHeight: 1000,
 		    encodingType: this.Camera.EncodingType.JPEG,      
-		    correctOrientation: true
+		    correctOrientation: true,
 		  }
-		  
+		  let isUp = true;
 		  this.Camera.getPicture(cameraOptions)
 		    .then(file_uri => this.imageSrc = file_uri, 
 		    err => console.log(err));

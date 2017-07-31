@@ -16,7 +16,7 @@
 <ion-content padding>
 
 
-<div class="file-upload" (click)="getpicture()">
+<div *ngIf="isNotup" class="file-upload" (click)="getpicture()">
   <div class="image-upload-wrap">
     <div class="drag-text">
       <h3>Select Image from gallery</h3>
@@ -26,7 +26,7 @@
     <img class="file-upload-image" [src]="imageSrc" />
   </div>
 </div>
-<img class="file-upload-image" [src]="imageSrc" />
+<img *ngIf="isUp" class="file-upload-image" [src]="imageSrc" />
 
 <ion-list>
   <ion-item>
