@@ -14,6 +14,34 @@
 
 
 <ion-content padding>
-<img [src]="imageSrc" />    
- <button ion-button name="images" (click)="getpicture()">Hello</button>
+
+
+<div class="file-upload" *ngIf="show != 1" (click)="getpicture()">
+  <div class="image-upload-wrap">
+    <div class="drag-text">
+      <h3>Select Image from gallery</h3>
+    </div>
+  </div>
+  <div class="file-upload-content">
+    <img class="file-upload-image" [src]="imageSrc" />
+  </div>
+</div>
+<img class="file-upload-image" *ngIf="show = 1" [src]="imageSrc" />
+
+<ion-list>
+  <ion-item>
+    <ion-label stacked>Title</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label stacked>Detail</ion-label>
+    <ion-input type="password"></ion-input>
+  </ion-item>
+
+</ion-list>
+
+
+
+
 </ion-content>
