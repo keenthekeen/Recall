@@ -3,7 +3,6 @@ import {ErrorHandler, NgModule} from '@angular/core';
 import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {StatusBar} from '@ionic-native/status-bar';
-//import { ImagePicker } from '@ionic-native/image-picker';
 import {Camera} from '@ionic-native/camera';
 
 import {FeaturesPage} from '../pages/features/features';
@@ -11,6 +10,7 @@ import {MyApp} from './app.component';
 import {HomePage} from '../pages/home/home';
 import {MasterPage} from '../pages/master/master';
 import {QuizPage} from '../pages/quiz/quiz';
+import {AddquizPage} from '../pages/addquiz/addquiz';
 
 import {Firebase} from "@ionic-native/firebase";
 
@@ -30,6 +30,7 @@ export const firebaseConfig = {
         HomePage,
         FeaturesPage,
         MasterPage,
+        AddquizPage,
         QuizPage,
     ],
     imports: [
@@ -43,6 +44,7 @@ export const firebaseConfig = {
         FeaturesPage,
         MasterPage,
         QuizPage,
+        AddquizPage,
     ],
     providers: [
         StatusBar,
