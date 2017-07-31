@@ -3,6 +3,8 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+//import { ImagePicker } from '@ionic-native/image-picker';
+import { Camera } from '@ionic-native/camera';
 
 import { FeaturesPage } from '../pages/features/features';
 import { MyApp } from './app.component';
@@ -35,6 +37,8 @@ import { AddquizPage } from  '../pages/addquiz/addquiz';
   providers: [
     StatusBar,
     SplashScreen,
+   // ImagePicker,
+    Camera,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
