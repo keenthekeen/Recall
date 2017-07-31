@@ -32,7 +32,7 @@ export class AddquizPage {
 		    encodingType: this.Camera.EncodingType.JPEG,      
 		    correctOrientation: true
 		  }
-
+		  
 		  this.Camera.getPicture(cameraOptions)
 		    .then(file_uri => this.imageSrc = file_uri, 
 		    err => console.log(err));
