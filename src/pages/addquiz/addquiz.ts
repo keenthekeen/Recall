@@ -21,6 +21,7 @@ export class AddquizPage {
 
   	public imageSrc:any;
   	getpicture(){
+  
   		console.log('runned');
   		let cameraOptions = {
 		    sourceType: this.Camera.PictureSourceType.PHOTOLIBRARY,
@@ -34,7 +35,8 @@ export class AddquizPage {
 
 		  this.Camera.getPicture(cameraOptions)
 		    .then(file_uri => this.imageSrc = file_uri, 
-		    err => console.log(err));   
+		    err => console.log(err));
+		    
   	}
 
   ionViewDidLoad() {
