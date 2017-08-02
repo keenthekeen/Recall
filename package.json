@@ -63,10 +63,7 @@
                 "CAMERA_USAGE_DESCRIPTION": " ",
                 "PHOTOLIBRARY_USAGE_DESCRIPTION": " "
             },
-            "cordova-plugin-firebase": {},
-            "com.synconset.imagepicker": {
-                "PHOTO_LIBRARY_USAGE_DESCRIPTION": "your usage message"
-            }
+            "cordova-plugin-firebase": {}
         },
         "platforms": [
             "android",
