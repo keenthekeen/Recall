@@ -29,7 +29,6 @@ export class AddquizPage {
     constructor(public navCtrl: NavController, public navParams: NavParams, private Camera: Camera, private db: AngularFireDatabase) {
 
     }
-<<<<<<< Updated upstream
 
     submit(name: string, caption: string){
         if (name.length < 3 || name.length > 100) {
@@ -55,10 +54,6 @@ export class AddquizPage {
         });
         console.log(quiz);
         console.log(quiz.save(this.db));
-=======
-    submit(){
- 
->>>>>>> Stashed changes
     }
 
     getPicture() {
