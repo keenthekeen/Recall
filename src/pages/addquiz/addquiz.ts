@@ -1,10 +1,11 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
+import {LoadingController, NavController, NavParams} from 'ionic-angular';
 import {Camera} from '@ionic-native/camera';
 import {QuizPage} from "../quiz/quiz";
 import {QuizModel} from '../../models/quiz';
 
 import {AngularFireDatabase} from "angularfire2/database";
+
 /**
  * Generated class for the AddquizPage page.
  *
@@ -26,11 +27,12 @@ export class AddquizPage {
     private picture: string;
 
     @ViewChild('canvas') canvasEl: ElementRef;
-    constructor(public navCtrl: NavController, public navParams: NavParams, private Camera: Camera, private db: AngularFireDatabase) {
+
+    constructor(public navCtrl: NavController, public navParams: NavParams, private Camera: Camera, private db: AngularFireDatabase, public loadingCtrl: LoadingController) {
 
     }
 
-    submit(name: string, caption: string){
+    submit(name: string, caption: string) {
         if (name.length < 3 || name.length > 100) {
             this.errorText = "Name must be 3-100 characters long.";
             return false;
@@ -45,6 +47,12 @@ export class AddquizPage {
             return false;
         }
 
+        let loader = this.loadingCtrl.create({
+            content: "Please wait...",
+            duration: 3000
+        });
+        loader.present();
+
         let quiz = new QuizModel({
             name: name,
             caption: caption,
@@ -53,14 +61,17 @@ export class AddquizPage {
             labels: this.coordinates
         });
         console.log(quiz);
-        console.log(quiz.save(this.db));
+        quiz.save(this.db).then(function () {
+            loader.dismiss();
+            this.navCtrl.pop();
+        }.bind(this));
     }
 
     getPicture() {
         console.log('AddQuiz page: getting photo');
         let cameraOptions = {
             sourceType: 0, // Photo Library
-            destinationType: 1, // File URI
+            destinationType: 0, // Data URL
             quality: 90,
             targetWidth: 1000,
             targetHeight: 1000,
@@ -75,6 +86,9 @@ export class AddquizPage {
     }
 
     createCanvas(uri) {
+        if (!(uri.startsWith('http') || uri.startsWith('data:'))) {
+            uri = "data:image/jpeg;base64," + uri;
+        }
         console.log('AddQuiz page: creating canvas');
         this.picture = uri;
 
@@ -91,10 +105,10 @@ export class AddquizPage {
             console.log("Screen size: " + window.innerHeight + " x " + window.innerWidth);
             console.log("Image size: " + bg.height + " x " + bg.width);
             if (bg.height < bg.width) {
-                canvas.width = (window.innerWidth) * 0.95;
+                canvas.width = (window.innerWidth) * 0.90;
                 canvas.height = bg.height * canvas.width / bg.width;
             } else {
-                canvas.height = (window.innerHeight) * 0.95;
+                canvas.height = (window.innerHeight) * 0.90;
                 canvas.width = bg.width * canvas.height / bg.height;
             }
             console.log("Canvas size: " + canvas.height + " x " + canvas.width);
