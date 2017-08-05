@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { FeaturesPage } from '../features/features';
 import {QuizModel} from '../../models/quiz';
+import {QuizPage} from '../quiz/quiz';
 
 import { Observable } from 'rxjs/Observable';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -27,7 +28,7 @@ export class HomePage {
     this.quizes = db.list('/quizzes', {
       query: {
         orderByChild: 'owner',
-        equalTo: this.userauth.uid,
+        equalTo: this.userauth,
       }
     });
 
@@ -36,8 +37,10 @@ export class HomePage {
 
 
   }
-	featurespage(){
-		this.navCtrl.push(FeaturesPage);
+	featurespage(quiz :any){
+		this.navCtrl.push(QuizPage, {
+            quiz: quiz,
+        });
 	}
 
 login() {
