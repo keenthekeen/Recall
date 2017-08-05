@@ -31,24 +31,22 @@ export class QuizPage {
         console.log('ionViewDidLoad QuizPage');
 
         // Load background image
-        var bgWidth = 0;
-        var bgHeight = 0;
         let canvas = this.canvasEl.nativeElement;
         let bg = new Image();
         bg.src = "http://www.massgeneral.org/childhood-epilepsy/assets/images/overview/i_brain_section-l.jpg";
         bg.addEventListener("load", function () {
-            bgWidth = bg.width;
-            bgHeight = bg.height;
 
             // Calculate canvas size
-            let vMin = QuizPage.getMinimum(window.innerWidth, window.innerHeight);
-            if (window.innerHeight < window.innerWidth) {
+            console.log("Screen size: "+window.innerHeight+" x "+window.innerWidth);
+            console.log("Image size: "+bg.height+" x "+bg.width);
+            if (bg.height < bg.width) {
                 canvas.width = (window.innerWidth)*0.9;
-                canvas.height = (bgHeight * window.innerWidth / bgWidth)*0.9;
+                canvas.height = bg.height * canvas.width / bg.width;
             } else {
                 canvas.height = (window.innerHeight)*0.9;
-                canvas.width = (bgWidth * window.innerHeight / bgHeight) *0.9;
+                canvas.width = bg.width * canvas.height / bg.height;
             }
+            console.log("Canvas size: "+canvas.height+" x "+canvas.width);
 
             //!!! Insert Canvas Image Here by using " "assets/images/" + this.quiz.pic + ".jpg"; "
             let context = canvas.getContext('2d');

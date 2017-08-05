@@ -12,8 +12,6 @@ import {MasterPage} from '../pages/master/master';
 import {QuizPage} from '../pages/quiz/quiz';
 import {AddquizPage} from '../pages/addquiz/addquiz';
 
-import {Firebase} from "@ionic-native/firebase";
-
 export const firebaseConfig = {
     apiKey: "AIzaSyDfUf1_8WfdaxNY5SJkA8SxMqPY-c1iNZs",
     authDomain: "recall-6c78e.firebaseapp.com",
@@ -51,7 +49,6 @@ export const firebaseConfig = {
         SplashScreen,
         // ImagePicker,
         Camera,
-        Firebase,
         {provide: ErrorHandler, useClass: IonicErrorHandler}
     ]
 })
