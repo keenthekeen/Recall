@@ -1,5 +1,4 @@
 page-addquiz {
-<<<<<<< HEAD
 	.image{
 		width: 95%;
 		height: 30%;
@@ -7,10 +6,10 @@ page-addquiz {
 		margin:auto;
 	}
 
-	body {
-  font-family: sans-serif;
-  background-color: #eeeeee;
-}
+		body {
+	  font-family: sans-serif;
+	  background-color: #eeeeee;
+	}
 
 	.file-upload {
 	  background-color: #ffffff;
@@ -69,30 +68,5 @@ page-addquiz {
 	  visibility: hidden;
 	}
 
-=======
->>>>>>> master
-
-  .file-upload {
-    background-color: #ffffff;
-    width: auto;
-    margin: 0 auto;
-    padding: 10px;
-  }
-
-  .image-upload-wrap {
-    margin-top: 20px;
-    border: 4px dashed #e6e6e6;
-    position: relative;
-  }
-
-  .drag-text {
-    text-align: center;
-  }
-
-  .drag-text h3 {
-    font-weight: 100;
-    text-transform: uppercase;
-    color: #a6a6a6;
-    padding: 60px 0;
-  }
 }
+
