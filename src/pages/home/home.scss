@@ -1,3 +1,18 @@
 page-home {
+	.btn-google{
+		background-color: hsl(7, 71%, 55%); 
+	}
 
+	.fa {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 50px;
+    height: 100%;
+    text-align: center;
+    background: hsla(0, 0, 0, 0.1);
+    line-height: 2.2;
+    border-radius: 5px 0 0 5px;
+  }
 }

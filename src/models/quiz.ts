@@ -21,6 +21,7 @@ export class QuizModel {
         return db.list("/quizzes", QuizModel);
     }
 
+<<<<<<< Updated upstream
     save(db: AngularFireDatabase) {
         if (this.key) {
             return db.app.database().ref("/quizzes").child(this.key).set(this);
@@ -31,4 +32,6 @@ export class QuizModel {
         }
     }
 
+=======
+>>>>>>> Stashed changes
 }
