@@ -6,9 +6,9 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Add New Quiz!</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>Add New Quiz!</ion-title>
+    </ion-navbar>
 
 </ion-header>
 
@@ -16,32 +16,28 @@
 <ion-content padding>
 
 
-<div *ngIf="isNotup" class="file-upload" (click)="getPicture()">
-  <div class="image-upload-wrap">
-    <div class="drag-text">
-      <h3>Select Image from gallery</h3>
+    <div *ngIf="!isUp" class="file-upload" (click)="getPicture()">
+        <div class="image-upload-wrap">
+            <div class="drag-text">
+                <h3><ion-icon name="image"></ion-icon> Select Image from gallery</h3>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="file-upload-content">
-    <img class="file-upload-image" [src]="imageSrc" />
-  </div>
-</div>
-<img *ngIf="isUp" class="file-upload-image" [src]="imageSrc" />
+    <img *ngIf="isUp" class="file-upload-image" [src]="imageSrc"/>
 
-<ion-list>
-  <ion-item>
-    <ion-label stacked>Title</ion-label>
-    <ion-input type="text"></ion-input>
-  </ion-item>
+    <ion-list>
+        <ion-item>
+            <ion-label stacked>Title</ion-label>
+            <ion-input type="text"></ion-input>
+        </ion-item>
 
-  <ion-item>
-    <ion-label stacked>Detail</ion-label>
-    <ion-input type="password"></ion-input>
-  </ion-item>
+        <ion-item>
+            <ion-label stacked>Detail</ion-label>
+            <ion-input type="text"></ion-input>
+        </ion-item>
 
-</ion-list>
+    </ion-list>
 
-
-
+    <button ion-button full>Save</button>
 
 </ion-content>

@@ -9,7 +9,7 @@ export class CameraMock extends Camera {
 
             })
         } else {
-            console.log("Camera: getting photo from camera");
+            console.log("Camera: getting photo from camer");
             return super.getPicture(options);
         }
     }

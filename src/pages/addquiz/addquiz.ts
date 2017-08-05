@@ -20,9 +20,8 @@ export class AddquizPage {
 
     }
 
-    public isUp = false;
-    public isNotup = !this.isUp;
-    public imageSrc: any;
+    public isUp: boolean = false;
+    public imageSrc: any = "";
 
     getPicture() {
 
@@ -36,7 +35,7 @@ export class AddquizPage {
             encodingType: this.Camera.EncodingType.JPEG,
             correctOrientation: true,
         };
-        let isUp = true;
+        this.isUp = true;
         this.Camera.getPicture(cameraOptions)
             .then(file_uri => this.imageSrc = file_uri,
                 err => console.log(err));
