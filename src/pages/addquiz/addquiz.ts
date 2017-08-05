@@ -1,6 +1,6 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
-import {Camera, CameraOptions} from '@ionic-native/camera';
+import {Camera} from '@ionic-native/camera';
 import {QuizPage} from "../quiz/quiz";
 
 /**
@@ -18,8 +18,6 @@ import {QuizPage} from "../quiz/quiz";
 export class AddquizPage {
 
     public isUp: boolean = false;
-    public imageSrc: any = "";
-
     public coordinates: Array<any> = [];
 
     /**
@@ -92,23 +90,28 @@ export class AddquizPage {
             };
             let exist = QuizPage.isCoordinateExist(mousePos.x, mousePos.y, this.coordinates, pinSize / vMin);
             if (exist) {
-                console.log("AddQuiz page: clicked "+exist);
-                // Coordinate duplication found!   ...escaping...
-                if (confirm("Do you want to delete this?")) {
-                    this.coordinates.filter(function (element) {
+                console.log("AddQuiz page: clicked " + exist);
+                /*if (confirm("Do you want to delete this?")) {
+                    this.coordinates = this.coordinates.filter(function (element) {
                         return element.name != exist;
                     });
-                }
+                }*/
+                alert("Clicked " + exist);
             } else {
                 let name: string = prompt("Name?");
-                mousePos.other_name = prompt("Other names, separated by comma?").split(",").map(function (item) {
-                    return item.trim();
-                });
                 if (name) {
-                    if (this.coordinates.find(x => x.name == name)) {
+                    if (this.coordinates.map(function (e) {
+                            // Ignore case
+                            e.name = e.name.toUpperCase();
+                            return e;
+                        }).find(x => x.name == name.toUpperCase())) {
                         alert("Name conflict!");
                     } else {
+                        let otherName: string = prompt("Other names, separated by comma?");
                         mousePos.name = name;
+                        mousePos.other_name = otherName ? otherName.split(",").map(function (item) {
+                            return item.trim();
+                        }) : [];
                         context.drawImage(dotImg, mousePos.x * canvas.width, mousePos.y * canvas.height, pinSize, pinSize);
                         this.coordinates.push(mousePos);
                         console.log("AddQuiz page: Added label", mousePos);
