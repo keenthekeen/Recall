@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import { Camera } from '@ionic-native/camera';
+import {Component, ElementRef, ViewChild} from '@angular/core';
+import {NavController, NavParams} from 'ionic-angular';
+import {Camera, CameraOptions} from '@ionic-native/camera';
+import {QuizPage} from "../quiz/quiz";
+
 /**
  * Generated class for the AddquizPage page.
  *
@@ -14,12 +16,20 @@ import { Camera } from '@ionic-native/camera';
 })
 
 export class AddquizPage {
-    constructor(public navCtrl: NavController, public navParams: NavParams, private Camera: Camera,) {
-
-    }
 
     public isUp: boolean = false;
     public imageSrc: any = "";
+
+    public coordinates: Array<any> = [];
+
+    /**
+     * 'plug into' DOM canvas element using @ViewChild
+     */
+    @ViewChild('canvas') canvasEl: ElementRef;
+
+    constructor(public navCtrl: NavController, public navParams: NavParams, private Camera: Camera,) {
+
+    }
 
     getPicture() {
 
@@ -35,9 +45,98 @@ export class AddquizPage {
         };
         this.isUp = true;
         this.Camera.getPicture(cameraOptions)
-            .then(file_uri => this.imageSrc = file_uri,
+            .then(file_uri => this.createCanvas(file_uri),
                 err => console.log(err));
 
+    }
+
+    createCanvas(uri) {
+        console.log('AddQuiz page: creating canvas');
+
+        let canvas = this.canvasEl.nativeElement;
+        let context = canvas.getContext('2d');
+        let vMin;
+        let pinSize;
+
+        // Load background image
+        let bg = new Image();
+        bg.src = uri;
+        bg.addEventListener("load", function () {
+            // Calculate canvas size
+            console.log("Screen size: " + window.innerHeight + " x " + window.innerWidth);
+            console.log("Image size: " + bg.height + " x " + bg.width);
+            if (bg.height < bg.width) {
+                canvas.width = (window.innerWidth) * 0.95;
+                canvas.height = bg.height * canvas.width / bg.width;
+            } else {
+                canvas.height = (window.innerHeight) * 0.95;
+                canvas.width = bg.width * canvas.height / bg.height;
+            }
+            console.log("Canvas size: " + canvas.height + " x " + canvas.width);
+            vMin = QuizPage.getMinimum(canvas.height, canvas.width);
+            pinSize = QuizPage.getMinimum(canvas.height, canvas.width) / 30;
+
+            // Draw background image
+            context.drawImage(bg, 0, 0, canvas.width, canvas.height);
+        });
+
+        // Set up mouse events
+        canvas.addEventListener("mouseup", function (e) {
+            let rect = canvas.getBoundingClientRect();
+            let halfPin = pinSize / 2;
+            let mousePos = {
+                name: "",
+                other_name: [],
+                x: (e.clientX - (rect.left + halfPin)) / canvas.width,
+                y: (e.clientY - (rect.top + halfPin)) / canvas.height
+            };
+            let exist = QuizPage.isCoordinateExist(mousePos.x, mousePos.y, this.coordinates, pinSize / vMin);
+            if (exist) {
+                console.log("AddQuiz page: clicked "+exist);
+                // Coordinate duplication found!   ...escaping...
+                if (confirm("Do you want to delete this?")) {
+                    this.coordinates.filter(function (element) {
+                        return element.name != exist;
+                    });
+                }
+            } else {
+                let name: string = prompt("Name?");
+                mousePos.other_name = prompt("Other names, separated by comma?").split(",").map(function (item) {
+                    return item.trim();
+                });
+                if (name) {
+                    if (this.coordinates.find(x => x.name == name)) {
+                        alert("Name conflict!");
+                    } else {
+                        mousePos.name = name;
+                        context.drawImage(dotImg, mousePos.x * canvas.width, mousePos.y * canvas.height, pinSize, pinSize);
+                        this.coordinates.push(mousePos);
+                        console.log("AddQuiz page: Added label", mousePos);
+                    }
+                } else {
+                    alert("You must supply name!");
+                }
+            }
+        }.bind(this), false);
+        canvas.addEventListener("mousemove", function (e) {
+            let rect = canvas.getBoundingClientRect();
+            let halfPin = pinSize / 2;
+            let mousePos = {
+                x: (e.clientX - (rect.left + halfPin)) / canvas.width,
+                y: (e.clientY - (rect.top + halfPin)) / canvas.height
+            };
+            if (QuizPage.isCoordinateExist(mousePos.x, mousePos.y, this.coordinates, pinSize / vMin)) {
+                canvas.style.cursor = "pointer";
+            } else {
+                canvas.style.cursor = "auto";
+            }
+        }.bind(this), false);
+
+
+        // Load dot icon
+        console.log("Loading dot icon");
+        let dotImg = new Image();
+        dotImg.src = 'assets/dot.png';
     }
 
     ionViewDidLoad() {
