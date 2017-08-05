@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { Camera, CameraOptions } from '@ionic-native/camera';
+import { Camera } from '@ionic-native/camera';
 /**
  * Generated class for the AddquizPage page.
  *
@@ -19,10 +19,8 @@ export class AddquizPage {
 
   }
   	public isUp = false;
-  	public isNotup = !this.isUp;
   	public imageSrc:any;
   	getpicture(){
-  
   		console.log('runned');
   		let cameraOptions = {
 		    sourceType: this.Camera.PictureSourceType.PHOTOLIBRARY,
