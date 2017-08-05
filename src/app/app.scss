@@ -14,3 +14,22 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+$colors: (
+        primary:    #00bcd4,
+        secondary:  #009688,
+        danger:     #d32f2f,
+        light:      #f4f4f4,
+        dark:       #222
+);
+
+.sector {
+  margin: 0.5rem 0 1rem 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 3px;
+  background-color: color($colors, danger);
+  color: white;
+  line-height: 1.5rem;
+  padding: 15px 25px 15px 15px;
+  width: 100%
+}

@@ -4,7 +4,7 @@ import {Camera} from '@ionic-native/camera';
 import {QuizPage} from "../quiz/quiz";
 import {QuizModel} from '../../models/quiz';
 
-import {AngularFireDatabase, FirebaseListObservable} from "angularfire2/database";
+import {AngularFireDatabase} from "angularfire2/database";
 /**
  * Generated class for the AddquizPage page.
  *
@@ -20,27 +20,48 @@ import {AngularFireDatabase, FirebaseListObservable} from "angularfire2/database
 export class AddquizPage {
 
     public isUp: boolean = false;
-    public coordinates: Array<any> = [];
+    public errorText: string;
 
-    /**
-     * 'plug into' DOM canvas element using @ViewChild
-     */
-    quizzes: FirebaseListObservable<any[]>;
+    public coordinates: Array<any> = [];
+    private picture: string;
+
     @ViewChild('canvas') canvasEl: ElementRef;
-    constructor(public navCtrl: NavController, public navParams: NavParams, private Camera: Camera, db: AngularFireDatabase) {
-        this.quizzes = QuizModel.fetch(db);
+    constructor(public navCtrl: NavController, public navParams: NavParams, private Camera: Camera, private db: AngularFireDatabase) {
+
     }
-    submit(){
-        this.quizzes.push({'UID2'});
+
+    submit(name: string, caption: string){
+        if (name.length < 3 || name.length > 100) {
+            this.errorText = "Name must be 3-100 characters long.";
+            return false;
+        } else if (this.picture.length == 0) {
+            this.errorText = "Please select picture.";
+            return false;
+        } else if (this.picture.length > 2000000) {
+            this.errorText = "The selected picture is too big.";
+            return false;
+        } else if (this.coordinates.length == 0) {
+            this.errorText = "Please label the picture.";
+            return false;
+        }
+
+        let quiz = new QuizModel({
+            name: name,
+            caption: caption,
+            picture: this.picture,
+            owner: "TODO",
+            labels: this.coordinates
+        });
+        console.log(quiz);
+        console.log(quiz.save(this.db));
     }
 
     getPicture() {
-
         console.log('AddQuiz page: getting photo');
         let cameraOptions = {
             sourceType: this.Camera.PictureSourceType.PHOTOLIBRARY,
             destinationType: this.Camera.DestinationType.FILE_URI,
-            quality: 100,
+            quality: 90,
             targetWidth: 1000,
             targetHeight: 1000,
             encodingType: this.Camera.EncodingType.JPEG,
@@ -55,6 +76,7 @@ export class AddquizPage {
 
     createCanvas(uri) {
         console.log('AddQuiz page: creating canvas');
+        this.picture = uri;
 
         let canvas = this.canvasEl.nativeElement;
         let context = canvas.getContext('2d');

@@ -33,7 +33,7 @@ export class QuizPage {
         let canvas = this.canvasEl.nativeElement;
         const coordinates = this.quiz.labels;
         let bg = new Image();
-        bg.src = this.quiz.pic;
+        bg.src = this.quiz.picture;
         bg.addEventListener("load", function () {
 
             // Calculate canvas size

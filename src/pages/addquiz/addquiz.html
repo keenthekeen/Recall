@@ -14,32 +14,35 @@
 
 
 <ion-content padding>
-
+    <div *ngIf="errorText" class="sector">
+        {{ errorText }}
+    </div>
 
     <div *ngIf="!isUp" class="file-upload" (click)="getPicture()">
         <div class="image-upload-wrap">
             <div class="drag-text">
-                <h3><ion-icon name="image"></ion-icon> Select Image from gallery</h3>
+                <h3>
+                    <ion-icon name="image"></ion-icon>
+                    Select Image from gallery
+                </h3>
             </div>
         </div>
     </div>
     <div class="ion-canvas">
-        <canvas #canvas></canvas>
+        <canvas #canvas width="0" height="0"></canvas>
     </div>
 
-<ion-list>
-  <ion-item>
-    <ion-label stacked>Title</ion-label>
-    <ion-input type="text"></ion-input>
-  </ion-item>
-
-  <ion-item>
-    <ion-label stacked>Detail</ion-label>
-    <ion-textarea rows='6' type='text'></ion-textarea>
-  </ion-item>
+    <ion-list>
+        <ion-item>
+            <ion-label stacked>Name</ion-label>
+            <ion-input type="text" #iName></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Caption</ion-label>
+            <ion-textarea rows='5' type='text' #iCaption></ion-textarea>
+        </ion-item>
 
     </ion-list>
-
-    <button ion-button full (click)='submit()'>Save</button>
+    <button ion-button full (click)='submit(iName.value, iCaption.value)'>Save</button>
 
 </ion-content>
