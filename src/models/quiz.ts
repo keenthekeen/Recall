@@ -7,6 +7,7 @@ export class QuizModel {
     public pic: string;
     public caption: string;
     public owner: any;
+    public labels: Array<any>;
 
     constructor(obj: any) {
         this.key = obj.key || null;

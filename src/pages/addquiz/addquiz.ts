@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import { Camera, CameraOptions } from '@ionic-native/camera';
+import {Component} from '@angular/core';
+import {NavController, NavParams} from 'ionic-angular';
+import {Camera, CameraOptions} from '@ionic-native/camera';
+
 /**
  * Generated class for the AddquizPage page.
  *
@@ -9,40 +10,42 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
  */
 
 @Component({
-  selector: 'page-addquiz',
-  templateUrl: 'addquiz.html',
+    selector: 'page-addquiz',
+    templateUrl: 'addquiz.html',
 })
 
 export class AddquizPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private Camera: Camera,) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, private Camera: Camera,) {
 
-  }
-  	public isUp = false;
-  	public isNotup = !this.isUp;
-  	public imageSrc:any;
-  	getpicture(){
-  
-  		console.log('runned');
-  		let cameraOptions = {
-		    sourceType: this.Camera.PictureSourceType.PHOTOLIBRARY,
-		    destinationType: this.Camera.DestinationType.FILE_URI,      
-		    quality: 100,
-		    targetWidth: 1000,
-		    targetHeight: 1000,
-		    encodingType: this.Camera.EncodingType.JPEG,      
-		    correctOrientation: true,
-		  }
-		  let isUp = true;
-		  this.Camera.getPicture(cameraOptions)
-		    .then(file_uri => this.imageSrc = file_uri, 
-		    err => console.log(err));
-		    
-  	}
+    }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AddquizPage');
-  }
+    public isUp = false;
+    public isNotup = !this.isUp;
+    public imageSrc: any;
+
+    getPicture() {
+
+        console.log('AddQuiz page: getting photo');
+        let cameraOptions = {
+            sourceType: this.Camera.PictureSourceType.PHOTOLIBRARY,
+            destinationType: this.Camera.DestinationType.FILE_URI,
+            quality: 100,
+            targetWidth: 1000,
+            targetHeight: 1000,
+            encodingType: this.Camera.EncodingType.JPEG,
+            correctOrientation: true,
+        };
+        let isUp = true;
+        this.Camera.getPicture(cameraOptions)
+            .then(file_uri => this.imageSrc = file_uri,
+                err => console.log(err));
+
+    }
+
+    ionViewDidLoad() {
+        console.log('ionViewDidLoad AddquizPage');
+    }
 
 
 }
