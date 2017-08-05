@@ -20,4 +20,10 @@ export class QuizModel {
     static fetch(db: AngularFireDatabase) {
         return db.list('/quizzes', QuizModel);
     }
+
+    static push(db: AngularFireDatabase){
+        
+    }
+
+
 }

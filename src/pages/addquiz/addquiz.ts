@@ -2,7 +2,9 @@ import {Component, ElementRef, ViewChild} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
 import {Camera} from '@ionic-native/camera';
 import {QuizPage} from "../quiz/quiz";
+import {QuizModel} from '../../models/quiz';
 
+import {AngularFireDatabase, FirebaseListObservable} from "angularfire2/database";
 /**
  * Generated class for the AddquizPage page.
  *
@@ -23,10 +25,13 @@ export class AddquizPage {
     /**
      * 'plug into' DOM canvas element using @ViewChild
      */
+    quizzes: FirebaseListObservable<any[]>;
     @ViewChild('canvas') canvasEl: ElementRef;
-
-    constructor(public navCtrl: NavController, public navParams: NavParams, private Camera: Camera,) {
-
+    constructor(public navCtrl: NavController, public navParams: NavParams, private Camera: Camera, db: AngularFireDatabase) {
+        this.quizzes = QuizModel.fetch(db);
+    }
+    submit(){
+        this.quizzes.push({'UID2'});
     }
 
     getPicture() {
