@@ -11,6 +11,10 @@ import {HomePage} from '../pages/home/home';
 import {MasterPage} from '../pages/master/master';
 import {QuizPage} from '../pages/quiz/quiz';
 import {AddquizPage} from '../pages/addquiz/addquiz';
+import {AngularFireModule} from "angularfire2";
+import {AngularFireDatabaseModule} from "angularfire2/database";
+import {AngularFireAuthModule} from "angularfire2/auth";
+
 
 export const firebaseConfig = {
     apiKey: "AIzaSyDfUf1_8WfdaxNY5SJkA8SxMqPY-c1iNZs",
@@ -20,7 +24,6 @@ export const firebaseConfig = {
     storageBucket: "recall-6c78e.appspot.com",
     messagingSenderId: "642647451373"
 };
-
 
 @NgModule({
     declarations: [
@@ -34,6 +37,9 @@ export const firebaseConfig = {
     imports: [
         BrowserModule,
         IonicModule.forRoot(MyApp),
+        AngularFireModule.initializeApp(firebaseConfig),
+        AngularFireDatabaseModule,
+        AngularFireAuthModule
     ],
     bootstrap: [IonicApp],
     entryComponents: [
@@ -47,7 +53,6 @@ export const firebaseConfig = {
     providers: [
         StatusBar,
         SplashScreen,
-        // ImagePicker,
         Camera,
         {provide: ErrorHandler, useClass: IonicErrorHandler}
     ]

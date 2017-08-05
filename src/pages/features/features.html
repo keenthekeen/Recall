@@ -6,58 +6,36 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Features Quiz!</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>Features Quiz!</ion-title>
+    </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
 
-<!-- Start loop -->
-<div *ngFor="let quiz of Quizs">
-	<ion-card (click)="featurespage(quiz)">
-  <img src="assets/images/{{ quiz.pic }}.jpg"/>
-  <ion-card-content>
-    <ion-card-title>
-      {{ quiz.name }}
-      </ion-card-title>
-    <p>
-      {{ quiz.caption }}
-    </p>
-  </ion-card-content>
-</ion-card>
-</div>
-<!-- End loop-->
-<!--
-  <ion-card (click)="featurespage()">
-  <img src="images/peacock.jpg"/>
-  <ion-card-content>
-    <ion-card-title>
-      Bird Anatomy Quiz
-      </ion-card-title>
-    <p>
-      Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam 
-  </ion-card-content>
-</ion-card>
+    <!-- Start loop -->
+    <div *ngFor="let quiz of quizzes | async">
+        <ion-card (click)="featurespage(quiz)">
+            <img src="{{ quiz.pic }}"/>
+            <ion-card-content>
+                <ion-card-title>
+                    {{ quiz.name }}
+                </ion-card-title>
+                <p>
+                    {{ quiz.caption }}
+                </p>
+            </ion-card-content>
+        </ion-card>
+    </div>
+    <!-- End loop-->
 
 
-  <ion-card (click)="featurespage()">
-  <img src="images/sunflower.jpg"/>
-  <ion-card-content>
-    <ion-card-title>
-      Bird Anatomy Quiz
-      </ion-card-title>
-    <p>
-      Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, 
-  </ion-card-content>
-</ion-card>
-
--->
-
-<ion-fab right bottom>
-  <button ion-fab mini (click)="addquiz()"><ion-icon name="add"></ion-icon></button>
-</ion-fab>
+    <ion-fab right bottom>
+        <button ion-fab mini (click)="addquiz()">
+            <ion-icon name="add"></ion-icon>
+        </button>
+    </ion-fab>
 
 </ion-content>

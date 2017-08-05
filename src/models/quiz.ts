@@ -1,11 +1,22 @@
-export class QuizModel{
+import {AngularFireDatabase} from "angularfire2/database";
 
-	public name:string;
-	public pic:string;
-	public caption:string;
-	constructor(name:string, pic:string, caption:string){
-		this.name = name;
-		this.pic = pic;
-		this.caption = caption;
-	}
+export class QuizModel {
+
+    public key: any;
+    public name: string;
+    public pic: string;
+    public caption: string;
+    public owner: any;
+
+    constructor(obj: any) {
+        this.key = obj.key || null;
+        this.name = obj.name;
+        this.pic = obj.pic;
+        this.caption = obj.caption || '';
+        this.owner = obj.owner || null;
+    }
+
+    static fetch(db: AngularFireDatabase) {
+        return db.list('/quizzes', QuizModel);
+    }
 }

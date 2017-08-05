@@ -15,7 +15,7 @@ import {QuizModel} from '../../models/quiz';
     templateUrl: 'quiz.html',
 })
 export class QuizPage {
-    public quiz: any;
+    public quiz: QuizModel;
     /**
      * 'plug into' DOM canvas element using @ViewChild
      */
@@ -33,17 +33,17 @@ export class QuizPage {
         // Load background image
         let canvas = this.canvasEl.nativeElement;
         let bg = new Image();
-        bg.src = "http://www.massgeneral.org/childhood-epilepsy/assets/images/overview/i_brain_section-l.jpg";
+        bg.src = this.quiz.pic;
         bg.addEventListener("load", function () {
 
             // Calculate canvas size
             console.log("Screen size: "+window.innerHeight+" x "+window.innerWidth);
             console.log("Image size: "+bg.height+" x "+bg.width);
             if (bg.height < bg.width) {
-                canvas.width = (window.innerWidth)*0.9;
+                canvas.width = (window.innerWidth)*0.95;
                 canvas.height = bg.height * canvas.width / bg.width;
             } else {
-                canvas.height = (window.innerHeight)*0.9;
+                canvas.height = (window.innerHeight)*0.95;
                 canvas.width = bg.width * canvas.height / bg.height;
             }
             console.log("Canvas size: "+canvas.height+" x "+canvas.width);
