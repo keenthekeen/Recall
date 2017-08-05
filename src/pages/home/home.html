@@ -12,10 +12,10 @@
     <ion-list>
 
     <div *ngIf='user | async'>
-    <div> {{ (user | async)?.email }} </div>
+    <div>You're logged in as {{ (user | async)?.email }} </div>
     <div *ngFor='let quiz of quizes | async'>
       <ion-card (click)="featurespage(quiz)">
-            <img src="{{ quiz.pic }}"/>
+            <img src="{{ quiz.picture }}"/>
             <ion-card-content>
                 <ion-card-title>
                     {{ quiz.name }}
