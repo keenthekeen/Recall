@@ -17,7 +17,6 @@ import {AngularFireAuthModule} from "angularfire2/auth";
 import {CameraMock} from './devmode';
 
 
-
 export const firebaseConfig = {
     apiKey: "AIzaSyDfUf1_8WfdaxNY5SJkA8SxMqPY-c1iNZs",
     authDomain: "recall-6c78e.firebaseapp.com",

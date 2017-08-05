@@ -59,8 +59,8 @@ export class AddquizPage {
     getPicture() {
         console.log('AddQuiz page: getting photo');
         let cameraOptions = {
-            sourceType: this.Camera.PictureSourceType.PHOTOLIBRARY,
-            destinationType: this.Camera.DestinationType.FILE_URI,
+            sourceType: 0, // Photo Library
+            destinationType: 1, // File URI
             quality: 90,
             targetWidth: 1000,
             targetHeight: 1000,
