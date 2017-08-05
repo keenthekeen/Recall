@@ -22,7 +22,6 @@ export class QuizPage {
     @ViewChild('canvas') canvasEl: ElementRef;
 
     constructor(public navCtrl: NavController, public navParams: NavParams) {
-        //this.navParams.get('data');
         this.quiz = this.navParams.get('quiz');
 
     }
@@ -32,40 +31,38 @@ export class QuizPage {
 
         // Load background image
         let canvas = this.canvasEl.nativeElement;
+        const coordinates = this.quiz.labels;
         let bg = new Image();
         bg.src = this.quiz.pic;
         bg.addEventListener("load", function () {
 
             // Calculate canvas size
-            console.log("Screen size: "+window.innerHeight+" x "+window.innerWidth);
-            console.log("Image size: "+bg.height+" x "+bg.width);
+            console.log("Screen size: " + window.innerHeight + " x " + window.innerWidth);
+            console.log("Image size: " + bg.height + " x " + bg.width);
             if (bg.height < bg.width) {
-                canvas.width = (window.innerWidth)*0.95;
+                canvas.width = (window.innerWidth) * 0.95;
                 canvas.height = bg.height * canvas.width / bg.width;
             } else {
-                canvas.height = (window.innerHeight)*0.95;
+                canvas.height = (window.innerHeight) * 0.95;
                 canvas.width = bg.width * canvas.height / bg.height;
             }
-            console.log("Canvas size: "+canvas.height+" x "+canvas.width);
+            console.log("Canvas size: " + canvas.height + " x " + canvas.width);
+            let vMin = QuizPage.getMinimum(canvas.height, canvas.width);
 
-            //!!! Insert Canvas Image Here by using " "assets/images/" + this.quiz.pic + ".jpg"; "
+            let pinSize = QuizPage.getMinimum(canvas.height, canvas.width) / 30; // Calculate pin size
+
             let context = canvas.getContext('2d');
-
-            context.drawImage(bg,0,0, canvas.width, canvas.height);
-
-            const coordinates = JSON.parse('[{"x":71,"y":34,"name":"ertert"},{"x":42,"y":20,"name":"hello"},{"x":72,"y":13,"name":"world"},{"x":20,"y":43,"name":"keen"}]');
+            context.drawImage(bg, 0, 0, canvas.width, canvas.height);
 
             // Load dot icon
             console.log("Loading dot icon");
-            let img = new Image();   // Create new img element
-            img.addEventListener('load', function () {
+            let dotImg = new Image();   // Create new dotImg element
+            dotImg.addEventListener('load', function () {
                 coordinates.forEach(function (element) {
-                    context.drawImage(img, element.x, element.y, pinSize, pinSize);
+                    context.drawImage(dotImg, element.x * canvas.width, element.y * canvas.height, pinSize, pinSize);
                 });
             }, false);
-            img.src = 'assets/dot.png'; // Set source path
-
-            let pinSize = QuizPage.getMinimum(canvas.height, canvas.width) / 30; // Calculate pin size
+            dotImg.src = 'assets/dot.png'; // Set source path
 
             // Set up mouse events
             canvas.addEventListener("mouseup", function (e) {
@@ -75,7 +72,7 @@ export class QuizPage {
                     x: e.clientX - (rect.left + halfPin),
                     y: e.clientY - (rect.top + halfPin)
                 };
-                let exist = QuizPage.isCoordinateExist(mousePos.x, mousePos.y, coordinates, pinSize);
+                let exist = QuizPage.isCoordinateExist(mousePos.x/canvas.width, mousePos.y/canvas.height, coordinates, pinSize/vMin);
                 if (exist) {
                     // Coordinate duplication found!   ...escaping...
                     alert("You clicked on " + exist);
@@ -88,7 +85,7 @@ export class QuizPage {
                     x: e.clientX - (rect.left + halfPin),
                     y: e.clientY - (rect.top + halfPin)
                 };
-                if (QuizPage.isCoordinateExist(mousePos.x, mousePos.y, coordinates, pinSize * 0.9)) {
+                if (QuizPage.isCoordinateExist(mousePos.x/canvas.width, mousePos.y/canvas.height, coordinates, pinSize/vMin)) {
                     canvas.style.cursor = "pointer";
                 } else {
                     canvas.style.cursor = "auto";

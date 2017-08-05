@@ -14,6 +14,7 @@ import {AddquizPage} from '../pages/addquiz/addquiz';
 import {AngularFireModule} from "angularfire2";
 import {AngularFireDatabaseModule} from "angularfire2/database";
 import {AngularFireAuthModule} from "angularfire2/auth";
+import {CameraMock} from './devmode';
 
 
 export const firebaseConfig = {
@@ -53,7 +54,7 @@ export const firebaseConfig = {
     providers: [
         StatusBar,
         SplashScreen,
-        Camera,
+        {provide: Camera, useClass: CameraMock},
         {provide: ErrorHandler, useClass: IonicErrorHandler}
     ]
 })
