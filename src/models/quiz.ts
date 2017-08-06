@@ -2,7 +2,7 @@ import {AngularFireDatabase} from "angularfire2/database";
 
 export class QuizModel {
 
-    public key: string | null;
+    public $key: string | null;
     public name: string;
     public picture: string;
     public caption: string;
@@ -14,7 +14,7 @@ export class QuizModel {
         this.name = obj.name;
         this.picture = obj.picture;
         this.caption = obj.caption || '';
-        this.owner = obj.owner || null;
+        this.owner = obj.owner;
         this.labels = obj.labels;
         this.created_at = Date.now();
     }
@@ -24,11 +24,11 @@ export class QuizModel {
     }
 
     save(db: AngularFireDatabase) {
-        if (this.key) {
-            return db.app.database().ref("/quizzes").child(this.key).set(this);
+        if (this.$key) {
+            return db.app.database().ref("/quizzes").child(this.$key).set(this);
         } else {
             let objectRef = db.app.database().ref("/quizzes").push(this);
-            this.key = objectRef.key;
+            this.$key = objectRef.key;
             return objectRef;
         }
     }

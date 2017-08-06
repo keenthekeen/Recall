@@ -1,7 +1,7 @@
 <ion-header>
     <ion-navbar>
         <ion-title>
-            Recall
+            My Quizzes
         </ion-title>
     </ion-navbar>
 </ion-header>
@@ -38,6 +38,12 @@
         </div>
 
     </ion-list>
+
+    <ion-fab right bottom *ngIf='user'>
+        <button ion-fab mini (click)="addQuiz()">
+            <ion-icon name="add"></ion-icon>
+        </button>
+    </ion-fab>
 
 </ion-content>
 

@@ -5,6 +5,7 @@ import {QuizPage} from "../quiz/quiz";
 import {QuizModel} from '../../models/quiz';
 
 import {AngularFireDatabase} from "angularfire2/database";
+import {AngularFireAuth} from "angularfire2/auth";
 
 /**
  * Generated class for the AddquizPage page.
@@ -28,7 +29,7 @@ export class AddquizPage {
 
     @ViewChild('canvas') canvasEl: ElementRef;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, private Camera: Camera, private db: AngularFireDatabase, public loadingCtrl: LoadingController) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, private Camera: Camera, private db: AngularFireDatabase, public loadingCtrl: LoadingController, public afAuth: AngularFireAuth) {
 
     }
 
@@ -47,6 +48,8 @@ export class AddquizPage {
             return false;
         }
 
+        let userId = this.afAuth.auth.currentUser.uid;
+
         let loader = this.loadingCtrl.create({
             content: "Please wait...",
             duration: 3000
@@ -57,7 +60,7 @@ export class AddquizPage {
             name: name,
             caption: caption,
             picture: this.picture,
-            owner: "TODO",
+            owner: userId,
             labels: this.coordinates
         });
         console.log(quiz);

@@ -6,6 +6,7 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 
 import {AngularFireDatabase, FirebaseListObservable} from "angularfire2/database";
+import {AddquizPage} from "../addquiz/addquiz";
 
 @Component({
     selector: 'page-home',
@@ -93,5 +94,9 @@ export class HomePage {
         this.navCtrl.push(QuizPage, {
             quiz: quiz,
         });
+    }
+
+    addQuiz() {
+        this.navCtrl.push(AddquizPage);
     }
 }

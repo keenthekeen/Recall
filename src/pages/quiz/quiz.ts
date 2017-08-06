@@ -49,7 +49,7 @@ export class QuizPage {
             console.log("Canvas size: " + canvas.height + " x " + canvas.width);
             let vMin = QuizPage.getMinimum(canvas.height, canvas.width);
 
-            let pinSize = QuizPage.getMinimum(canvas.height, canvas.width) / 30; // Calculate pin size
+            let pinSize = QuizPage.getMinimum(canvas.height, canvas.width) / 23; // Calculate pin size
 
             let context = canvas.getContext('2d');
             context.drawImage(bg, 0, 0, canvas.width, canvas.height);
