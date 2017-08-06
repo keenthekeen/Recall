@@ -17,33 +17,43 @@ import {AngularFireDatabase, FirebaseListObservable} from "angularfire2/database
   templateUrl: 'home.html'
 })
 export class HomePage {
-  user: Observable<firebase.User>;
   quizes: FirebaseListObservable<any[]>;
-  public userauth;
+  public user;
+  public isSigned:boolean;
   constructor(public navCtrl: NavController, public afAuth: AngularFireAuth, public db: AngularFireDatabase) {
     const subject = new Subject();
-  	this.user = afAuth.authState;
-    this.userauth =afAuth.auth.currentUser.uid;
+    this.user = afAuth.auth.currentUser;
+    afAuth.authState.subscribe(auth => {
+        if(auth) {
+          console.log('logged in');
+          this.isSigned = true;
+          console.log('doquery');
+          this.quizes = db.list('/quizzes', {
+          query: {
+            orderByChild: 'owner',
+            equalTo: afAuth.auth.currentUser.uid,
+          }
+        });  
 
-    this.quizes = db.list('/quizzes', {
-      query: {
-        orderByChild: 'owner',
-        equalTo: this.userauth,
+        } else {
+          console.log('not logged in');
+        }
+      });
+
       }
-    });
-
-
-
-
-
-  }
 	featurespage(quiz :any){
 		this.navCtrl.push(QuizPage, {
             quiz: quiz,
         });
 	}
 
-login() {
+  login() {
     this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+  }
+
+
+  logout(){
+     this.afAuth.auth.signOut();
+     this.isSigned = false;
   }
 }

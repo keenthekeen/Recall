@@ -11,8 +11,9 @@
 
     <ion-list>
 
-    <div *ngIf='user | async'>
-    <div>You're logged in as {{ (user | async)?.email }} </div>
+    <div *ngIf='isSigned'>
+    You are Signed in as {{user.email}}
+    <button (click)='logout()' ion-button>logout</button>
     <div *ngFor='let quiz of quizes | async'>
       <ion-card (click)="featurespage(quiz)">
             <img src="{{ quiz.picture }}"/>
@@ -32,10 +33,12 @@
 
      </div>
 
-      <div *ngIf='!user | async'>
+      
+
+<div *ngIf='!isSigned'>
+You are not Signed in
         <button (click)='login()' class='btn-google' ion-button color="primary" block><ion-icon class='fa' name="logo-google"></ion-icon>  Sign in with Google</button>
       </div>
-
     </ion-list>
 
 </ion-content>
