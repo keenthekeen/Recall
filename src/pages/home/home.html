@@ -1,9 +1,9 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      Recall
-    </ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>
+            Recall
+        </ion-title>
+    </ion-navbar>
 </ion-header>
 
 <ion-content padding>
@@ -11,8 +11,8 @@
 
     <ion-list>
 
-        <div *ngIf='user | async'>
-            <div>You're logged in as {{ (user | async)?.email }} (<a (click)="logout()">Logout</a>)</div>
+        <div *ngIf='user'>
+            <div>You're logged in as {{ user.email }} (<a (click)="signOut()">Logout</a>)</div>
             <div *ngFor='let quiz of quizzes | async'>
                 <ion-card (click)="quizPage(quiz)">
                     <img src="{{ quiz.picture }}"/>
@@ -29,9 +29,9 @@
 
         </div>
 
-        <div *ngIf='!(user | async)'>
+        <div *ngIf='!user'>
             Please sign in to continue
-            <button (click)='login()' class='btn-google' ion-button block>
+            <button (click)='signIn()' class='btn-google' ion-button block>
                 <ion-icon class='fa' name="logo-google"></ion-icon>
                 Sign in with Google
             </button>

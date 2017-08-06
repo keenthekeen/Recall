@@ -8,6 +8,7 @@ export class QuizModel {
     public caption: string;
     public owner: string | null;
     public labels: Array<any>;
+    public created_at: number;
 
     constructor(obj: any) {
         this.name = obj.name;
@@ -15,6 +16,7 @@ export class QuizModel {
         this.caption = obj.caption || '';
         this.owner = obj.owner || null;
         this.labels = obj.labels;
+        this.created_at = Date.now();
     }
 
     static fetch(db: AngularFireDatabase) {
