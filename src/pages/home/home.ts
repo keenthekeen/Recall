@@ -1,59 +1,48 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { FeaturesPage } from '../features/features';
-import {QuizModel} from '../../models/quiz';
+import {Component} from '@angular/core';
+import {NavController} from 'ionic-angular';
 import {QuizPage} from '../quiz/quiz';
 
-import { Observable } from 'rxjs/Observable';
-import { AngularFireAuth } from 'angularfire2/auth';
+import {Observable} from 'rxjs/Observable';
+import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
-
-import {Subject} from 'rxjs/Subject';
 
 import {AngularFireDatabase, FirebaseListObservable} from "angularfire2/database";
 
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html'
+    selector: 'page-home',
+    templateUrl: 'home.html'
 })
 export class HomePage {
-  quizes: FirebaseListObservable<any[]>;
-  public user;
-  public isSigned:boolean;
-  constructor(public navCtrl: NavController, public afAuth: AngularFireAuth, public db: AngularFireDatabase) {
-    const subject = new Subject();
-    this.user = afAuth.auth.currentUser;
-    afAuth.authState.subscribe(auth => {
-        if(auth) {
-          console.log('logged in');
-          this.isSigned = true;
-          console.log('doquery');
-          this.quizes = db.list('/quizzes', {
-          query: {
-            orderByChild: 'owner',
-            equalTo: afAuth.auth.currentUser.uid,
-          }
-        });  
+    quizzes: FirebaseListObservable<any[]>;
+    user: Observable<firebase.User>;
 
-        } else {
-          console.log('not logged in');
+    constructor(public navCtrl: NavController, public afAuth: AngularFireAuth, public db: AngularFireDatabase) {
+        // const subject = new Subject();
+        this.user = afAuth.authState;
+        if (this.user) {
+            let userId = afAuth.auth.currentUser.uid;
+            //let userId = "TODO";
+
+            this.quizzes = db.list('/quizzes', {
+                query: {
+                    orderByChild: 'owner',
+                    equalTo: userId
+                }
+            });
         }
-      });
+    }
 
-      }
-	featurespage(quiz :any){
-		this.navCtrl.push(QuizPage, {
+    login() {
+        this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    }
+
+    logout() {
+        this.afAuth.auth.signOut();
+    }
+
+    quizPage(quiz: any) {
+        this.navCtrl.push(QuizPage, {
             quiz: quiz,
         });
-	}
-
-  login() {
-    this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
-  }
-
-
-  logout(){
-     this.afAuth.auth.signOut();
-     this.isSigned = false;
-  }
+    }
 }

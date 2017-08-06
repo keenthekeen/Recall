@@ -11,34 +11,32 @@
 
     <ion-list>
 
-    <div *ngIf='isSigned'>
-    You are Signed in as {{user.email}}
-    <button (click)='logout()' ion-button>logout</button>
-    <div *ngFor='let quiz of quizes | async'>
-      <ion-card (click)="featurespage(quiz)">
-            <img src="{{ quiz.picture }}"/>
-            <ion-card-content>
-                <ion-card-title>
-                    {{ quiz.name }}
-                </ion-card-title>
-                <p>
-                    {{ quiz.caption }}
-                </p>
-            </ion-card-content>
-        </ion-card>
-    </div>
-         
+        <div *ngIf='user | async'>
+            <div>You're logged in as {{ (user | async)?.email }} (<a (click)="logout()">Logout</a>)</div>
+            <div *ngFor='let quiz of quizzes | async'>
+                <ion-card (click)="quizPage(quiz)">
+                    <img src="{{ quiz.picture }}"/>
+                    <ion-card-content>
+                        <ion-card-title>
+                            {{ quiz.name }}
+                        </ion-card-title>
+                        <p>
+                            {{ quiz.caption }}
+                        </p>
+                    </ion-card-content>
+                </ion-card>
+            </div>
 
+        </div>
 
+        <div *ngIf='!(user | async)'>
+            Please sign in to continue
+            <button (click)='login()' class='btn-google' ion-button block>
+                <ion-icon class='fa' name="logo-google"></ion-icon>
+                Sign in with Google
+            </button>
+        </div>
 
-     </div>
-
-      
-
-<div *ngIf='!isSigned'>
-You are not Signed in
-        <button (click)='login()' class='btn-google' ion-button color="primary" block><ion-icon class='fa' name="logo-google"></ion-icon>  Sign in with Google</button>
-      </div>
     </ion-list>
 
 </ion-content>

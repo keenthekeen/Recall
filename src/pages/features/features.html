@@ -17,7 +17,7 @@
 
     <!-- Start loop -->
     <div *ngFor="let quiz of quizzes | async">
-        <ion-card (click)="featurespage(quiz)">
+        <ion-card (click)="quizPage(quiz)">
             <img src="{{ quiz.picture }}"/>
             <ion-card-content>
                 <ion-card-title>
