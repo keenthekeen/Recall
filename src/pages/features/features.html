@@ -16,6 +16,10 @@
 <ion-content padding>
 
     <!-- Start loop -->
+    <img src="" id="image">
+    <h2>start</h2>
+    <img src="" #imagex>
+    <h2>Image load test</h2>
     <div *ngFor="let quiz of quizzes | async">
         <ion-card (click)="quizPage(quiz)">
             <img src="{{ quiz.picture }}"/>
