@@ -16,9 +16,11 @@
 <ion-content padding>
 
     <!-- Start loop -->
-    <div *ngFor="let quiz of quizzes | async">
+    <div [class.hidden]="loaded" class="loading"></div>
+    <div [class.hidden]="!loaded" *ngFor="let quiz of quizzes | async">
         <ion-card (click)="quizPage(quiz)">
-            <img src="{{ quiz.picture }}"/>
+            <img id='{{ quiz.$key }}' src="{{quiz.picture}}"/>  <!--perform image loading function-->
+            {{ Count(quiz) }}
             <ion-card-content>
                 <ion-card-title>
                     {{ quiz.name }}
