@@ -2,6 +2,8 @@ import {Component, ElementRef, ViewChild} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
 
 import {QuizModel} from '../../models/quiz';
+import {AngularFireAuth} from "angularfire2/auth";
+import {AngularFireDatabase} from "angularfire2/database";
 
 /**
  * Generated class for the QuizPage page.
@@ -16,18 +18,23 @@ import {QuizModel} from '../../models/quiz';
 })
 export class QuizPage {
     public quiz: QuizModel;
+    public isOwner: boolean;
     /**
      * 'plug into' DOM canvas element using @ViewChild
      */
     @ViewChild('canvas') canvasEl: ElementRef;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public afAuth: AngularFireAuth, private db: AngularFireDatabase) {
         this.quiz = this.navParams.get('quiz');
 
     }
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad QuizPage');
+
+        if (this.afAuth.auth.currentUser) {
+            this.isOwner = this.quiz.owner == this.afAuth.auth.currentUser.uid;
+        }
 
         // Load background image
         let canvas = this.canvasEl.nativeElement;
@@ -72,7 +79,7 @@ export class QuizPage {
                     x: e.clientX - (rect.left + halfPin),
                     y: e.clientY - (rect.top + halfPin)
                 };
-                let exist = QuizPage.isCoordinateExist(mousePos.x/canvas.width, mousePos.y/canvas.height, coordinates, pinSize/vMin);
+                let exist = QuizPage.isCoordinateExist(mousePos.x / canvas.width, mousePos.y / canvas.height, coordinates, pinSize / vMin);
                 if (exist) {
                     // Coordinate duplication found!   ...escaping...
                     alert("You clicked on " + exist);
@@ -85,13 +92,19 @@ export class QuizPage {
                     x: e.clientX - (rect.left + halfPin),
                     y: e.clientY - (rect.top + halfPin)
                 };
-                if (QuizPage.isCoordinateExist(mousePos.x/canvas.width, mousePos.y/canvas.height, coordinates, pinSize/vMin)) {
+                if (QuizPage.isCoordinateExist(mousePos.x / canvas.width, mousePos.y / canvas.height, coordinates, pinSize / vMin)) {
                     canvas.style.cursor = "pointer";
                 } else {
                     canvas.style.cursor = "auto";
                 }
             }, false);
         });
+    }
+
+    public deleteQuiz() {
+        this.quiz.deleteMe(this.db).then(function () {
+            this.navCtrl.pop();
+        }.bind(this));
     }
 
 // Return minimum value of parameter provided

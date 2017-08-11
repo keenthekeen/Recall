@@ -17,6 +17,7 @@
     <div class="ion-canvas">
         <canvas #canvas></canvas>
     </div>
-{{ quiz.caption }}
+{{ quiz.caption }}<br />
 
+    <button ion-button color="danger" *ngIf="isOwner" (click)="deleteQuiz()">Delete</button>
 </ion-content>

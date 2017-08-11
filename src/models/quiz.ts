@@ -23,7 +23,7 @@ export class QuizModel {
         return db.list("/quizzes", QuizModel);
     }
 
-    save(db: AngularFireDatabase) {
+    public save(db: AngularFireDatabase) {
         if (this.$key) {
             return db.app.database().ref("/quizzes").child(this.$key).set(this);
         } else {
@@ -32,4 +32,9 @@ export class QuizModel {
             return objectRef;
         }
     }
+
+    public deleteMe(db: AngularFireDatabase) {
+        return db.app.database().ref("/quizzes").child(this.$key).remove();
+    }
+
 }
