@@ -1,5 +1,5 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
-import {LoadingController, NavController, NavParams} from 'ionic-angular';
+import {AlertController, LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
 import {Camera} from '@ionic-native/camera';
 import {QuizPage} from "../quiz/quiz";
 import {QuizModel} from '../../models/quiz';
@@ -26,10 +26,12 @@ export class AddquizPage {
 
     public coordinates: Array<any> = [];
     private picture: string;
+    private pinSize: number;
+    private vMin: number;
 
     @ViewChild('canvas') canvasEl: ElementRef;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, private Camera: Camera, private db: AngularFireDatabase, public loadingCtrl: LoadingController, public afAuth: AngularFireAuth) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, private Camera: Camera, private db: AngularFireDatabase, public loadingCtrl: LoadingController, public afAuth: AngularFireAuth, public toastCtrl: ToastController, public alertCtrl: AlertController) {
 
     }
 
@@ -83,65 +85,62 @@ export class AddquizPage {
         };
         this.isUp = true;
         this.Camera.getPicture(cameraOptions)
-            .then(file_uri => this.createCanvas(file_uri),
+            .then(file_uri => this.initializeCanvas(file_uri),
                 err => console.log(err));
 
     }
 
-    createCanvas(uri) {
+    initializeCanvas(uri) {
         if (!(uri.startsWith('http') || uri.startsWith('data:'))) {
             uri = "data:image/jpeg;base64," + uri;
         }
-        console.log('AddQuiz page: creating canvas');
         this.picture = uri;
 
         let canvas = this.canvasEl.nativeElement;
-        let context = canvas.getContext('2d');
-        let vMin;
-        let pinSize;
-
-        // Load background image
-        let bg = new Image();
-        bg.src = uri;
-        bg.addEventListener("load", function () {
-            // Calculate canvas size
-            console.log("Screen size: " + window.innerHeight + " x " + window.innerWidth);
-            console.log("Image size: " + bg.height + " x " + bg.width);
-            if (bg.height < bg.width) {
-                canvas.width = (window.innerWidth) * 0.90;
-                canvas.height = bg.height * canvas.width / bg.width;
-            } else {
-                canvas.height = (window.innerHeight) * 0.90;
-                canvas.width = bg.width * canvas.height / bg.height;
-            }
-            console.log("Canvas size: " + canvas.height + " x " + canvas.width);
-            vMin = QuizPage.getMinimum(canvas.height, canvas.width);
-            pinSize = QuizPage.getMinimum(canvas.height, canvas.width) / 30;
-
-            // Draw background image
-            context.drawImage(bg, 0, 0, canvas.width, canvas.height);
-        });
+        this.renderCanvas(canvas);
 
         // Set up mouse events
         canvas.addEventListener("mouseup", function (e) {
+            console.log("Mouse clicked.");
             let rect = canvas.getBoundingClientRect();
-            let halfPin = pinSize / 2;
+            let halfPin = this.pinSize / 2;
             let mousePos = {
                 name: "",
                 other_name: [],
                 x: (e.clientX - (rect.left + halfPin)) / canvas.width,
                 y: (e.clientY - (rect.top + halfPin)) / canvas.height
             };
-            let exist = QuizPage.isCoordinateExist(mousePos.x, mousePos.y, this.coordinates, pinSize / vMin);
+            let exist = QuizPage.isCoordinateExist(mousePos.x, mousePos.y, this.coordinates, this.pinSize / this.vMin);
             if (exist) {
                 console.log("AddQuiz page: clicked " + exist);
-                /*if (confirm("Do you want to delete this?")) {
-                    this.coordinates = this.coordinates.filter(function (element) {
-                        return element.name != exist;
-                    });
-                }*/
-                alert("Clicked " + exist);
+                this.alertCtrl.create({
+                    title: 'Are you sure?',
+                    message: 'Do you want to delete ' + exist + '?',
+                    buttons: [
+                        {
+                            text: 'No',
+                            handler: () => {
+                                console.log('No clicked');
+                            }
+                        },
+                        {
+                            text: 'Yes',
+                            handler: function () {
+                                this.coordinates = this.coordinates.filter(function (element) {
+                                    return element.name != exist;
+                                });
+                                this.renderCanvas(canvas);
+                                this.toastCtrl.create({
+                                    message: 'Deleted!',
+                                    duration: 3000
+                                }).present();
+                            }.bind(this)
+                        }
+                    ]
+                }).present();
+                // if (confirm("Do you want to delete this?"))
             } else {
+                // @TODO: Use ionic's modal instead
                 let name: string = prompt("Name?");
                 if (name) {
                     if (this.coordinates.map(function (e) {
@@ -156,34 +155,61 @@ export class AddquizPage {
                         mousePos.other_name = otherName ? otherName.split(",").map(function (item) {
                             return item.trim();
                         }) : [];
-                        context.drawImage(dotImg, mousePos.x * canvas.width, mousePos.y * canvas.height, pinSize, pinSize);
                         this.coordinates.push(mousePos);
+                        this.renderCanvas(canvas);
                         console.log("AddQuiz page: Added label", mousePos);
                     }
-                } else {
-                    alert("You must supply name!");
                 }
             }
         }.bind(this), false);
         canvas.addEventListener("mousemove", function (e) {
             let rect = canvas.getBoundingClientRect();
-            let halfPin = pinSize / 2;
+            let halfPin = this.pinSize / 2;
             let mousePos = {
                 x: (e.clientX - (rect.left + halfPin)) / canvas.width,
                 y: (e.clientY - (rect.top + halfPin)) / canvas.height
             };
-            if (QuizPage.isCoordinateExist(mousePos.x, mousePos.y, this.coordinates, pinSize / vMin)) {
+            if (QuizPage.isCoordinateExist(mousePos.x, mousePos.y, this.coordinates, this.pinSize / this.vMin)) {
                 canvas.style.cursor = "pointer";
             } else {
                 canvas.style.cursor = "auto";
             }
         }.bind(this), false);
+    }
 
+    renderCanvas(canvas: HTMLCanvasElement) {
+        console.log('AddQuiz page: recreating canvas');
 
-        // Load dot icon
-        console.log("Loading dot icon");
-        let dotImg = new Image();
-        dotImg.src = 'assets/dot.png';
+        let context = canvas.getContext('2d');
+
+        // Load background image
+        let bg = new Image();
+        bg.src = this.picture;
+        bg.addEventListener("load", function () {
+            // Calculate canvas size
+            if (bg.height < bg.width) {
+                canvas.width = (window.innerWidth) * 0.90;
+                canvas.height = bg.height * canvas.width / bg.width;
+            } else {
+                canvas.height = (window.innerHeight) * 0.90;
+                canvas.width = bg.width * canvas.height / bg.height;
+            }
+            console.log("Screen size: " + window.innerHeight + " x " + window.innerWidth + " / Image size: " + bg.height + " x " + bg.width + " / Canvas size: " + canvas.height + " x " + canvas.width);
+            this.vMin = QuizPage.getMinimum(canvas.height, canvas.width);
+            this.pinSize = QuizPage.getMinimum(canvas.height, canvas.width) / 30;
+
+            // Draw background image
+            context.drawImage(bg, 0, 0, canvas.width, canvas.height);
+
+            // Draw coordinates
+            let dotImg = new Image();
+            dotImg.src = 'assets/dot.png';
+            dotImg.addEventListener("load", function () {
+                this.coordinates.forEach(function (pos) {
+                    context.drawImage(dotImg, pos.x * canvas.width, pos.y * canvas.height, this.pinSize, this.pinSize);
+                }.bind(this));
+            }.bind(this));
+        }.bind(this));
     }
 
     ionViewDidLoad() {
