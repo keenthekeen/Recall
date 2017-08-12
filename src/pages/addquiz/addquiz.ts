@@ -1,5 +1,5 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
-import {AlertController, LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
+import {ActionSheetController, LoadingController, NavController, Platform, ToastController} from 'ionic-angular';
 import {Camera} from '@ionic-native/camera';
 import {QuizPage} from "../quiz/quiz";
 import {QuizModel} from '../../models/quiz';
@@ -31,7 +31,7 @@ export class AddquizPage {
 
     @ViewChild('canvas') canvasEl: ElementRef;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, private Camera: Camera, private db: AngularFireDatabase, public loadingCtrl: LoadingController, public afAuth: AngularFireAuth, public toastCtrl: ToastController, public alertCtrl: AlertController) {
+    constructor(public navCtrl: NavController, private Camera: Camera, private db: AngularFireDatabase, public loadingCtrl: LoadingController, public afAuth: AngularFireAuth, public toastCtrl: ToastController, public actionSheetCtrl: ActionSheetController, public platform: Platform) {
 
     }
 
@@ -53,8 +53,7 @@ export class AddquizPage {
         let userId = this.afAuth.auth.currentUser.uid;
 
         let loader = this.loadingCtrl.create({
-            content: "Please wait...",
-            duration: 3000
+            content: "Saving..."
         });
         loader.present();
 
@@ -113,18 +112,13 @@ export class AddquizPage {
             let exist = QuizPage.isCoordinateExist(mousePos.x, mousePos.y, this.coordinates, this.pinSize / this.vMin);
             if (exist) {
                 console.log("AddQuiz page: clicked " + exist);
-                this.alertCtrl.create({
-                    title: 'Are you sure?',
-                    message: 'Do you want to delete ' + exist + '?',
+                this.actionSheetCtrl.create({
+                    title: exist,
                     buttons: [
                         {
-                            text: 'No',
-                            handler: () => {
-                                console.log('No clicked');
-                            }
-                        },
-                        {
-                            text: 'Yes',
+                            text: 'Delete',
+                            role: 'destructive',
+                            icon: !this.platform.is('ios') ? 'trash' : null,
                             handler: function () {
                                 this.coordinates = this.coordinates.filter(function (element) {
                                     return element.name != exist;
@@ -135,10 +129,16 @@ export class AddquizPage {
                                     duration: 3000
                                 }).present();
                             }.bind(this)
+                        }, {
+                            text: 'Cancel',
+                            role: 'cancel', // will always sort to be on the bottom
+                            icon: !this.platform.is('ios') ? 'close' : null,
+                            handler: () => {
+                                console.log('Cancel clicked');
+                            }
                         }
                     ]
                 }).present();
-                // if (confirm("Do you want to delete this?"))
             } else {
                 // @TODO: Use ionic's modal instead
                 let name: string = prompt("Name?");
