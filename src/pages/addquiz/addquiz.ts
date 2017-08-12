@@ -201,7 +201,7 @@ export class AddquizPage {
             }
             console.log("Screen size: " + window.innerHeight + " x " + window.innerWidth + " / Image size: " + bg.height + " x " + bg.width + " / Canvas size: " + canvas.height + " x " + canvas.width);
             this.vMin = QuizPage.getMinimum(canvas.height, canvas.width);
-            this.pinSize = QuizPage.getMinimum(canvas.height, canvas.width) / 20;
+            this.pinSize = QuizPage.calculatePinSize(canvas.width, canvas.height);
 
             // Draw background image
             context.drawImage(bg, 0, 0, canvas.width, canvas.height);

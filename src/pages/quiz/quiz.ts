@@ -158,7 +158,7 @@ export class QuizPage {
             }
             console.log("Recreating canvas: Screen size: " + window.innerHeight + " x " + window.innerWidth + " / Image size: " + bg.height + " x " + bg.width + " / Canvas size: " + canvas.height + " x " + canvas.width);
             this.vMin = QuizPage.getMinimum(canvas.height, canvas.width);
-            this.pinSize = QuizPage.getMinimum(canvas.height, canvas.width) / 20;
+            this.pinSize = QuizPage.calculatePinSize(canvas.width, canvas.height);
 
             // Draw background image
             context.drawImage(bg, 0, 0, canvas.width, canvas.height);
@@ -251,6 +251,14 @@ export class QuizPage {
 // Return minimum value of parameter provided
     static getMinimum(a, b) {
         return (a > b) ? b : a;
+    }
+
+    static getMaximum(a, b) {
+        return (a < b) ? b : a;
+    }
+
+    static calculatePinSize(width, height) {
+        return QuizPage.getMaximum(QuizPage.getMinimum(height, width) / 20, 25);
     }
 
     /**
