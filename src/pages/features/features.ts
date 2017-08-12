@@ -23,9 +23,9 @@ export class FeaturesPage {
 
     constructor(public navCtrl: NavController, public db: AngularFireDatabase) {
         this.quizzes = QuizModel.fetch(db);
-        this.quizzes.subscribe(function () {
+        this.quizzes.subscribe(() => {
             this.loaded = true;
-        }.bind(this));
+        });
     }
 
     ionViewDidLoad() {
