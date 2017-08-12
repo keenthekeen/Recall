@@ -1,5 +1,5 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
+import {LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
 
 import {QuizModel} from '../../models/quiz';
 import {AngularFireAuth} from "angularfire2/auth";
@@ -24,7 +24,7 @@ export class QuizPage {
      */
     @ViewChild('canvas') canvasEl: ElementRef;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public afAuth: AngularFireAuth, private db: AngularFireDatabase) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public afAuth: AngularFireAuth, private db: AngularFireDatabase, public toastCtrl: ToastController, public loadingCtrl: LoadingController) {
         this.quiz = this.navParams.get('quiz');
 
     }
@@ -102,8 +102,18 @@ export class QuizPage {
     }
 
     public deleteQuiz() {
-        this.quiz.deleteMe(this.db).then(function () {
+        console.log("Deleting quiz " + this.quiz.$key);
+        let loader = this.loadingCtrl.create({
+            content: "Deleting..."
+        });
+        loader.present();
+        (new QuizModel(this.quiz)).deleteMe(this.db).then(function () {
+            this.toastCtrl.create({
+                message: 'Deleted quiz!',
+                duration: 3000
+            }).present();
             this.navCtrl.pop();
+            loader.dismissAll();
         }.bind(this));
     }
 
