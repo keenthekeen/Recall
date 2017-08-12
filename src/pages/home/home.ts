@@ -7,6 +7,7 @@ import * as firebase from 'firebase/app';
 
 import {AngularFireDatabase, FirebaseListObservable} from "angularfire2/database";
 import {AddquizPage} from "../addquiz/addquiz";
+import {UserModel} from "../../models/user";
 
 @Component({
     selector: 'page-home',
@@ -14,36 +15,25 @@ import {AddquizPage} from "../addquiz/addquiz";
 })
 export class HomePage {
     public quizzes: FirebaseListObservable<any[]>;
-    public user: firebase.User;
+    public user: UserModel;
     public isLoaded: boolean;
 
     constructor(public navCtrl: NavController, public afAuth: AngularFireAuth, public db: AngularFireDatabase, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public platform: Platform, public actionSheetCtrl: ActionSheetController) {
 
         this.afAuth.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-
-        this.afAuth.auth.getRedirectResult().then(function (result) {
-            // This gives you a Google Access Token, you can use it to access the Google API.
-            this.user = result.user;
-        }.bind(this)).catch(function (error) {
-            // Handle Errors here.
-            this.alertCtrl.create({
-                title: 'Error occurred while signing in!',
-                subTitle: error.code + ': ' + error.message,
-                buttons: ['OK']
-            }).present();
-        }.bind(this));
-
         this.afAuth.auth.onAuthStateChanged(function (user) {
-            this.user = user;
+            console.log("Auth state changed.");
+            this.user = new UserModel(user);
+            this.user.save(db);
             this.fetchQuiz();
         }.bind(this));
 
-        this.fetchQuiz();
+        this.getSigninResult();
     }
 
     private fetchQuiz() {
+        console.log("Fetching quiz...");
         if (this.user) {
-            console.log('User is signed in.', this.user);
             this.quizzes = this.db.list('/quizzes', {
                 query: {
                     orderByChild: 'owner',
@@ -53,24 +43,26 @@ export class HomePage {
             this.quizzes.subscribe(function () {
                 this.isLoaded = true;
             }.bind(this));
-        } else {
-            console.log("No user is signed in.");
         }
+    }
+
+    private getSigninResult() {
+        this.afAuth.auth.getRedirectResult().then(function (result) {
+            // This gives you a Google Access Token, you can use it to access the Google API.
+            console.log("Signin result", result);
+        }.bind(this)).catch(function (error) {
+            // Handle Errors here.
+            this.alertCtrl.create({
+                title: 'Error occurred while signing in!',
+                subTitle: error.code + ': ' + error.message,
+                buttons: ['OK']
+            }).present();
+        }.bind(this));
     }
 
     signIn() {
         this.afAuth.auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider()).then(function () {
-            this.afAuth.auth.getRedirectResult().then(function (result) {
-                // This gives you a Google Access Token, you can use it to access the Google API.
-                this.user = result.user;
-            }.bind(this)).catch(function (error) {
-                // Handle Errors here.
-                this.alertCtrl.create({
-                    title: 'Error occurred while signing in!',
-                    subTitle: error.code + ': ' + error.message,
-                    buttons: ['OK']
-                }).present();
-            }.bind(this));
+            this.getSigninResult();
         }.bind(this));
     }
 
