@@ -15,6 +15,7 @@ import {AngularFireModule} from "angularfire2";
 import {AngularFireDatabaseModule} from "angularfire2/database";
 import {AngularFireAuthModule} from "angularfire2/auth";
 import {CameraMock} from './devmode';
+import {IonicStorageModule} from "@ionic/storage";
 
 
 export const firebaseConfig = {
@@ -38,6 +39,7 @@ export const firebaseConfig = {
     imports: [
         BrowserModule,
         IonicModule.forRoot(MyApp),
+        IonicStorageModule.forRoot(),
         AngularFireModule.initializeApp(firebaseConfig),
         AngularFireDatabaseModule,
         AngularFireAuthModule

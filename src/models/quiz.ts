@@ -7,7 +7,12 @@ export class QuizModel {
     public picture: string;
     public caption: string;
     public owner: string | null;
-    public labels: Array<any>;
+    public labels: Array<{
+        name: string,
+        other_name: Array<string>,
+        x: number,
+        y: number
+    }>;
     public created_at: number;
 
     constructor(obj: any) {

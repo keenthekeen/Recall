@@ -5,11 +5,14 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>{{ quiz.name }}</ion-title>
-  </ion-navbar>
-
+    <ion-navbar>
+        <ion-title>{{ quiz.name }}</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="setQuizMode()">
+                <ion-icon name="{{ modeIcon}}"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
 </ion-header>
 
 
@@ -17,7 +20,8 @@
     <div class="ion-canvas">
         <canvas #canvas></canvas>
     </div>
-{{ quiz.caption }}<br />
+    <button ion-button color="secondary" block *ngIf="isQuizMode" [disabled]="!canCheck" (click)="checkAnswer()">{{ isChecked ? "Checked" : "Check" }}</button>
+    <p>{{ quiz.caption }}</p><br/>
 
     <button ion-button color="danger" *ngIf="isOwner" (click)="deleteQuiz()">Delete</button>
 </ion-content>
