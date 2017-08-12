@@ -25,7 +25,7 @@ export class AddquizModalPage {
   }
 
   AddMoreName(name:string){
-      if(this.OtherNames.indexOf(name) == -1) {
+      if(this.OtherNames.indexOf(name) == -1 && !(name === "")) {
           this.OtherNames.push(name);
       }
     this.NewOtherName = "";
@@ -37,5 +37,8 @@ export class AddquizModalPage {
       };
       this.viewCtrl.dismiss(data);
   }
-
+  delete(name:string){
+      let index = this.OtherNames.indexOf(name)
+      this.OtherNames.splice(index,1);
+  }
 }

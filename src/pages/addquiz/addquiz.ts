@@ -145,7 +145,6 @@ export class AddquizPage {
                     ]
                 }).present();
             } else {
-                // @TODO: Use ionic's modal instead
                 let AddquizModal = this.modalCtrl.create(AddquizModalPage);
                 let name:string;
                 AddquizModal.onDidDismiss(data => {

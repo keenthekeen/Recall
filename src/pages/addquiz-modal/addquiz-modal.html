@@ -25,12 +25,13 @@
       <ion-label>Other Name</ion-label>
         <ion-input (keyup.enter)="AddMoreName(NewOtherName)" [(ngModel)]='NewOtherName' type="text"></ion-input>
     </ion-item>
-        <p style="color:#a6a6a6">Add other name by press enter</p>
-      <ion-item>
-          <li *ngFor="let name of OtherNames">
-              {{name}}
-          </li>
-      </ion-item>
+        <p style="color:#a6a6a6">Add more other name by press </p><p style="font-style: italic; color:#999999; "></p>
+      <ion-item-sliding *ngFor="let name of OtherNames" (ionSwipe)="delete(name)">
+          <ion-item>{{name}}</ion-item>
+          <ion-item-options>
+              <button ion-button color="danger" expandable (click)="delete(name)"><ion-icon name="trash"></ion-icon>Delete</button>
+          </ion-item-options>
+      </ion-item-sliding>
 
 
   </ion-list>
