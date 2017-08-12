@@ -1,6 +1,5 @@
 // http://ionicframework.com/docs/theming/
 
-
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These
@@ -16,11 +15,11 @@
 // automatically applied to the <body> element in the app.
 
 $colors: (
-        primary:    #00bcd4,
-        secondary:  #009688,
-        danger:     #d32f2f,
-        light:      #f4f4f4,
-        dark:       #222
+        primary: #00bcd4,
+        secondary: #009688,
+        danger: #d32f2f,
+        light: #f4f4f4,
+        dark: #222
 );
 
 .sector {
@@ -32,4 +31,42 @@ $colors: (
   line-height: 1.5rem;
   padding: 15px 25px 15px 15px;
   width: 100%
+}
+
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30px;
+  height: 30px;
+  margin: -20px 0 0 -20px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #000 #000 rgba(255, 255, 255, .5) rgba(255, 255, 255, .5);
+  opacity: .9;
+  border-radius: 20px;
+  -webkit-animation: rotate 1s linear infinite;
+  -ms-animation: rotate 1s linear infinite;
+}
+
+@-webkit-keyframes rotate {
+  0% {
+    -webkit-transform: rotate(0deg)
+  }
+  100% {
+    -webkit-transform: rotate(360deg)
+  }
+}
+
+@-ms-keyframes rotate {
+  0% {
+    -ms-transform: rotate(0deg)
+  }
+  100% {
+    -ms-transform: rotate(360deg)
+  }
+}
+
+.img-circle {
+  border-radius: 50%;
 }

@@ -3,6 +3,9 @@
         <ion-title>
             My Quizzes
         </ion-title>
+        <ion-buttons end>
+            <img src="{{user.photoURL}}" class="img-circle" id="avatar" (click)="userAction()"/>
+        </ion-buttons>
     </ion-navbar>
 </ion-header>
 
@@ -13,9 +16,10 @@
 
         <div *ngIf='user'>
             <div>You're logged in as {{ user.email }} (<a (click)="signOut()">Logout</a>)</div>
+            <div *ngIf="!isLoaded" class="loading"></div>
             <div *ngFor='let quiz of quizzes | async'>
                 <ion-card (click)="quizPage(quiz)">
-                    <img src="{{ quiz.picture }}"/>
+                    <ion-img src="{{ quiz.picture }}"></ion-img>
                     <ion-card-content>
                         <ion-card-title>
                             {{ quiz.name }}

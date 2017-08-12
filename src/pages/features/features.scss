@@ -1,28 +1,3 @@
 page-features {
-  .hidden{
-    display:none;
-  }
-  .loading{
-    position:absolute;
-    top:50%;
-    left:50%;
-    width:30px;
-    height:30px;
-    margin:-20px 0 0 -20px;
-    border-width: 5px;
-    border-style:solid;
-    border-color:#000 #000 rgba(255,255,255,.5) rgba(255,255,255,.5);
-    opacity:.9;
-    border-radius:20px;
-    -webkit-animation:rotate 1s linear infinite;
-    -ms-animation:rotate 1s linear infinite;
-  }
-  @-webkit-keyframes rotate{
-    0%{-webkit-transform:rotate(0deg)}
-    100%{-webkit-transform:rotate(360deg)}
-  }
-  @-ms-keyframes rotate{
-    0%{-ms-transform:rotate(0deg)}
-    100%{-ms-transform:rotate(360deg)}
-  }
+
 }

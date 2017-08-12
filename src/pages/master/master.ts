@@ -17,7 +17,6 @@ export class MasterPage {
   tab1: any = FeaturesPage;
   tab2: any = HomePage;
   //tab3: any = ;
-  //tab4: any = ;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 

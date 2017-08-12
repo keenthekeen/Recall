@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AlertController, LoadingController, NavController} from 'ionic-angular';
+import {ActionSheetController, AlertController, LoadingController, NavController, Platform} from 'ionic-angular';
 import {QuizPage} from '../quiz/quiz';
 
 import {AngularFireAuth} from 'angularfire2/auth';
@@ -15,8 +15,9 @@ import {AddquizPage} from "../addquiz/addquiz";
 export class HomePage {
     public quizzes: FirebaseListObservable<any[]>;
     public user: firebase.User;
+    public isLoaded: boolean;
 
-    constructor(public navCtrl: NavController, public afAuth: AngularFireAuth, public db: AngularFireDatabase, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
+    constructor(public navCtrl: NavController, public afAuth: AngularFireAuth, public db: AngularFireDatabase, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public platform: Platform, public actionSheetCtrl: ActionSheetController) {
 
         this.afAuth.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
@@ -49,6 +50,9 @@ export class HomePage {
                     equalTo: this.user.uid
                 }
             });
+            this.quizzes.subscribe(function () {
+                this.isLoaded = true;
+            }.bind(this));
         } else {
             console.log("No user is signed in.");
         }
@@ -98,5 +102,29 @@ export class HomePage {
 
     addQuiz() {
         this.navCtrl.push(AddquizPage);
+    }
+
+    userAction() {
+        this.actionSheetCtrl.create({
+            title: this.user.displayName,
+            buttons: [
+                {
+                    text: 'Sign out',
+                    role: 'destructive',
+                    icon: !this.platform.is('ios') ? 'log-out' : null,
+                    handler: function () {
+                        this.signOut();
+                    }.bind(this)
+                },
+                {
+                    text: 'Cancel',
+                    role: 'cancel', // will always sort to be on the bottom
+                    icon: !this.platform.is('ios') ? 'close' : null,
+                    handler: () => {
+                        console.log('Cancel clicked');
+                    }
+                }
+            ]
+        }).present();
     }
 }

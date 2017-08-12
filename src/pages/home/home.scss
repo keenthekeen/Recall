@@ -1,9 +1,9 @@
 page-home {
-	.btn-google{
-		background-color: hsl(7, 71%, 55%); 
-	}
+  .btn-google {
+    background-color: hsl(7, 71%, 55%);
+  }
 
-	.fa {
+  .fa {
     position: absolute;
     top: 0;
     left: 0;
@@ -14,5 +14,9 @@ page-home {
     background: hsla(0, 0, 0, 0.1);
     line-height: 2.2;
     border-radius: 5px 0 0 5px;
+  }
+
+  #avatar {
+    height: 32px;
   }
 }

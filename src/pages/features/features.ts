@@ -19,11 +19,13 @@ import {AngularFireDatabase, FirebaseListObservable} from "angularfire2/database
 })
 export class FeaturesPage {
     public quizzes: FirebaseListObservable<any[]>;
-    public img_id = [];
     public loaded: boolean;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public db: AngularFireDatabase) {
+    constructor(public navCtrl: NavController, public db: AngularFireDatabase) {
         this.quizzes = QuizModel.fetch(db);
+        this.quizzes.subscribe(function () {
+            this.loaded = true;
+        }.bind(this));
     }
 
     ionViewDidLoad() {
@@ -34,26 +36,6 @@ export class FeaturesPage {
         this.navCtrl.push(QuizPage, {
             quiz: quiz
         });
-
-    }
-
-    isLoad(id) {
-        let image = <HTMLImageElement>document.getElementById(id);
-        if (image != null) {
-            image.onload = () => {
-                this.loaded = true;
-            };
-        }
-
-    }
-
-    Count(quiz: any) {
-        if (this.img_id.indexOf(quiz.$key) == -1) {
-            this.img_id.push(quiz.$key);
-            //console.log(this.img_id);
-            this.isLoad(this.img_id);
-
-        }
     }
 
 }

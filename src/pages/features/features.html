@@ -1,26 +1,15 @@
-<!--
-  Generated template for the FeaturesPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
     <ion-navbar>
         <ion-title>Featured Quizzes</ion-title>
     </ion-navbar>
-
 </ion-header>
 
 
 <ion-content padding>
-
-    <!-- Start loop -->
-    <div [class.hidden]="loaded" class="loading"></div>
-    <div [class.hidden]="!loaded" *ngFor="let quiz of quizzes | async">
+    <div *ngIf="!loaded"  class="loading"></div>
+    <div *ngFor="let quiz of quizzes | async">
         <ion-card (click)="quizPage(quiz)">
-            <img id='{{ quiz.$key }}' src="{{quiz.picture}}"/>  <!--perform image loading function-->
-            {{ Count(quiz) }}
+            <img src="{{quiz.picture}}" />  <!--perform image loading function-->
             <ion-card-content>
                 <ion-card-title>
                     {{ quiz.name }}
@@ -31,6 +20,4 @@
             </ion-card-content>
         </ion-card>
     </div>
-    <!-- End loop-->
-
 </ion-content>
