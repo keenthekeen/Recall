@@ -11,6 +11,7 @@ import {HomePage} from '../pages/home/home';
 import {MasterPage} from '../pages/master/master';
 import {QuizPage} from '../pages/quiz/quiz';
 import {AddquizPage} from '../pages/addquiz/addquiz';
+import {AddquizModalPage} from "../pages/addquiz-modal/addquiz-modal"
 import {AngularFireModule} from "angularfire2";
 import {AngularFireDatabaseModule} from "angularfire2/database";
 import {AngularFireAuthModule} from "angularfire2/auth";
@@ -35,6 +36,7 @@ export const firebaseConfig = {
         MasterPage,
         AddquizPage,
         QuizPage,
+        AddquizModalPage
     ],
     imports: [
         BrowserModule,
@@ -52,6 +54,7 @@ export const firebaseConfig = {
         MasterPage,
         QuizPage,
         AddquizPage,
+        AddquizModalPage
     ],
     providers: [
         StatusBar,

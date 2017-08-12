@@ -1,8 +1,10 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
-import {ActionSheetController, LoadingController, NavController, Platform, ToastController} from 'ionic-angular';
+import {ActionSheetController, LoadingController, NavController, Platform, ToastController, ModalController} from 'ionic-angular';
 import {Camera} from '@ionic-native/camera';
 import {QuizPage} from "../quiz/quiz";
 import {QuizModel} from '../../models/quiz';
+import {AddquizModalPage} from '../addquiz-modal/addquiz-modal';
+import { AlertController } from 'ionic-angular';
 
 import {AngularFireDatabase} from "angularfire2/database";
 import {AngularFireAuth} from "angularfire2/auth";
@@ -31,7 +33,7 @@ export class AddquizPage {
 
     @ViewChild('canvas') canvasEl: ElementRef;
 
-    constructor(public navCtrl: NavController, private Camera: Camera, private db: AngularFireDatabase, public loadingCtrl: LoadingController, public afAuth: AngularFireAuth, public toastCtrl: ToastController, public actionSheetCtrl: ActionSheetController, public platform: Platform) {
+    constructor(public navCtrl: NavController, private Camera: Camera, private db: AngularFireDatabase, public loadingCtrl: LoadingController, public afAuth: AngularFireAuth, public toastCtrl: ToastController, public actionSheetCtrl: ActionSheetController, public platform: Platform, public modalCtrl: ModalController, public alertCtrl: AlertController) {
 
     }
 
@@ -144,27 +146,33 @@ export class AddquizPage {
                 }).present();
             } else {
                 // @TODO: Use ionic's modal instead
-                let name: string = prompt("Name?");
-                if (name) {
-                    if (this.coordinates.map(function (e) {
-                            // Ignore case
-                            e.name = e.name.toUpperCase();
-                            return e;
-                        }).find(x => x.name == name.toUpperCase())) {
-                        alert("Name conflict!");
-                    } else {
-                        let otherName: string = prompt("Other names, separated by comma?");
-                        mousePos.name = name;
-                        mousePos.other_name = otherName ? otherName.split(",").map(function (item) {
-                            return item.trim();
-                        }).filter(function (item) {
-                            return item != "";
-                        }) : [];
-                        this.coordinates.push(mousePos);
-                        this.renderCanvas(canvas);
-                        console.log("AddQuiz page: Added label", mousePos);
+                let AddquizModal = this.modalCtrl.create(AddquizModalPage);
+                let name:string;
+                AddquizModal.onDidDismiss(data => {
+                    console.log(data);
+                    name = data.Title;
+
+                    if (name) {
+                        if (this.coordinates.map(function (e) {
+                                // Ignore case
+                                e.name = e.name.toUpperCase();
+                                return e;
+                            }).find(x => x.name == name.toUpperCase())) {
+                            this.alertCtrl.create({
+                                title: 'Name conflict!',
+                                subTitle: "Point's name is conflicted. Try use other name. ",
+                                buttons: ['OK']
+                            }).present();
+                        } else {
+                            mousePos.name = name;
+                            mousePos.other_name = data.OtherNames;
+                            this.coordinates.push(mousePos);
+                            this.renderCanvas(canvas);
+                            console.log("AddQuiz page: Added label", mousePos);
+                        }
                     }
-                }
+                });
+                AddquizModal.present();
             }
         }.bind(this), false);
         canvas.addEventListener("mousemove", function (e) {
