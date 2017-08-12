@@ -158,7 +158,7 @@ export class QuizPage {
             }
             console.log("Recreating canvas: Screen size: " + window.innerHeight + " x " + window.innerWidth + " / Image size: " + bg.height + " x " + bg.width + " / Canvas size: " + canvas.height + " x " + canvas.width);
             this.vMin = QuizPage.getMinimum(canvas.height, canvas.width);
-            this.pinSize = QuizPage.getMinimum(canvas.height, canvas.width) / 30;
+            this.pinSize = QuizPage.getMinimum(canvas.height, canvas.width) / 20;
 
             // Draw background image
             context.drawImage(bg, 0, 0, canvas.width, canvas.height);

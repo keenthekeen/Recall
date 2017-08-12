@@ -45,8 +45,7 @@ $colors: (
   border-color: #000 #000 rgba(255, 255, 255, .5) rgba(255, 255, 255, .5);
   opacity: .9;
   border-radius: 20px;
-  -webkit-animation: rotate 1s linear infinite;
-  -ms-animation: rotate 1s linear infinite;
+  animation: rotate 1s linear infinite;
 }
 
 @-webkit-keyframes rotate {
@@ -80,5 +79,12 @@ $colors: (
   ion-icon {
     font-size: 7rem !important;
     margin-bottom: 1rem;
+  }
+
+  .ion-canvas {
+    width: 100%;
+    canvas {
+      max-width: 100%;
+    }
   }
 }
