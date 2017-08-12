@@ -116,8 +116,7 @@ export class AddquizPage {
                     return element.name == existName;
                 })[0];
                 this.actionSheetCtrl.create({
-                    title: existName,
-                    subTitle: exist.other_name.join(", "),
+                    title: (exist.other_name.length <= 0) ? existName : (existName + " (" + exist.other_name.join(", ") + ")"),
                     buttons: [
                         {
                             text: 'Delete',
@@ -129,7 +128,7 @@ export class AddquizPage {
                                 });
                                 this.renderCanvas(canvas);
                                 this.toastCtrl.create({
-                                    message: 'Deleted label!',
+                                    message: 'Deleted ' + existName + '!',
                                     duration: 3000
                                 }).present();
                             }.bind(this)

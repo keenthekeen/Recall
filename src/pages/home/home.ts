@@ -76,16 +76,16 @@ export class HomePage {
 
     signOut() {
         let loader = this.loadingCtrl.create({
-            content: "Signing out...",
-            duration: 3000
+            content: "Signing out..."
         });
         loader.present();
         this.afAuth.auth.signOut().then(function () {
             // Sign-out successful.
-            loader.dismiss();
+            loader.dismissAll();
             //window.location.reload(true);
         }).catch(function (error) {
             // An error happened.
+            loader.dismissAll();
             this.alertCtrl.create({
                 title: 'Error Occurred!',
                 subTitle: 'Sign out failure',
@@ -106,7 +106,7 @@ export class HomePage {
 
     userAction() {
         this.actionSheetCtrl.create({
-            title: this.user.displayName,
+            title: this.user.displayName + " (" + this.user.email + ")",
             buttons: [
                 {
                     text: 'Sign out',

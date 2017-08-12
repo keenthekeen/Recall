@@ -4,18 +4,14 @@
             My Quizzes
         </ion-title>
         <ion-buttons end>
-            <img src="{{user.photoURL}}" class="img-circle" id="avatar" (click)="userAction()"/>
+            <div *ngIf='user' (click)="userAction()" id="avatar-container"><img src="{{user.photoURL}}" class="img-circle" id="avatar"/></div>
         </ion-buttons>
     </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-
-
     <ion-list>
-
         <div *ngIf='user'>
-            <div>You're logged in as {{ user.email }} (<a (click)="signOut()">Logout</a>)</div>
             <div *ngIf="!isLoaded" class="loading"></div>
             <div *ngFor='let quiz of quizzes | async'>
                 <ion-card (click)="quizPage(quiz)">
@@ -30,7 +26,10 @@
                     </ion-card-content>
                 </ion-card>
             </div>
-
+            <div *ngIf="isLoaded && ((quizzes | async)?.length <= 0)" class="center-alert">
+                <ion-icon name="sunny"></ion-icon><br />
+                You have no quiz.
+            </div>
         </div>
 
         <div *ngIf='!user'>

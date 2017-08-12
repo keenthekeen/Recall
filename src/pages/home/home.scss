@@ -18,5 +18,11 @@ page-home {
 
   #avatar {
     height: 32px;
+    vertical-align: middle;
+  }
+
+  #avatar-container {
+    margin-right: 0.5rem;
+    height: 100%
   }
 }

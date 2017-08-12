@@ -9,6 +9,7 @@ export class QuizModel {
     public owner: string | null;
     public labels: Array<any>;
     public created_at: number;
+
     constructor(obj: any) {
         this.$key = obj.$key;
         this.name = obj.name;

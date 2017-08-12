@@ -6,10 +6,10 @@
 
 
 <ion-content padding>
-    <div *ngIf="!loaded"  class="loading"></div>
+    <div *ngIf="!loaded" class="loading"></div>
     <div *ngFor="let quiz of quizzes | async">
         <ion-card (click)="quizPage(quiz)">
-            <img src="{{quiz.picture}}" />  <!--perform image loading function-->
+            <img src="{{quiz.picture}}"/>  <!--perform image loading function-->
             <ion-card-content>
                 <ion-card-title>
                     {{ quiz.name }}
