@@ -109,11 +109,15 @@ export class AddquizPage {
                 x: (e.clientX - (rect.left + halfPin)) / canvas.width,
                 y: (e.clientY - (rect.top + halfPin)) / canvas.height
             };
-            let exist = QuizPage.isCoordinateExist(mousePos.x, mousePos.y, this.coordinates, this.pinSize / this.vMin);
-            if (exist) {
-                console.log("AddQuiz page: clicked " + exist);
+            let existName = QuizPage.isCoordinateExist(mousePos.x, mousePos.y, this.coordinates, this.pinSize / this.vMin);
+            if (existName) {
+                console.log("AddQuiz page: clicked " + existName);
+                let exist = this.coordinates.filter(function (element) {
+                    return element.name == existName;
+                })[0];
                 this.actionSheetCtrl.create({
-                    title: exist,
+                    title: existName,
+                    subTitle: exist.other_name.join(", "),
                     buttons: [
                         {
                             text: 'Delete',
@@ -121,11 +125,11 @@ export class AddquizPage {
                             icon: !this.platform.is('ios') ? 'trash' : null,
                             handler: function () {
                                 this.coordinates = this.coordinates.filter(function (element) {
-                                    return element.name != exist;
+                                    return element.name != existName;
                                 });
                                 this.renderCanvas(canvas);
                                 this.toastCtrl.create({
-                                    message: 'Deleted!',
+                                    message: 'Deleted label!',
                                     duration: 3000
                                 }).present();
                             }.bind(this)
@@ -154,6 +158,8 @@ export class AddquizPage {
                         mousePos.name = name;
                         mousePos.other_name = otherName ? otherName.split(",").map(function (item) {
                             return item.trim();
+                        }).filter(function (item) {
+                            return item != "";
                         }) : [];
                         this.coordinates.push(mousePos);
                         this.renderCanvas(canvas);
