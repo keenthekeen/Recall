@@ -4,10 +4,13 @@ import {Camera} from '@ionic-native/camera';
 import {QuizPage} from "../quiz/quiz";
 import {QuizModel} from '../../models/quiz';
 import {AddquizModalPage} from '../addquiz-modal/addquiz-modal';
-import { AlertController } from 'ionic-angular';
+import {AlertController} from 'ionic-angular';
 
 import {AngularFireDatabase} from "angularfire2/database";
 import {AngularFireAuth} from "angularfire2/auth";
+import {FirebaseApp} from 'angularfire2';
+import * as firebase from 'firebase/app';
+import 'firebase/storage';
 
 /**
  * Generated class for the AddquizPage page.
@@ -31,10 +34,12 @@ export class AddquizPage {
     private pinSize: number;
     private vMin: number;
 
+    public pictureStorageRef: firebase.storage.Reference;
+
     @ViewChild('canvas') canvasEl: ElementRef;
 
-    constructor(public navCtrl: NavController, private Camera: Camera, private db: AngularFireDatabase, public loadingCtrl: LoadingController, public afAuth: AngularFireAuth, public toastCtrl: ToastController, public actionSheetCtrl: ActionSheetController, public platform: Platform, public modalCtrl: ModalController, public alertCtrl: AlertController) {
-
+    constructor(public navCtrl: NavController, private Camera: Camera, private db: AngularFireDatabase, public loadingCtrl: LoadingController, public afAuth: AngularFireAuth, public toastCtrl: ToastController, public actionSheetCtrl: ActionSheetController, public platform: Platform, public modalCtrl: ModalController, public alertCtrl: AlertController, public firebaseApp: FirebaseApp) {
+        this.pictureStorageRef = firebaseApp.storage().ref().child("quiz_pictures");
     }
 
     submit(name: string, caption: string) {
@@ -55,22 +60,68 @@ export class AddquizPage {
         let userId = this.afAuth.auth.currentUser.uid;
 
         let loader = this.loadingCtrl.create({
-            content: "Saving..."
+            content: "Uploading..."
         });
         loader.present();
 
         let quiz = new QuizModel({
             name: name,
             caption: caption,
-            picture: this.picture,
             owner: userId,
             labels: this.coordinates
         });
-        console.log(quiz);
-        quiz.save(this.db).then(function () {
-            loader.dismiss();
-            this.navCtrl.pop();
-        }.bind(this));
+
+        let afterPrepare;
+        if (this.picture.startsWith("data:image/")) {
+            // Data URL string
+            let extension = this.picture.substring(this.picture.lastIndexOf("data:image/") + 11, this.picture.lastIndexOf(";base64"));
+            let fileName = userId.substr(5, 6) + Math.round(Date.now() / 100) + Math.round(Math.random() * 100) + "." + extension;
+            afterPrepare = new Promise(function (resolve, reject) {
+                let uploadTask = this.pictureStorageRef.child(fileName).putString(this.picture, 'data_url');
+
+                uploadTask.on('state_changed', function (snapshot) {
+                    // Observe state change events such as progress, pause, and resume
+                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    loader.setContent(progress + "% uploaded...");
+                    switch (snapshot.state) {
+                        case firebase.storage.TaskState.PAUSED: // or 'paused'
+                            console.log('Upload is paused');
+                            break;
+                        case firebase.storage.TaskState.RUNNING: // or 'running'
+                            console.log('Upload is running');
+                            break;
+                    }
+                }, function (error) {
+                    // Handle unsuccessful uploads
+                    loader.setContent("Error occured while uploading!").setDuration(3000);
+                    reject("Upload error");
+                }, function () {
+                    // Handle successful uploads on complete
+                    console.log('Uploaded!', uploadTask);
+                    quiz.picture_on_gz = fileName;
+                    resolve(quiz);
+                });
+            }.bind(this));
+        } else {
+            afterPrepare = new Promise(function (resolve, reject) {
+                quiz.picture = this.picture;
+                resolve(quiz);
+            }.bind(this));
+        }
+
+        afterPrepare.then(function (quiz) {
+            loader.setContent("Saving...");
+            console.log("Saving quiz...", quiz);
+            quiz.save(this.db).then(function () {
+                loader.dismiss();
+                this.navCtrl.pop();
+            }.bind(this));
+        }.bind(this)).catch(function (error) {
+            loader.dismissAll();
+            alert("Failure");
+            console.log("Error while saving", error);
+        });
     }
 
     getPicture() {
@@ -146,7 +197,7 @@ export class AddquizPage {
                 }).present();
             } else {
                 let AddquizModal = this.modalCtrl.create(AddquizModalPage);
-                let name:string;
+                let name: string;
                 AddquizModal.onDidDismiss(data => {
                     console.log(data);
                     name = data.Title;

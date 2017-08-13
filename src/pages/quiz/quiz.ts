@@ -5,6 +5,7 @@ import {Storage} from '@ionic/storage';
 import {QuizModel} from '../../models/quiz';
 import {AngularFireAuth} from "angularfire2/auth";
 import {AngularFireDatabase} from "angularfire2/database";
+import {FirebaseApp} from "angularfire2";
 
 /**
  * Generated class for the QuizPage page.
@@ -41,7 +42,6 @@ export class QuizPage {
         this.quiz = this.navParams.get('quiz');
 
         storage.get('quiz_mode').then(function (val) {
-            console.log('Storage: get quiz_mode', val);
             this.isQuizMode = val;
         }.bind(this));
     }
@@ -64,7 +64,7 @@ export class QuizPage {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad QuizPage');
+        console.log('ionViewDidLoad QuizPage', this.quiz);
 
         if (this.afAuth.auth.currentUser) {
             this.isOwner = this.quiz.owner == this.afAuth.auth.currentUser.uid;
@@ -212,9 +212,9 @@ export class QuizPage {
             this.quiz.labels.forEach(function (label) {
                 if (label.name in this.answers) {
                     let answer = this.answers[label.name].trim().toUpperCase();
-                    if (answer == label.name.trim().toUpperCase() || label.other_name.map(function (i) {
+                    if (answer == label.name.trim().toUpperCase() || (label.other_name instanceof Array && label.other_name.map(function (i) {
                             return i.trim().toUpperCase();
-                        }).includes(answer)) {
+                        }).includes(answer))) {
                         // Correct
                         this.answerCheck[label.name] = true;
                     } else {

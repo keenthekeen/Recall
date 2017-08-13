@@ -5,6 +5,7 @@ import {QuizPage} from '../quiz/quiz';
 
 import {QuizModel} from '../../models/quiz';
 import {AngularFireDatabase, FirebaseListObservable} from "angularfire2/database";
+import {FirebaseApp} from "angularfire2";
 
 /**
  * Generated class for the FeaturesPage page.
@@ -18,14 +19,16 @@ import {AngularFireDatabase, FirebaseListObservable} from "angularfire2/database
     templateUrl: 'features.html',
 })
 export class FeaturesPage {
-    public quizzes: FirebaseListObservable<any[]>;
-    public loaded: boolean;
+    public quizzes: Array<QuizModel> = [];
+    public isLoaded: boolean;
 
-    constructor(public navCtrl: NavController, public db: AngularFireDatabase) {
-        this.quizzes = QuizModel.fetch(db);
-        this.quizzes.subscribe(() => {
-            this.loaded = true;
-        });
+    constructor(public navCtrl: NavController, public db: AngularFireDatabase, private firebaseApp: FirebaseApp) {
+        QuizModel.fetch(db).subscribe(function (list: FirebaseListObservable<any[]>) {
+            list.forEach(function (item) {
+                this.quizzes.push(new QuizModel(item, firebaseApp));
+            }.bind(this));
+            this.isLoaded = true;
+        }.bind(this));
     }
 
     ionViewDidLoad() {

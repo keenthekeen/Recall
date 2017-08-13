@@ -8,17 +8,19 @@ import * as firebase from 'firebase/app';
 import {AngularFireDatabase, FirebaseListObservable} from "angularfire2/database";
 import {AddquizPage} from "../addquiz/addquiz";
 import {UserModel} from "../../models/user";
+import {FirebaseApp} from "angularfire2";
+import {QuizModel} from "../../models/quiz";
 
 @Component({
     selector: 'page-home',
     templateUrl: 'home.html'
 })
 export class HomePage {
-    public quizzes: FirebaseListObservable<any[]>;
+    public quizzes: Array<QuizModel>;
     public user: UserModel;
     public isLoaded: boolean;
 
-    constructor(public navCtrl: NavController, public afAuth: AngularFireAuth, public db: AngularFireDatabase, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public platform: Platform, public actionSheetCtrl: ActionSheetController) {
+    constructor(public navCtrl: NavController, public afAuth: AngularFireAuth, public db: AngularFireDatabase, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public platform: Platform, public actionSheetCtrl: ActionSheetController, private firebaseApp: FirebaseApp) {
 
         this.afAuth.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
         this.afAuth.auth.onAuthStateChanged(function (user) {
@@ -34,13 +36,16 @@ export class HomePage {
     private fetchQuiz() {
         console.log("Fetching quiz...");
         if (this.user) {
-            this.quizzes = this.db.list('/quizzes', {
+            this.db.list('/quizzes', {
                 query: {
                     orderByChild: 'owner',
                     equalTo: this.user.uid
                 }
-            });
-            this.quizzes.subscribe(function () {
+            }).subscribe(function (list: FirebaseListObservable<any[]>) {
+                this.quizzes = [];
+                list.forEach(function (item) {
+                    this.quizzes.push(new QuizModel(item, this.firebaseApp));
+                }.bind(this));
                 this.isLoaded = true;
             }.bind(this));
         }

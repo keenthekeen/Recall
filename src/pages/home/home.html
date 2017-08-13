@@ -13,9 +13,9 @@
     <ion-list>
         <div *ngIf='user'>
             <div *ngIf="!isLoaded" class="loading"></div>
-            <div *ngFor='let quiz of quizzes | async'>
+            <div *ngFor='let quiz of quizzes'>
                 <ion-card (click)="quizPage(quiz)">
-                    <ion-img src="{{ quiz.picture }}"></ion-img>
+                    <img src="{{ quiz.picture }}"/>
                     <ion-card-content>
                         <ion-card-title>
                             {{ quiz.name }}
@@ -26,8 +26,9 @@
                     </ion-card-content>
                 </ion-card>
             </div>
-            <div *ngIf="isLoaded && ((quizzes | async)?.length <= 0)" class="center-alert">
-                <ion-icon name="sunny"></ion-icon><br />
+            <div *ngIf="isLoaded && (quizzes?.length <= 0)" class="center-alert">
+                <ion-icon name="sunny"></ion-icon>
+                <br/>
                 You have no quiz.
             </div>
         </div>
