@@ -25,9 +25,11 @@ export class HomePage {
         this.afAuth.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
         this.afAuth.auth.onAuthStateChanged(function (user) {
             console.log("Auth state changed.");
-            this.user = new UserModel(user);
-            this.user.save(db);
-            this.fetchQuiz();
+            if (this.user) {
+                this.user = new UserModel(user);
+                this.user.save(db);
+                this.fetchQuiz();
+            }
         }.bind(this));
 
         this.getSigninResult();
