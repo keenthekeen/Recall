@@ -79,10 +79,10 @@ export class AddquizPage {
             afterPrepare = new Promise(function (resolve, reject) {
                 let uploadTask = this.pictureStorageRef.child(fileName).putString(this.picture, 'data_url');
 
-                uploadTask.on('state_changed', function (snapshot) {
+                uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, function (snapshot) {
                     // Observe state change events such as progress, pause, and resume
                     // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                     loader.setContent(progress + "% uploaded...");
                     switch (snapshot.state) {
                         case firebase.storage.TaskState.PAUSED: // or 'paused'

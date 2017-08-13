@@ -1,6 +1,4 @@
 import {AngularFireDatabase} from "angularfire2/database";
-import * as firebase from 'firebase/app';
-import {firebaseConfig} from "../app/app.module";
 import {FirebaseApp} from "angularfire2";
 
 export class QuizModel {
@@ -19,7 +17,7 @@ export class QuizModel {
     }>;
     public created_at: number;
 
-    constructor(obj: any, public firebaseApp?: FirebaseApp) {
+    constructor(obj: any, protected firebaseApp?: FirebaseApp) {
         this.$key = obj.$key || null;
         this.name = obj.name;
         this.picture = obj.picture || null;
@@ -44,6 +42,7 @@ export class QuizModel {
         if (!this.$key) {
             delete this.$key;
         }
+        delete this.firebaseApp;
         if (this.$key) {
             return db.app.database().ref("/quizzes").child(this.$key).set(this);
         } else {
