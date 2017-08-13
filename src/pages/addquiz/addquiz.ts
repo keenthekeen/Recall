@@ -83,7 +83,9 @@ export class AddquizPage {
                     // Observe state change events such as progress, pause, and resume
                     // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
                     let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    loader.setContent(progress + "% uploaded...");
+                    if (progress > 0) {
+                        loader.setContent(progress + "% uploaded...");
+                    }
                     switch (snapshot.state) {
                         case firebase.storage.TaskState.PAUSED: // or 'paused'
                             console.log('Upload is paused');

@@ -42,25 +42,28 @@ export class QuizPage {
         this.quiz = this.navParams.get('quiz');
 
         storage.get('quiz_mode').then(function (val) {
-            this.isQuizMode = val;
+            this.setQuizMode(val);
         }.bind(this));
     }
 
     setQuizMode(mode?: boolean) {
+        let isModeChanged = mode == undefined;
         if (mode == null) {
             mode = !this.isQuizMode;
         }
         this.isQuizMode = mode;
         this.modeIcon = mode ? "key" : "help";
         this.storage.set('quiz_mode', mode);
-        this.toastCtrl.create({
-            message: "Switched to " + (mode ? "quiz" : "key") + " mode",
-            duration: 3000
-        }).present();
-        this.navCtrl.pop();
-        this.navCtrl.push(QuizPage, {
-            quiz: this.quiz
-        });
+        if (isModeChanged) {
+            this.toastCtrl.create({
+                message: "Switched to " + (mode ? "quiz" : "key") + " mode",
+                duration: 3000
+            }).present();
+            this.navCtrl.pop();
+            this.navCtrl.push(QuizPage, {
+                quiz: this.quiz
+            });
+        }
     }
 
     ionViewDidLoad() {
@@ -121,7 +124,8 @@ export class QuizPage {
                 } else {
                     this.toastCtrl.create({
                         message: exist,
-                        duration: 3000
+                        duration: 3000,
+                        position: "top"
                     }).present();
                 }
             }
