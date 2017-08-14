@@ -122,7 +122,7 @@ export class AddquizPage {
         }.bind(this)).catch(function (error) {
             loader.dismiss();
             alert("Failure");
-            console.log("Error while saving", error);
+            console.error("Error while saving", error);
         });
     }
 
@@ -140,7 +140,7 @@ export class AddquizPage {
         this.isUp = true;
         this.Camera.getPicture(cameraOptions)
             .then(file_uri => this.initializeCanvas(file_uri),
-                err => console.log(err));
+                err => console.error(err));
 
     }
 
