@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import { HomePage } from '../home/home';
-import { FeaturesPage } from '../features/features';
+import {Component} from '@angular/core';
+import {HomePage} from '../home/home';
+import {FeaturesPage} from '../features/features';
+import {Firebase} from "@ionic-native/firebase";
+
 /**
  * Generated class for the MasterPage page.
  *
@@ -10,18 +11,24 @@ import { FeaturesPage } from '../features/features';
  */
 
 @Component({
-  selector: 'page-master',
-  templateUrl: 'master.html',
+    selector: 'page-master',
+    templateUrl: 'master.html',
 })
 export class MasterPage {
-  tab1: any = FeaturesPage;
-  tab2: any = HomePage;
-  //tab3: any = ;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+    tab1: any = FeaturesPage;
+    tab2: any = HomePage;
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad MasterPage');
-  }
+    constructor(private fb: Firebase) {
+
+    }
+
+    ionViewDidLoad() {
+        console.log('ionViewDidLoad MasterPage');
+    }
+
+    tabChanged(name: string) {
+        console.log("User is viewing " + name);
+        this.fb.setScreenName(name);
+    }
 
 }

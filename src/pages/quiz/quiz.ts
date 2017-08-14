@@ -5,7 +5,7 @@ import {Storage} from '@ionic/storage';
 import {QuizModel} from '../../models/quiz';
 import {AngularFireAuth} from "angularfire2/auth";
 import {AngularFireDatabase} from "angularfire2/database";
-import {FirebaseApp} from "angularfire2";
+import {Firebase} from "@ionic-native/firebase";
 
 /**
  * Generated class for the QuizPage page.
@@ -38,8 +38,9 @@ export class QuizPage {
      */
     @ViewChild('canvas') canvasEl: ElementRef;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public afAuth: AngularFireAuth, private db: AngularFireDatabase, public toastCtrl: ToastController, public loadingCtrl: LoadingController, private storage: Storage, public alertCtrl: AlertController) {
-        this.quiz = this.navParams.get('quiz');
+    constructor(public navCtrl: NavController, public navParams: NavParams, public afAuth: AngularFireAuth, private db: AngularFireDatabase, public toastCtrl: ToastController, public loadingCtrl: LoadingController, private storage: Storage, public alertCtrl: AlertController, private fb: Firebase) {
+        this.quiz = navParams.get('quiz');
+        fb.setScreenName("quiz");
 
         storage.get('quiz_mode').then(function (val) {
             this.setQuizMode(val);
@@ -216,15 +217,9 @@ export class QuizPage {
             this.quiz.labels.forEach(function (label) {
                 if (label.name in this.answers) {
                     let answer = this.answers[label.name].trim().toUpperCase();
-                    if (answer == label.name.trim().toUpperCase() || (label.other_name instanceof Array && label.other_name.map(function (i) {
-                            return i.trim().toUpperCase();
-                        }).includes(answer))) {
-                        // Correct
-                        this.answerCheck[label.name] = true;
-                    } else {
-                        // Incorrect
-                        this.answerCheck[label.name] = false;
-                    }
+                    this.answerCheck[label.name] = answer == label.name.trim().toUpperCase() || (label.other_name instanceof Array && label.other_name.map(function (i) {
+                        return i.trim().toUpperCase();
+                    }).includes(answer));
                 } else {
                     // Not answered
                     this.answerCheck[label.name] = false;

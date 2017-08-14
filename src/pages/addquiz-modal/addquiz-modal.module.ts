@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { IonicPageModule } from 'ionic-angular';
-import { AddquizModalPage } from './addquiz-modal';
+import {NgModule} from '@angular/core';
+import {IonicPageModule} from 'ionic-angular';
+import {AddquizModalPage} from './addquiz-modal';
 
 @NgModule({
   declarations: [

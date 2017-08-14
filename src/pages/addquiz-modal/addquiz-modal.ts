@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams, ViewController } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {NavController, NavParams, ViewController} from 'ionic-angular';
 
 
 /**
@@ -10,35 +10,38 @@ import { NavController, NavParams, ViewController } from 'ionic-angular';
  */
 
 @Component({
-  selector: 'page-addquiz-modal',
-  templateUrl: 'addquiz-modal.html',
+    selector: 'page-addquiz-modal',
+    templateUrl: 'addquiz-modal.html',
 })
 export class AddquizModalPage {
-    public NewOtherName : string;
+    public NewOtherName: string;
     public OtherNames = [];
-    public Title :string;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController) {
-  }
+    public Title: string;
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AddquizModalPage');
-  }
+    constructor(public viewCtrl: ViewController) {
+    }
 
-  AddMoreName(name:string){
-      if(this.OtherNames.indexOf(name) == -1 && !(name === "")) {
-          this.OtherNames.push(name);
-      }
-    this.NewOtherName = "";
-  }
-  save(){
-      let data = {
-          Title: this.Title,
-          OtherNames: this.OtherNames,
-      };
-      this.viewCtrl.dismiss(data);
-  }
-  delete(name:string){
-      let index = this.OtherNames.indexOf(name)
-      this.OtherNames.splice(index,1);
-  }
+    ionViewDidLoad() {
+        console.log('ionViewDidLoad AddquizModalPage');
+    }
+
+    AddMoreName(name: string) {
+        if (this.OtherNames.indexOf(name) == -1 && !(name === "")) {
+            this.OtherNames.push(name);
+        }
+        this.NewOtherName = "";
+    }
+
+    save() {
+        let data = {
+            Title: this.Title,
+            OtherNames: this.OtherNames,
+        };
+        this.viewCtrl.dismiss(data);
+    }
+
+    deleteName(name: string) {
+        let index = this.OtherNames.indexOf(name);
+        this.OtherNames.splice(index, 1);
+    }
 }

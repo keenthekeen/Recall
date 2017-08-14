@@ -10,8 +10,10 @@ export class UserModel implements UserInfo {
     public providerId: string;
     public uid: string;
 
-    public created_at: number;
-    public modified_at: number;
+    public deviceToken: string|null;
+
+    public createdAt: number;
+    public modifiedAt: number;
 
     constructor(obj: any) {
         this.displayName = obj.displayName || null;
@@ -21,8 +23,14 @@ export class UserModel implements UserInfo {
         this.providerId = obj.providerId;
         this.uid = obj.uid;
 
-        this.created_at = obj.created_at || Date.now();
-        this.modified_at = Date.now();
+        this.createdAt = obj.createdAt || Date.now();
+        this.modifiedAt = Date.now();
+    }
+
+    public setDeviceToken (token: string) {
+        console.log("Set device token ("+token.length+")");
+        this.deviceToken = token;
+        return this;
     }
 
     public save(db: AngularFireDatabase) {

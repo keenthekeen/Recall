@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ActionSheetController, AlertController, LoadingController, NavController, Platform} from 'ionic-angular';
+import {ActionSheetController, LoadingController, NavController, Platform} from 'ionic-angular';
 import {QuizPage} from '../quiz/quiz';
 
 import {AngularFireAuth} from 'angularfire2/auth';
@@ -10,6 +10,8 @@ import {AddquizPage} from "../addquiz/addquiz";
 import {UserModel} from "../../models/user";
 import {FirebaseApp} from "angularfire2";
 import {QuizModel} from "../../models/quiz";
+import {Firebase} from "@ionic-native/firebase";
+import {Helper} from "../../app/helper";
 
 @Component({
     selector: 'page-home',
@@ -17,17 +19,31 @@ import {QuizModel} from "../../models/quiz";
 })
 export class HomePage {
     public quizzes: Array<QuizModel>;
-    public user: UserModel|null;
+    public user: UserModel | null;
     public isLoaded: boolean;
 
-    constructor(public navCtrl: NavController, public afAuth: AngularFireAuth, public db: AngularFireDatabase, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public platform: Platform, public actionSheetCtrl: ActionSheetController, private firebaseApp: FirebaseApp) {
+    constructor(public navCtrl: NavController, private afAuth: AngularFireAuth, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private platform: Platform, private actionSheetCtrl: ActionSheetController, private firebaseApp: FirebaseApp, private fb: Firebase, private helper: Helper) {
 
-        this.afAuth.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-        this.afAuth.auth.onAuthStateChanged(function (user) {
+        this.afAuth.auth.onAuthStateChanged(function (userData) {
             console.log("Auth state changed.");
-            if (user) {
-                this.user = new UserModel(user);
-                this.user.save(db);
+            if (userData) {
+                let user = this.user = new UserModel(userData);
+                user.save(db);
+                // (Native) Firebase setup
+                if (platform.is("android")) {
+                    console.log("Platform is android.");
+                    fb.setUserId(user.uid);
+                    fb.hasPermission().then(function (data) {
+                        console.log("Permission to notify", data);
+                        if (data.isEnabled) {
+                            fb.getToken()
+                                .then(token => user.setDeviceToken(token).save(db)) // save the token server-side and use it to push notifications to this device
+                                .catch(error => this.helper.error("Error while getting device token."));
+                            fb.onTokenRefresh()
+                                .subscribe((token: string) => user.setDeviceToken(token).save(db));
+                        }
+                    }.bind(this));
+                }
             } else {
                 this.user = null;
             }
@@ -35,38 +51,6 @@ export class HomePage {
         }.bind(this));
 
         this.getSigninResult();
-    }
-
-    private fetchQuiz() {
-        console.log("Fetching quiz...");
-        if (this.user) {
-            this.db.list('/quizzes', {
-                query: {
-                    orderByChild: 'owner',
-                    equalTo: this.user.uid
-                }
-            }).subscribe(function (list: FirebaseListObservable<any[]>) {
-                this.quizzes = [];
-                list.forEach(function (item) {
-                    this.quizzes.push(new QuizModel(item, this.firebaseApp));
-                }.bind(this));
-                this.isLoaded = true;
-            }.bind(this));
-        }
-    }
-
-    private getSigninResult() {
-        this.afAuth.auth.getRedirectResult().then(function (result) {
-            // This gives you a Google Access Token, you can use it to access the Google API.
-            console.log("Signin result", result);
-        }.bind(this)).catch(function (error) {
-            // Handle Errors here.
-            this.alertCtrl.create({
-                title: 'Error occurred while signing in!',
-                subTitle: error.code + ': ' + error.message,
-                buttons: ['OK']
-            }).present();
-        }.bind(this));
     }
 
     signIn() {
@@ -85,15 +69,11 @@ export class HomePage {
             console.log("Signed out!");
             loader.dismiss();
             //window.location.reload(true);
-        }).catch(function (error) {
+        }).catch(function () {
             // An error happened.
             loader.dismiss();
-            this.alertCtrl.create({
-                title: 'Error Occurred!',
-                subTitle: 'Sign out failure',
-                buttons: ['OK']
-            }).present();
-        });
+            this.helper.error("Error while signing out.");
+        }.bind(this));
     }
 
     quizPage(quiz: any) {
@@ -128,5 +108,33 @@ export class HomePage {
                 }
             ]
         }).present();
+    }
+
+    private fetchQuiz() {
+        console.log("Fetching quiz...");
+        if (this.user) {
+            this.db.list('/quizzes', {
+                query: {
+                    orderByChild: 'owner',
+                    equalTo: this.user.uid
+                }
+            }).subscribe(function (list: FirebaseListObservable<any[]>) {
+                this.quizzes = [];
+                list.forEach(function (item) {
+                    this.quizzes.push(new QuizModel(item, this.firebaseApp));
+                }.bind(this));
+                this.isLoaded = true;
+            }.bind(this));
+        }
+    }
+
+    private getSigninResult() {
+        this.afAuth.auth.getRedirectResult().then(function (result) {
+            // This gives you a Google Access Token, you can use it to access the Google API.
+            console.log("Signin result", result);
+        }.bind(this)).catch(function () {
+            // Handle Errors here.
+            this.helper.error("Error while signing in.");
+        }.bind(this));
     }
 }

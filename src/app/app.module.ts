@@ -15,8 +15,9 @@ import {AddquizModalPage} from "../pages/addquiz-modal/addquiz-modal"
 import {AngularFireModule} from "angularfire2";
 import {AngularFireDatabaseModule} from "angularfire2/database";
 import {AngularFireAuthModule} from "angularfire2/auth";
-import {CameraMock} from './devmode';
+import {CameraMock, Helper} from './helper';
 import {IonicStorageModule} from "@ionic/storage";
+import {Firebase} from "@ionic-native/firebase";
 
 
 export const firebaseConfig = {
@@ -60,7 +61,9 @@ export const firebaseConfig = {
         StatusBar,
         SplashScreen,
         {provide: Camera, useClass: CameraMock},
-        {provide: ErrorHandler, useClass: IonicErrorHandler}
+        {provide: ErrorHandler, useClass: IonicErrorHandler},
+        Firebase,
+        Helper
     ]
 })
 export class AppModule {

@@ -1,16 +1,16 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
-import {ActionSheetController, LoadingController, NavController, Platform, ToastController, ModalController} from 'ionic-angular';
+import {ActionSheetController, AlertController, LoadingController, ModalController, NavController, Platform, ToastController} from 'ionic-angular';
 import {Camera} from '@ionic-native/camera';
 import {QuizPage} from "../quiz/quiz";
 import {QuizModel} from '../../models/quiz';
 import {AddquizModalPage} from '../addquiz-modal/addquiz-modal';
-import {AlertController} from 'ionic-angular';
 
 import {AngularFireDatabase} from "angularfire2/database";
 import {AngularFireAuth} from "angularfire2/auth";
 import {FirebaseApp} from 'angularfire2';
 import * as firebase from 'firebase/app';
 import 'firebase/storage';
+import {Helper} from "../../app/helper";
 
 /**
  * Generated class for the AddquizPage page.
@@ -38,7 +38,7 @@ export class AddquizPage {
 
     @ViewChild('canvas') canvasEl: ElementRef;
 
-    constructor(public navCtrl: NavController, private Camera: Camera, private db: AngularFireDatabase, public loadingCtrl: LoadingController, public afAuth: AngularFireAuth, public toastCtrl: ToastController, public actionSheetCtrl: ActionSheetController, public platform: Platform, public modalCtrl: ModalController, public alertCtrl: AlertController, public firebaseApp: FirebaseApp) {
+    constructor(public navCtrl: NavController, private Camera: Camera, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private afAuth: AngularFireAuth, private toastCtrl: ToastController, private actionSheetCtrl: ActionSheetController, private platform: Platform, private modalCtrl: ModalController, private alertCtrl: AlertController, firebaseApp: FirebaseApp, private helper: Helper) {
         this.pictureStorageRef = firebaseApp.storage().ref().child("quiz_pictures");
     }
 
@@ -94,7 +94,7 @@ export class AddquizPage {
                             console.log('Upload is running');
                             break;
                     }
-                }, function (error) {
+                }, function () {
                     // Handle unsuccessful uploads
                     loader.setContent("Error occured while uploading!").setDuration(3000);
                     reject("Upload error");
@@ -106,7 +106,7 @@ export class AddquizPage {
                 });
             }.bind(this));
         } else {
-            afterPrepare = new Promise(function (resolve, reject) {
+            afterPrepare = new Promise(function (resolve) {
                 quiz.picture = this.picture;
                 resolve(quiz);
             }.bind(this));
@@ -119,11 +119,10 @@ export class AddquizPage {
                 loader.dismiss();
                 this.navCtrl.pop();
             }.bind(this));
-        }.bind(this)).catch(function (error) {
+        }.bind(this)).catch(function () {
             loader.dismiss();
-            alert("Failure");
-            console.error("Error while saving", error);
-        });
+            this.helper.error("Error while saving");
+        }.bind(this));
     }
 
     getPicture() {
@@ -140,7 +139,7 @@ export class AddquizPage {
         this.isUp = true;
         this.Camera.getPicture(cameraOptions)
             .then(file_uri => this.initializeCanvas(file_uri),
-                err => console.error(err));
+                err => this.helper.error("Error while getting picture"));
 
     }
 
@@ -280,6 +279,5 @@ export class AddquizPage {
     ionViewDidLoad() {
         console.log('ionViewDidLoad AddquizPage');
     }
-
 
 }

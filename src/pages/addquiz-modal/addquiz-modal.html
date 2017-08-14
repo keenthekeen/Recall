@@ -27,10 +27,10 @@
         </ion-item>
         <p style="color:#a6a6a6">Enter to add other name</p>
         <p style="font-style: italic; color:#999999; "></p>
-        <ion-item-sliding *ngFor="let name of OtherNames" (ionSwipe)="delete(name)">
+        <ion-item-sliding *ngFor="let name of OtherNames" (ionSwipe)="deleteName(name)">
             <ion-item>{{name}}</ion-item>
             <ion-item-options>
-                <button ion-button color="danger" expandable (click)="delete(name)">
+                <button ion-button color="danger" expandable (click)="deleteName(name)">
                     <ion-icon name="trash"></ion-icon>
                     Delete
                 </button>
