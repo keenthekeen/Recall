@@ -17,7 +17,7 @@ import {QuizModel} from "../../models/quiz";
 })
 export class HomePage {
     public quizzes: Array<QuizModel>;
-    public user: UserModel;
+    public user: UserModel|null;
     public isLoaded: boolean;
 
     constructor(public navCtrl: NavController, public afAuth: AngularFireAuth, public db: AngularFireDatabase, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public platform: Platform, public actionSheetCtrl: ActionSheetController, private firebaseApp: FirebaseApp) {
@@ -25,11 +25,13 @@ export class HomePage {
         this.afAuth.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
         this.afAuth.auth.onAuthStateChanged(function (user) {
             console.log("Auth state changed.");
-            if (this.user) {
+            if (user) {
                 this.user = new UserModel(user);
                 this.user.save(db);
-                this.fetchQuiz();
+            } else {
+                this.user = null;
             }
+            this.fetchQuiz();
         }.bind(this));
 
         this.getSigninResult();
@@ -80,11 +82,12 @@ export class HomePage {
         loader.present();
         this.afAuth.auth.signOut().then(function () {
             // Sign-out successful.
-            loader.dismissAll();
+            console.log("Signed out!");
+            loader.dismiss();
             //window.location.reload(true);
         }).catch(function (error) {
             // An error happened.
-            loader.dismissAll();
+            loader.dismiss();
             this.alertCtrl.create({
                 title: 'Error Occurred!',
                 subTitle: 'Sign out failure',

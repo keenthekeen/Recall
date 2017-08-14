@@ -120,7 +120,7 @@ export class AddquizPage {
                 this.navCtrl.pop();
             }.bind(this));
         }.bind(this)).catch(function (error) {
-            loader.dismissAll();
+            loader.dismiss();
             alert("Failure");
             console.log("Error while saving", error);
         });
