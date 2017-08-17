@@ -16,13 +16,14 @@ export class FeaturesPage {
     public isLoaded: boolean;
 
 
-    constructor(public navCtrl: NavController, public db: AngularFireOfflineDatabase, private firebaseApp: FirebaseApp) {
+    constructor(public navCtrl: NavController, public db: AngularFireOfflineDatabase, firebaseApp: FirebaseApp) {
         QuizModel.fetch(db, {
             query: {
                 orderByChild: 'created_at'
             }
         }).subscribe((list) => {
             list.forEach((item) => {
+                this.quizzes = [];
                 this.quizzes.push(new QuizModel(item, firebaseApp));
             });
             this.isLoaded = true;
