@@ -65,6 +65,7 @@ export class HomePage {
             content: "Signing out..."
         });
         loader.present();
+        this.offlineDb.reset(); // Reset offline database cache
         this.afAuth.auth.signOut().then(() => {
             // Sign-out successful.
             console.log("Signed out!");
