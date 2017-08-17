@@ -37,13 +37,13 @@ export class QuizPage {
      */
     @ViewChild('canvas') canvasEl: ElementRef;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public afAuth: AngularFireAuth, private db: AngularFireDatabase, public toastCtrl: ToastController, public loadingCtrl: LoadingController, private storage: Storage, public alertCtrl: AlertController, private fb: Firebase) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public afAuth: AngularFireAuth, private db: AngularFireDatabase, public toastCtrl: ToastController, public loadingCtrl: LoadingController, private storage: Storage, public alertCtrl: AlertController, fb: Firebase) {
         this.quiz = navParams.get('quiz');
         fb.setScreenName("quiz");
 
-        storage.get('quiz_mode').then(function (val) {
+        storage.get('quiz_mode').then((val) => {
             this.setQuizMode(val);
-        }.bind(this));
+        });
     }
 
     setQuizMode(mode?: boolean) {

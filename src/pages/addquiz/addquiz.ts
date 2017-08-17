@@ -212,7 +212,7 @@ export class AddquizPage {
                             text: 'Delete',
                             role: 'destructive',
                             icon: !this.platform.is('ios') ? 'trash' : null,
-                            handler: function () {
+                            handler: () => {
                                 this.coordinates = this.coordinates.filter(function (element) {
                                     return element.name != existName;
                                 });
@@ -221,7 +221,7 @@ export class AddquizPage {
                                     message: 'Deleted ' + existName + '!',
                                     duration: 3000
                                 }).present();
-                            }.bind(this)
+                            }
                         }, {
                             text: 'Cancel',
                             role: 'cancel', // will always sort to be on the bottom
