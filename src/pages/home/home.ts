@@ -12,7 +12,7 @@ import {QuizModel} from "../../models/quiz";
 import {Firebase} from "@ionic-native/firebase";
 import {Helper} from "../../app/helper";
 import {AngularFireOfflineDatabase} from "angularfire2-offline";
-import {AngularFireDatabase, FirebaseListObservable} from "angularfire2/database";
+import {AngularFireDatabase} from "angularfire2/database";
 
 @Component({
     selector: 'page-home',
@@ -23,7 +23,7 @@ export class HomePage {
     public user: UserModel | null;
     public isLoaded: boolean;
 
-    constructor(public navCtrl: NavController, private afAuth: AngularFireAuth, private offlineDb: AngularFireOfflineDatabase, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private platform: Platform, private actionSheetCtrl: ActionSheetController, private firebaseApp: FirebaseApp, private fb: Firebase, private helper: Helper) {
+    constructor(public navCtrl: NavController, private afAuth: AngularFireAuth, private offlineDb: AngularFireOfflineDatabase, db: AngularFireDatabase, private loadingCtrl: LoadingController, private platform: Platform, private actionSheetCtrl: ActionSheetController, private firebaseApp: FirebaseApp, fb: Firebase, private helper: Helper) {
 
         this.afAuth.auth.onAuthStateChanged((userData) => {
             console.log("Auth state changed.");
