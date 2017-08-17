@@ -1,5 +1,6 @@
 import {AngularFireDatabase} from "angularfire2/database";
 import {FirebaseApp} from "angularfire2";
+import {FirebaseListFactoryOpts} from "angularfire2/interfaces";
 
 export class QuizModel {
 
@@ -31,8 +32,8 @@ export class QuizModel {
         }
     }
 
-    static fetch(db: AngularFireDatabase) {
-        return db.list("/quizzes");
+    static fetch(db: AngularFireDatabase, opts?: FirebaseListFactoryOpts) {
+        return db.list("/quizzes", opts);
     }
 
     public save(db: AngularFireDatabase) {

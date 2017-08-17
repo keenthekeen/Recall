@@ -4,15 +4,8 @@ import {NavController} from 'ionic-angular';
 import {QuizPage} from '../quiz/quiz';
 
 import {QuizModel} from '../../models/quiz';
-import {AngularFireDatabase, FirebaseListObservable} from "angularfire2/database";
+import {AngularFireDatabase} from "angularfire2/database";
 import {FirebaseApp} from "angularfire2";
-
-/**
- * Generated class for the FeaturesPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 
 @Component({
     selector: 'page-features',
@@ -22,13 +15,18 @@ export class FeaturesPage {
     public quizzes: Array<QuizModel> = [];
     public isLoaded: boolean;
 
+
     constructor(public navCtrl: NavController, public db: AngularFireDatabase, private firebaseApp: FirebaseApp) {
-        QuizModel.fetch(db).subscribe(function (list: FirebaseListObservable<any[]>) {
-            list.forEach(function (item) {
+        QuizModel.fetch(db, {
+            query: {
+                orderByChild: 'created_at'
+            }
+        }).subscribe((list) => {
+            list.forEach((item) => {
                 this.quizzes.push(new QuizModel(item, firebaseApp));
-            }.bind(this));
+            });
             this.isLoaded = true;
-        }.bind(this));
+        });
     }
 
     ionViewDidLoad() {

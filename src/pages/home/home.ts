@@ -113,7 +113,7 @@ export class HomePage {
     private fetchQuiz() {
         console.log("Fetching quiz...");
         if (this.user) {
-            this.db.list('/quizzes', {
+            QuizModel.fetch(this.db, {
                 query: {
                     orderByChild: 'owner',
                     equalTo: this.user.uid
