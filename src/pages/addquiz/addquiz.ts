@@ -33,6 +33,11 @@ export class AddquizPage {
     private picture: string;
     private pinSize: number;
     private vMin: number;
+    private screenSize = {
+        width: 0,
+        height: 0
+    };
+    private bgImg: HTMLImageElement;
 
     public pictureStorageRef: firebase.storage.Reference;
 
@@ -150,6 +155,35 @@ export class AddquizPage {
         this.picture = uri;
 
         let canvas = this.canvasEl.nativeElement;
+
+        // Get screen size
+        // screen size may be changed, e.g. keyboard on, so save for later use
+        this.screenSize = {
+            width: window.innerWidth,
+            height: window.innerHeight
+        };
+        console.log("Screen size (H*W): " + window.innerHeight + " x " + window.innerWidth);
+
+        // Load background image
+        this.bgImg = new Image();
+        this.bgImg.src = this.picture;
+        this.bgImg.addEventListener("load", () => {
+            // Calculate canvas size
+            if (this.bgImg.height < this.bgImg.width) {
+                canvas.width = (this.screenSize.width) * 0.90;
+                canvas.height = this.bgImg.height * canvas.width / this.bgImg.width;
+            } else {
+                canvas.height = (this.screenSize.height) * 0.90;
+                canvas.width = this.bgImg.width * canvas.height / this.bgImg.height;
+            }
+            console.log("Image size: " + this.bgImg.height + " x " + this.bgImg.width + " / Canvas size: " + canvas.height + " x " + canvas.width);
+            this.vMin = QuizPage.getMinimum(canvas.height, canvas.width);
+            this.pinSize = QuizPage.calculatePinSize(canvas.width, canvas.height);
+
+            canvas.getContext('2d').drawImage(this.bgImg, 0, 0, canvas.width, canvas.height);
+        });
+
+        // Draw!
         this.renderCanvas(canvas);
 
         // Set up mouse events
@@ -246,34 +280,17 @@ export class AddquizPage {
 
         let context = canvas.getContext('2d');
 
-        // Load background image
-        let bg = new Image();
-        bg.src = this.picture;
-        bg.addEventListener("load", function () {
-            // Calculate canvas size
-            if (bg.height < bg.width) {
-                canvas.width = (window.innerWidth) * 0.90;
-                canvas.height = bg.height * canvas.width / bg.width;
-            } else {
-                canvas.height = (window.innerHeight) * 0.90;
-                canvas.width = bg.width * canvas.height / bg.height;
-            }
-            console.log("Screen size: " + window.innerHeight + " x " + window.innerWidth + " / Image size: " + bg.height + " x " + bg.width + " / Canvas size: " + canvas.height + " x " + canvas.width);
-            this.vMin = QuizPage.getMinimum(canvas.height, canvas.width);
-            this.pinSize = QuizPage.calculatePinSize(canvas.width, canvas.height);
+        // Draw background image
+        context.drawImage(this.bgImg, 0, 0, canvas.width, canvas.height);
 
-            // Draw background image
-            context.drawImage(bg, 0, 0, canvas.width, canvas.height);
-
-            // Draw coordinates
-            let dotImg = new Image();
-            dotImg.src = 'assets/dot.png';
-            dotImg.addEventListener("load", function () {
-                this.coordinates.forEach(function (pos) {
-                    context.drawImage(dotImg, pos.x * canvas.width, pos.y * canvas.height, this.pinSize, this.pinSize);
-                }.bind(this));
-            }.bind(this));
-        }.bind(this));
+        // Draw coordinates
+        let dotImg = new Image();
+        dotImg.src = 'assets/dot.png';
+        dotImg.addEventListener("load", () => {
+            this.coordinates.forEach((pos) => {
+                context.drawImage(dotImg, pos.x * canvas.width, pos.y * canvas.height, this.pinSize, this.pinSize);
+            });
+        });
     }
 
     ionViewDidLoad() {
