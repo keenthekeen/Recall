@@ -4,8 +4,8 @@ import {NavController} from 'ionic-angular';
 import {QuizPage} from '../quiz/quiz';
 
 import {QuizModel} from '../../models/quiz';
-import {AngularFireDatabase} from "angularfire2/database";
 import {FirebaseApp} from "angularfire2";
+import {AngularFireOfflineDatabase} from "angularfire2-offline";
 
 @Component({
     selector: 'page-features',
@@ -16,7 +16,7 @@ export class FeaturesPage {
     public isLoaded: boolean;
 
 
-    constructor(public navCtrl: NavController, public db: AngularFireDatabase, private firebaseApp: FirebaseApp) {
+    constructor(public navCtrl: NavController, public db: AngularFireOfflineDatabase, private firebaseApp: FirebaseApp) {
         QuizModel.fetch(db, {
             query: {
                 orderByChild: 'created_at'

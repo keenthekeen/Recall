@@ -1,6 +1,7 @@
 import {AngularFireDatabase} from "angularfire2/database";
 import {FirebaseApp} from "angularfire2";
 import {FirebaseListFactoryOpts} from "angularfire2/interfaces";
+import {AngularFireOfflineDatabase} from "angularfire2-offline";
 
 export class QuizModel {
 
@@ -32,7 +33,7 @@ export class QuizModel {
         }
     }
 
-    static fetch(db: AngularFireDatabase, opts?: FirebaseListFactoryOpts) {
+    static fetch(db: AngularFireOfflineDatabase, opts?: FirebaseListFactoryOpts) {
         return db.list("/quizzes", opts);
     }
 
