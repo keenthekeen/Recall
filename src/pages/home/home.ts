@@ -55,6 +55,7 @@ export class HomePage {
     }
 
     signIn() {
+        this.offlineDb.reset(); // Reset offline database cache
         this.afAuth.auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider()).then(() => {
             this.getSigninResult();
         });

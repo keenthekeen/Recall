@@ -23,17 +23,19 @@
         <canvas #canvas width="0" height="0"></canvas>
     </div>
 
-    <ion-list *ngIf="isUp">
-        <ion-item>
-            <ion-label stacked>Name</ion-label>
-            <ion-input type="text" #iName></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label stacked>Caption</ion-label>
-            <ion-textarea rows='5' type='text' #iCaption></ion-textarea>
-        </ion-item>
+    <div *ngIf="isUp">
+        <ion-list>
+            <ion-item>
+                <ion-label stacked>Name</ion-label>
+                <ion-input type="text" #iName></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Caption</ion-label>
+                <ion-textarea rows='5' type='text' #iCaption></ion-textarea>
+            </ion-item>
 
-    </ion-list>
-    <button ion-button full *ngIf="isUp" (click)='submit(iName.value, iCaption.value)'>Save</button>
+        </ion-list>
+        <button ion-button full (click)='submit(iName.value, iCaption.value)'>Save</button>
+    </div>
 
 </ion-content>
