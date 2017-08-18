@@ -14,7 +14,7 @@ import {AngularFireOfflineDatabase} from "angularfire2-offline";
 export class FeaturesPage {
     public quizzes: Array<QuizModel> = [];
     public isLoaded: boolean;
-    private limit: number = 1;
+    private limit: number = 10;
 
     @ViewChild(Content) contentRef: Content;
 
