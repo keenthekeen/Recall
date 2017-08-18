@@ -10,13 +10,13 @@ export class UserModel implements UserInfo {
     public providerId: string;
     public uid: string;
     public stat: {
-        quizPlayed: Array<{
+        quizPlayed : Array<{
             uid: string,
             date: number,
-        }>;
+    }>;
     } | null;
 
-    public deviceToken: string | null;
+    public deviceToken: string|null;
     public createdAt: number;
     public modifiedAt: number;
 
@@ -33,8 +33,8 @@ export class UserModel implements UserInfo {
         this.modifiedAt = Date.now();
     }
 
-    public setDeviceToken(token: string) {
-        console.log("Set device token (" + token.length + ")");
+    public setDeviceToken (token: string) {
+        console.log("Set device token ("+token.length+")");
         this.deviceToken = token;
         return this;
     }

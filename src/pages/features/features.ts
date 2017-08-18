@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {Component, ViewChild} from '@angular/core';
+import {Content, InfiniteScroll, NavController} from 'ionic-angular';
 
 import {QuizPage} from '../quiz/quiz';
 
@@ -14,20 +14,48 @@ import {AngularFireOfflineDatabase} from "angularfire2-offline";
 export class FeaturesPage {
     public quizzes: Array<QuizModel> = [];
     public isLoaded: boolean;
+    private limit: number = 10;
 
+    @ViewChild(Content) contentRef: Content;
 
-    constructor(public navCtrl: NavController, db: AngularFireOfflineDatabase, firebaseApp: FirebaseApp) {
-        QuizModel.fetch(db).subscribe((list) => {
-            list.forEach((item) => {
+    constructor(public navCtrl: NavController, private db: AngularFireOfflineDatabase, private firebaseApp: FirebaseApp) {
+        this.fetchQuizzes();
+    }
+
+    private fetchQuizzes() {
+        return new Promise((resolve) => {
+            QuizModel.fetch(this.db, {
+                query: {
+                    orderByChild: 'created_at',
+                    limitToFirst: this.limit
+                }
+            }).subscribe((list) => {
                 this.quizzes = [];
-                this.quizzes.push(new QuizModel(item, firebaseApp));
+                list.forEach((item) => {
+                    this.quizzes.push(new QuizModel(item, this.firebaseApp));
+                });
+                this.isLoaded = true;
+                resolve();
             });
-            this.isLoaded = true;
         });
     }
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad FeaturesPage');
+    }
+
+    /**
+     * When user triggered infinite scroll
+     * Fetch quiz list again with increased limit
+     *
+     * @param infiniteScroll InfiniteScroll
+     */
+    doInfinite(infiniteScroll: InfiniteScroll) {
+        this.limit += 10;
+        console.log("Infinite scroll triggered (limit increased to", this.limit);
+        this.fetchQuizzes().then(() => {
+            infiniteScroll.complete();
+        });
     }
 
     quizPage(quiz: QuizModel) {
