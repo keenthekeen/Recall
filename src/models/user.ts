@@ -10,13 +10,13 @@ export class UserModel implements UserInfo {
     public providerId: string;
     public uid: string;
     public stat: {
-        quizPlayed : Array<{
+        quizPlayed: Array<{
             uid: string,
             date: number,
-    }>;
+        }>;
     } | null;
 
-    public deviceToken: string|null;
+    public deviceToken: string | null;
     public createdAt: number;
     public modifiedAt: number;
 
@@ -27,14 +27,14 @@ export class UserModel implements UserInfo {
         this.photoURL = obj.photoURL || null;
         this.providerId = obj.providerId;
         this.uid = obj.uid;
-        this.stat = obj.stat;
+        this.stat = obj.stat || null;
 
         this.createdAt = obj.createdAt || Date.now();
         this.modifiedAt = Date.now();
     }
 
-    public setDeviceToken (token: string) {
-        console.log("Set device token ("+token.length+")");
+    public setDeviceToken(token: string) {
+        console.log("Set device token (" + token.length + ")");
         this.deviceToken = token;
         return this;
     }
@@ -43,9 +43,7 @@ export class UserModel implements UserInfo {
         return db.app.database().ref("/users").child(this.uid).set(this);
     }
 
-    static find(db: AngularFireDatabase, uid: string){
-        return db.list(db.app.database().ref("/users").child(uid));
+    static find(db: AngularFireDatabase, uid: string) {
+        return db.object('/users/' + uid);
     }
-
-
 }
