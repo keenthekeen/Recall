@@ -84,6 +84,7 @@
         </host>
     </universal-links>
     <allow-navigation href="http://192.168.11.13:8100" />
+    <allow-navigation href="http://172.20.10.3:8101" />
     <engine name="android" spec="^6.2.3" />
     <plugin name="cordova-plugin-browsertab" spec="^0.2.0" />
     <plugin name="cordova-plugin-buildinfo" spec="^1.1.0" />

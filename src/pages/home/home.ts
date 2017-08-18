@@ -12,6 +12,7 @@ import {FirebaseApp} from "angularfire2";
 import {QuizModel} from "../../models/quiz";
 import {Firebase} from "@ionic-native/firebase";
 import {Helper} from "../../app/helper";
+import {StatPage} from '../stat/stat';
 
 @Component({
     selector: 'page-home',
@@ -23,7 +24,6 @@ export class HomePage {
     public isLoaded: boolean;
 
     constructor(public navCtrl: NavController, private afAuth: AngularFireAuth, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private platform: Platform, private actionSheetCtrl: ActionSheetController, private firebaseApp: FirebaseApp, private fb: Firebase, private helper: Helper) {
-
         this.afAuth.auth.onAuthStateChanged(function (userData) {
             console.log("Auth state changed.");
             if (userData) {
@@ -136,5 +136,8 @@ export class HomePage {
             // Handle Errors here.
             this.helper.error("Error while signing in.");
         }.bind(this));
+    }
+    gostat(){
+        this.navCtrl.push(StatPage);
     }
 }

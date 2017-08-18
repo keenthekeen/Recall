@@ -68,7 +68,11 @@ export class AddquizPage {
             name: name,
             caption: caption,
             owner: userId,
-            labels: this.coordinates
+            labels: this.coordinates,
+            stat: {
+                counter: 0,
+                rate: 0,
+            }
         });
 
         let afterPrepare;

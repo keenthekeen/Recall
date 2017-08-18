@@ -227,9 +227,20 @@ export class QuizPage {
             }.bind(this));
             this.canCheck = false;
             this.isChecked = true;
+            }
             this.renderCanvas(this.canvasEl.nativeElement, this.quiz.labels);
+        let Counter = this.quiz.stat['counter'];
+        let updateQuiz = {
+            stat: {
+                counter: Counter + 1,
+                rate: 44,
+            }
+        };
+        //@todo implement quiz rate here
+        console.log(updateQuiz);
+        this.quiz.update(this.db, updateQuiz).catch((e) => console.log(e));
         }
-    }
+
 
     public deleteQuiz() {
         console.log("Deleting quiz " + this.quiz.$key);

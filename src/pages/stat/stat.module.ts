@@ -1,6 +1,6 @@
-import {NgModule} from '@angular/core';
-import {IonicPageModule} from 'ionic-angular';
-import {StatPage} from './stat';
+import { NgModule } from '@angular/core';
+import { IonicPageModule } from 'ionic-angular';
+import { StatPage } from './stat';
 
 @NgModule({
   declarations: [

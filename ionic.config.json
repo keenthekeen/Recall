@@ -1,5 +1,8 @@
 {
   "name": "Recall",
   "app_id": "050d002d",
-  "type": "ionic-angular"
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
 }
