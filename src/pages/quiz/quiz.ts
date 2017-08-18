@@ -6,6 +6,7 @@ import {QuizModel} from '../../models/quiz';
 import {AngularFireAuth} from "angularfire2/auth";
 import {AngularFireDatabase} from "angularfire2/database";
 import {Firebase} from "@ionic-native/firebase";
+import {UserModel} from '../../models/user';
 
 @Component({
     selector: 'page-quiz',
@@ -220,6 +221,8 @@ export class QuizPage {
     }
 
     public checkAnswer() {
+        let AnswerCount :number = this.quiz.labels.length;
+        let CorrectAnswer : number = 0;
         if (this.canCheck) {
             this.quiz.labels.forEach(function (label) {
                 if (label.name in this.answers) {
@@ -227,6 +230,9 @@ export class QuizPage {
                     this.answerCheck[label.name] = answer == label.name.trim().toUpperCase() || (label.other_name instanceof Array && label.other_name.map(function (i) {
                         return i.trim().toUpperCase();
                     }).includes(answer));
+                    if(this.answerCheck[label.name] === true){
+                        CorrectAnswer++;
+                    }
                 } else {
                     // Not answered
                     this.answerCheck[label.name] = false;
@@ -236,14 +242,23 @@ export class QuizPage {
             this.isChecked = true;
             }
             this.renderCanvas(this.canvasEl.nativeElement, this.quiz.labels);
+        //Perform Rate Calculation here
         let Counter = this.quiz.stat['counter'];
+        let Rate = this.quiz.stat['rate'];
+        let thisQuizRate = CorrectAnswer/AnswerCount * 100;
+        let GlobalQuizRate = ((Rate * Counter ) + thisQuizRate ) / (Counter + 1);
         let updateQuiz = {
             stat: {
                 counter: Counter + 1,
-                rate: 44,
+                rate: GlobalQuizRate,
             }
         };
-        //@todo implement quiz rate here
+        //Add stat to USER MODEL
+        let User = UserModel.find(this.db, this.afAuth.auth.currentUser.uid);
+        console.log("User log log: " + User);
+
+
+
         console.log(updateQuiz);
         this.quiz.update(this.db, updateQuiz).catch((e) => console.log(e));
         }

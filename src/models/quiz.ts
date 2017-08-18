@@ -13,15 +13,15 @@ export class QuizModel {
     public owner: string | null;
     public rate: number | null;
     public counter : number | null;
-    public stat : Array<{
+    public stat : {
         counter: number,
         rate: number,
-    }>;
+    };
     public labels: Array<{
         name: string,label
         other_name: Array<string>,
         x: number,
-        y: number
+        y: number,
     }>;
     public created_at: number;
 

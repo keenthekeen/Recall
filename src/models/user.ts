@@ -9,9 +9,14 @@ export class UserModel implements UserInfo {
     public photoURL: string | null;
     public providerId: string;
     public uid: string;
+    public stat: {
+        quizPlayed : Array<{
+            uid: string,
+            date: number,
+    }>;
+    } | null;
 
     public deviceToken: string|null;
-
     public createdAt: number;
     public modifiedAt: number;
 
@@ -22,6 +27,7 @@ export class UserModel implements UserInfo {
         this.photoURL = obj.photoURL || null;
         this.providerId = obj.providerId;
         this.uid = obj.uid;
+        this.stat = obj.stat;
 
         this.createdAt = obj.createdAt || Date.now();
         this.modifiedAt = Date.now();
@@ -36,5 +42,10 @@ export class UserModel implements UserInfo {
     public save(db: AngularFireDatabase) {
         return db.app.database().ref("/users").child(this.uid).set(this);
     }
+
+    static find(db: AngularFireDatabase, uid: string){
+        return db.list(db.app.database().ref("/users").child(uid));
+    }
+
 
 }
