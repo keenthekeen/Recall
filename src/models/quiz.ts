@@ -1,6 +1,7 @@
 import {AngularFireDatabase} from "angularfire2/database";
 import {FirebaseApp} from "angularfire2";
 import {FirebaseListFactoryOpts} from "angularfire2/interfaces";
+import {AngularFireOfflineDatabase} from "angularfire2-offline";
 
 export class QuizModel {
 
@@ -39,7 +40,7 @@ export class QuizModel {
         }
     }
 
-    static fetch(db: AngularFireDatabase, opts?: FirebaseListFactoryOpts) {
+    static fetch(db: AngularFireOfflineDatabase, opts?: FirebaseListFactoryOpts) {
         return db.list("/quizzes", opts);
     }
 
@@ -71,10 +72,8 @@ export class QuizModel {
     private setPictureUrl() {
         if (this.picture_on_gz) {
             console.log("Getting picture url");
-            this.firebaseApp.storage().ref().child("quiz_pictures").child(this.picture_on_gz).getDownloadURL().then(function (url) {
+            this.firebaseApp.storage().ref().child("quiz_pictures").child(this.picture_on_gz).getDownloadURL().then((url) => {
                 this.picture = url;
-            }.bind(this)).catch(function (error) {
-                // Handle any errors
             });
         }
     }

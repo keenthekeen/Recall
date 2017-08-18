@@ -11,6 +11,7 @@ import {FirebaseApp} from 'angularfire2';
 import * as firebase from 'firebase/app';
 import 'firebase/storage';
 import {Helper} from "../../app/helper";
+import UploadTaskSnapshot = firebase.storage.UploadTaskSnapshot;
 
 /**
  * Generated class for the AddquizPage page.
@@ -33,6 +34,11 @@ export class AddquizPage {
     private picture: string;
     private pinSize: number;
     private vMin: number;
+    private screenSize = {
+        width: 0,
+        height: 0
+    };
+    private bgImg: HTMLImageElement;
 
     public pictureStorageRef: firebase.storage.Reference;
 
@@ -80,10 +86,10 @@ export class AddquizPage {
             // Data URL string
             let extension = this.picture.substring(this.picture.lastIndexOf("data:image/") + 11, this.picture.lastIndexOf(";base64"));
             let fileName = userId.substr(5, 6) + Math.round(Date.now() / 100) + Math.round(Math.random() * 100) + "." + extension;
-            afterPrepare = new Promise(function (resolve, reject) {
+            afterPrepare = new Promise((resolve, reject) => {
                 let uploadTask = this.pictureStorageRef.child(fileName).putString(this.picture, 'data_url');
 
-                uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, function (snapshot) {
+                uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, function progress(snapshot: UploadTaskSnapshot) {
                     // Observe state change events such as progress, pause, and resume
                     // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
                     let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -98,35 +104,36 @@ export class AddquizPage {
                             console.log('Upload is running');
                             break;
                     }
-                }, function () {
+                }, function error() {
                     // Handle unsuccessful uploads
                     loader.setContent("Error occured while uploading!").setDuration(3000);
                     reject("Upload error");
-                }, function () {
+                }, function complete() {
                     // Handle successful uploads on complete
                     console.log('Uploaded!', uploadTask);
                     quiz.picture_on_gz = fileName;
                     resolve(quiz);
+                    return undefined;
                 });
-            }.bind(this));
+            });
         } else {
-            afterPrepare = new Promise(function (resolve) {
+            afterPrepare = new Promise((resolve) => {
                 quiz.picture = this.picture;
                 resolve(quiz);
-            }.bind(this));
+            });
         }
 
-        afterPrepare.then(function (quiz) {
+        afterPrepare.then((quiz) => {
             loader.setContent("Saving...");
             console.log("Saving quiz...", quiz);
-            quiz.save(this.db).then(function () {
+            quiz.save(this.db).then(() => {
                 loader.dismiss();
                 this.navCtrl.pop();
-            }.bind(this));
-        }.bind(this)).catch(function () {
+            });
+        }).catch(() => {
             loader.dismiss();
             this.helper.error("Error while saving");
-        }.bind(this));
+        });
     }
 
     getPicture() {
@@ -154,6 +161,35 @@ export class AddquizPage {
         this.picture = uri;
 
         let canvas = this.canvasEl.nativeElement;
+
+        // Get screen size
+        // screen size may be changed, e.g. keyboard on, so save for later use
+        this.screenSize = {
+            width: window.innerWidth,
+            height: window.innerHeight
+        };
+        console.log("Screen size (H*W): " + window.innerHeight + " x " + window.innerWidth);
+
+        // Load background image
+        this.bgImg = new Image();
+        this.bgImg.src = this.picture;
+        this.bgImg.addEventListener("load", () => {
+            // Calculate canvas size
+            if (this.bgImg.height < this.bgImg.width) {
+                canvas.width = (this.screenSize.width) * 0.90;
+                canvas.height = this.bgImg.height * canvas.width / this.bgImg.width;
+            } else {
+                canvas.height = (this.screenSize.height) * 0.90;
+                canvas.width = this.bgImg.width * canvas.height / this.bgImg.height;
+            }
+            console.log("Image size: " + this.bgImg.height + " x " + this.bgImg.width + " / Canvas size: " + canvas.height + " x " + canvas.width);
+            this.vMin = QuizPage.getMinimum(canvas.height, canvas.width);
+            this.pinSize = QuizPage.calculatePinSize(canvas.width, canvas.height);
+
+            canvas.getContext('2d').drawImage(this.bgImg, 0, 0, canvas.width, canvas.height);
+        });
+
+        // Draw!
         this.renderCanvas(canvas);
 
         // Set up mouse events
@@ -180,7 +216,7 @@ export class AddquizPage {
                             text: 'Delete',
                             role: 'destructive',
                             icon: !this.platform.is('ios') ? 'trash' : null,
-                            handler: function () {
+                            handler: () => {
                                 this.coordinates = this.coordinates.filter(function (element) {
                                     return element.name != existName;
                                 });
@@ -189,7 +225,7 @@ export class AddquizPage {
                                     message: 'Deleted ' + existName + '!',
                                     duration: 3000
                                 }).present();
-                            }.bind(this)
+                            }
                         }, {
                             text: 'Cancel',
                             role: 'cancel', // will always sort to be on the bottom
@@ -230,7 +266,7 @@ export class AddquizPage {
                 AddquizModal.present();
             }
         }.bind(this), false);
-        canvas.addEventListener("mousemove", function (e) {
+        canvas.addEventListener("mousemove", (e) => {
             let rect = canvas.getBoundingClientRect();
             let halfPin = this.pinSize / 2;
             let mousePos = {
@@ -242,7 +278,7 @@ export class AddquizPage {
             } else {
                 canvas.style.cursor = "auto";
             }
-        }.bind(this), false);
+        }, false);
     }
 
     renderCanvas(canvas: HTMLCanvasElement) {
@@ -250,34 +286,17 @@ export class AddquizPage {
 
         let context = canvas.getContext('2d');
 
-        // Load background image
-        let bg = new Image();
-        bg.src = this.picture;
-        bg.addEventListener("load", function () {
-            // Calculate canvas size
-            if (bg.height < bg.width) {
-                canvas.width = (window.innerWidth) * 0.90;
-                canvas.height = bg.height * canvas.width / bg.width;
-            } else {
-                canvas.height = (window.innerHeight) * 0.90;
-                canvas.width = bg.width * canvas.height / bg.height;
-            }
-            console.log("Screen size: " + window.innerHeight + " x " + window.innerWidth + " / Image size: " + bg.height + " x " + bg.width + " / Canvas size: " + canvas.height + " x " + canvas.width);
-            this.vMin = QuizPage.getMinimum(canvas.height, canvas.width);
-            this.pinSize = QuizPage.calculatePinSize(canvas.width, canvas.height);
+        // Draw background image
+        context.drawImage(this.bgImg, 0, 0, canvas.width, canvas.height);
 
-            // Draw background image
-            context.drawImage(bg, 0, 0, canvas.width, canvas.height);
-
-            // Draw coordinates
-            let dotImg = new Image();
-            dotImg.src = 'assets/dot.png';
-            dotImg.addEventListener("load", function () {
-                this.coordinates.forEach(function (pos) {
-                    context.drawImage(dotImg, pos.x * canvas.width, pos.y * canvas.height, this.pinSize, this.pinSize);
-                }.bind(this));
-            }.bind(this));
-        }.bind(this));
+        // Draw coordinates
+        let dotImg = new Image();
+        dotImg.src = 'assets/dot.png';
+        dotImg.addEventListener("load", () => {
+            this.coordinates.forEach((pos) => {
+                context.drawImage(dotImg, pos.x * canvas.width, pos.y * canvas.height, this.pinSize, this.pinSize);
+            });
+        });
     }
 
     ionViewDidLoad() {

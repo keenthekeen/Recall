@@ -8,7 +8,8 @@ export class CameraMock extends Camera {
         if (document.URL.includes('localhost')) {
             console.log("Camera: getting photo using mock");
             return new Promise((resolve) => {
-                resolve("https://c1.staticflickr.com/5/4428/35558124943_eaef481a3b_h.jpg");
+                // https://c1.staticflickr.com/5/4428/35558124943_eaef481a3b_h.jpg
+                resolve("https://openclipart.org/image/2400px/svg_to_png/241365/Realistic-Brain-Cross-Section.png");
             });
         } else {
             console.log("Camera: getting photo from camera");

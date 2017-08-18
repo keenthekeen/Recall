@@ -7,13 +7,6 @@ import {AngularFireAuth} from "angularfire2/auth";
 import {AngularFireDatabase} from "angularfire2/database";
 import {Firebase} from "@ionic-native/firebase";
 
-/**
- * Generated class for the QuizPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
-
 @Component({
     selector: 'page-quiz',
     templateUrl: 'quiz.html',
@@ -33,18 +26,24 @@ export class QuizPage {
         [key: string]: string
     } = {};
     public isChecked: boolean;
+
+    private screenSize = {
+        width: 0,
+        height: 0
+    };
+
     /**
      * 'plug into' DOM canvas element using @ViewChild
      */
     @ViewChild('canvas') canvasEl: ElementRef;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public afAuth: AngularFireAuth, private db: AngularFireDatabase, public toastCtrl: ToastController, public loadingCtrl: LoadingController, private storage: Storage, public alertCtrl: AlertController, private fb: Firebase) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public afAuth: AngularFireAuth, private db: AngularFireDatabase, public toastCtrl: ToastController, public loadingCtrl: LoadingController, private storage: Storage, public alertCtrl: AlertController, fb: Firebase) {
         this.quiz = navParams.get('quiz');
         fb.setScreenName("quiz");
 
-        storage.get('quiz_mode').then(function (val) {
+        storage.get('quiz_mode').then((val) => {
             this.setQuizMode(val);
-        }.bind(this));
+        });
     }
 
     setQuizMode(mode?: boolean) {
@@ -73,6 +72,14 @@ export class QuizPage {
         if (this.afAuth.auth.currentUser) {
             this.isOwner = this.quiz.owner == this.afAuth.auth.currentUser.uid;
         }
+
+        // Get screen size
+        // screen size may be changed, e.g. keyboard on, so save for later use
+        this.screenSize = {
+            width: window.innerWidth,
+            height: window.innerHeight
+        };
+        console.log("Screen size (H*W): " + this.screenSize.height + " x " + this.screenSize.width);
 
         // Load background image
         let canvas = this.canvasEl.nativeElement;
@@ -152,16 +159,16 @@ export class QuizPage {
         // Load background image
         let bg = new Image();
         bg.src = this.quiz.picture;
-        bg.addEventListener("load", function () {
+        bg.addEventListener("load", () => {
             // Calculate canvas size
             if (bg.height < bg.width) {
-                canvas.width = (window.innerWidth) * 0.95;
+                canvas.width = (this.screenSize.width) * 0.95;
                 canvas.height = bg.height * canvas.width / bg.width;
             } else {
-                canvas.height = (window.innerHeight) * 0.95;
+                canvas.height = (this.screenSize.height) * 0.95;
                 canvas.width = bg.width * canvas.height / bg.height;
             }
-            console.log("Recreating canvas: Screen size: " + window.innerHeight + " x " + window.innerWidth + " / Image size: " + bg.height + " x " + bg.width + " / Canvas size: " + canvas.height + " x " + canvas.width);
+            console.log("Recreating canvas: Image size: " + bg.height + " x " + bg.width + " / Canvas size: " + canvas.height + " x " + canvas.width);
             this.vMin = QuizPage.getMinimum(canvas.height, canvas.width);
             this.pinSize = QuizPage.calculatePinSize(canvas.width, canvas.height);
 
@@ -171,45 +178,45 @@ export class QuizPage {
             // Draw coordinates
             let dotImg = new Image();
             dotImg.src = 'assets/dot.png';
-            dotImg.addEventListener("load", function () {
-                coordinates.forEach(function (pos) {
+            dotImg.addEventListener("load", () => {
+                coordinates.forEach((pos) => {
                     context.drawImage(dotImg, pos.x * canvas.width, pos.y * canvas.height, this.pinSize, this.pinSize);
-                }.bind(this));
-            }.bind(this));
+                });
+            });
 
             // Draw coordinates of answered
             let ansImg = new Image();
             ansImg.src = 'assets/dot-answered.png';
-            ansImg.addEventListener("load", function () {
-                coordinates.filter(function (pos) {
+            ansImg.addEventListener("load", () => {
+                coordinates.filter((pos) => {
                     return pos.name in this.answers && this.answers[pos.name];
-                }.bind(this)).forEach(function (pos) {
+                }).forEach((pos) => {
                     context.drawImage(ansImg, pos.x * canvas.width, pos.y * canvas.height, this.pinSize, this.pinSize);
-                }.bind(this));
-            }.bind(this));
+                });
+            });
 
             if (Object.keys(this.answerCheck).length > 0) {
                 let incImg = new Image();
                 incImg.src = 'assets/dot-incorrect.png';
-                incImg.addEventListener("load", function () {
-                    coordinates.filter(function (pos) {
+                incImg.addEventListener("load", () => {
+                    coordinates.filter((pos) => {
                         return !this.answerCheck[pos.name];
-                    }.bind(this)).forEach(function (pos) {
+                    }).forEach((pos) => {
                         context.drawImage(incImg, pos.x * canvas.width, pos.y * canvas.height, this.pinSize, this.pinSize);
-                    }.bind(this));
-                }.bind(this));
+                    });
+                });
 
                 let corImg = new Image();
                 corImg.src = 'assets/dot-correct.png';
-                corImg.addEventListener("load", function () {
-                    coordinates.filter(function (pos) {
+                corImg.addEventListener("load", () => {
+                    coordinates.filter((pos) => {
                         return this.answerCheck[pos.name];
-                    }.bind(this)).forEach(function (pos) {
+                    }).forEach((pos) => {
                         context.drawImage(corImg, pos.x * canvas.width, pos.y * canvas.height, this.pinSize, this.pinSize);
-                    }.bind(this));
-                }.bind(this));
+                    });
+                });
             }
-        }.bind(this));
+        });
     }
 
     public checkAnswer() {
@@ -248,14 +255,14 @@ export class QuizPage {
             content: "Deleting..."
         });
         loader.present();
-        (new QuizModel(this.quiz)).deleteMe(this.db).then(function () {
+        (new QuizModel(this.quiz)).deleteMe(this.db).then(() => {
             this.toastCtrl.create({
                 message: 'Deleted quiz!',
                 duration: 3000
             }).present();
             this.navCtrl.pop();
             loader.dismissAll();
-        }.bind(this));
+        });
     }
 
 // Return minimum value of parameter provided

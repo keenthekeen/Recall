@@ -19,6 +19,7 @@ import {AngularFireAuthModule} from "angularfire2/auth";
 import {CameraMock, Helper} from './helper';
 import {IonicStorageModule} from "@ionic/storage";
 import {Firebase} from "@ionic-native/firebase";
+import {AngularFireOfflineModule} from "angularfire2-offline";
 
 
 export const firebaseConfig = {
@@ -47,7 +48,8 @@ export const firebaseConfig = {
         IonicStorageModule.forRoot(),
         AngularFireModule.initializeApp(firebaseConfig),
         AngularFireDatabaseModule,
-        AngularFireAuthModule
+        AngularFireAuthModule,
+        AngularFireOfflineModule
     ],
     bootstrap: [IonicApp],
     entryComponents: [
