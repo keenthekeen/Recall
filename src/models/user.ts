@@ -44,6 +44,6 @@ export class UserModel implements UserInfo {
     }
 
     static find(db: AngularFireDatabase, uid: string) {
-        return db.object('/users/' + uid);
+        return db.object('/users/' + uid, { preserveSnapshot: true });
     }
 }
