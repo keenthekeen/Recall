@@ -1,12 +1,6 @@
 <ion-header>
     <ion-navbar color="primary">
-        <ion-title *ngIf="!isSearchOn">{{ 'FEATURED_QUIZZES' | translate }}</ion-title>
-        <ion-searchbar *ngIf="isSearchOn" [showCancelButton]="true" [animated]="true" (ionCancel)="toggleSearch()" (ionInput)="search($event)"></ion-searchbar>
-        <ion-buttons start *ngIf="!isSearchOn">
-            <button ion-button icon-only (click)="toggleSearch()">
-                <ion-icon name="{{ searchIcon }}"></ion-icon>
-            </button>
-        </ion-buttons>
+        <ion-title>{{ 'FEATURED_QUIZZES' | translate }}</ion-title>
     </ion-navbar>
 </ion-header>
 

@@ -71,31 +71,4 @@ export class FeaturesPage {
             quiz: quiz
         });
     }
-
-    toggleSearch() {
-        this.isSearchOn = !this.isSearchOn;
-        this.searchIcon = this.isSearchOn ? "close" : 'search';
-    }
-
-    search(event) {
-        let keyword = event.target.value;
-        if (keyword.length >= 3) {
-            QuizModel.fetch(this.db, {
-                query: {
-                    orderByChild: 'name',
-                    startAt: keyword,
-                    endAt: keyword + "\uf8ff"
-                }
-            }).subscribe((list) => {
-                console.log(list);
-                this.quizzes = [];
-                list.forEach((item) => {
-                    this.quizzes.push(new QuizModel(item, this.firebaseApp));
-                });
-                this.isLoaded = true;
-            });
-        } else if (!keyword.length || keyword.length == 0) {
-            this.fetchQuizzes();
-        }
-    }
 }
