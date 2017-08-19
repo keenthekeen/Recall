@@ -253,7 +253,7 @@ export class AddquizPage {
                 let name: string;
                 AddquizModal.onDidDismiss(data => {
                     console.log(data);
-                    name = data.Title;
+                    name = data ? data.Title : false;
 
                     if (name) {
                         if (this.coordinates.map(function (e) {
