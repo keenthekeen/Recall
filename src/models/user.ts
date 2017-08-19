@@ -32,7 +32,7 @@ export class UserModel implements UserInfo {
         this.stat = obj.stat || {
             counter: 0,
             rate: 0,
-            quizPlayed: {},
+            quizPlayed: [],
         };
 
         this.createdAt = obj.createdAt || Date.now();
