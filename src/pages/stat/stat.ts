@@ -1,16 +1,8 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
 import * as Chart from 'chart.js/dist/Chart';
 import {UserModel} from '../../models/user';
 import {AngularFireDatabase} from "angularfire2/database";
 import {AngularFireAuth} from "angularfire2/auth";
-
-/**
- * Generated class for the StatPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 
 @Component({
     selector: 'page-stat',
@@ -27,11 +19,11 @@ export class StatPage {
     }>;
     public quizPlayedArray = [];
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, private db: AngularFireDatabase, public afAuth: AngularFireAuth) {
+    constructor(db: AngularFireDatabase, public afAuth: AngularFireAuth) {
         UserModel.findOrNew(db, {
             uid: this.afAuth.auth.currentUser.uid,
-        }).then((UserModel)=>{
-            //this.quizPlayed = UserModel.stat.quizPlayed;
+        }).then((userModel) => {
+            this.quizPlayed = userModel.stat ? userModel.stat.quizPlayed: [];
             console.log(this.quizPlayed);
             this.quizPlayedArray = Object.keys(this.quizPlayed);
             /*for (let property in this.quizPlayed) {
@@ -52,7 +44,7 @@ export class StatPage {
         canvas.width = this.screenSize.width * 0.95;
         canvas.height = this.screenSize.height * 0.5;
 
-        let ChartCanvas = new Chart(canvas, {
+        let chartCanvas = new Chart(canvas, {
                 type: 'bar',
                 data: {
                     labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
@@ -88,8 +80,7 @@ export class StatPage {
                     }
                 }
             }
-            )
-        ;
+        );
     }
 
 }

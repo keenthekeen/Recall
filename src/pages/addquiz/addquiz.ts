@@ -11,8 +11,8 @@ import {FirebaseApp} from 'angularfire2';
 import * as firebase from 'firebase/app';
 import 'firebase/storage';
 import {Helper} from "../../app/helper";
-import UploadTaskSnapshot = firebase.storage.UploadTaskSnapshot;
 import {TranslateService} from "@ngx-translate/core";
+import UploadTaskSnapshot = firebase.storage.UploadTaskSnapshot;
 
 @Component({
     selector: 'page-addquiz',
@@ -38,7 +38,7 @@ export class AddquizPage {
 
     @ViewChild('canvas') canvasEl: ElementRef;
 
-    constructor(public navCtrl: NavController, private Camera: Camera, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private afAuth: AngularFireAuth, private toastCtrl: ToastController, private actionSheetCtrl: ActionSheetController, private platform: Platform, private modalCtrl: ModalController, private alertCtrl: AlertController, firebaseApp: FirebaseApp, private helper: Helper, private translate: TranslateService) {
+    constructor(public navCtrl: NavController, private Camera: Camera, private db: AngularFireDatabase, public loadingCtrl: LoadingController, private afAuth: AngularFireAuth, public toastCtrl: ToastController, public actionSheetCtrl: ActionSheetController, public platform: Platform, public modalCtrl: ModalController, public alertCtrl: AlertController, firebaseApp: FirebaseApp, private helper: Helper, private translate: TranslateService) {
         this.pictureStorageRef = firebaseApp.storage().ref().child("quiz_pictures");
     }
 
