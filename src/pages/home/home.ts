@@ -164,20 +164,18 @@ export class HomePage {
     goStat() {
         this.navCtrl.push(StatPage);
     }
-    ionViewDidLoad(){
 
-
-
-    }
     ionViewDidEnter(){
         if(this.afAuth.auth.currentUser) {
             UserModel.findOrNew(this.db, {
                 uid: this.afAuth.auth.currentUser.uid,
             }).then((model) => {
                 this.user = model;
-                this.viewStat = this.user.stat;
-                this.user.stat.rate = Math.round(this.user.stat.rate);
-                console.log("viewstatfsdlkjsadlkfjsdlkjsdlksda", this.viewStat);
+                if (model.stat) {
+                    this.viewStat = this.user.stat;
+                    this.user.stat.rate = Math.round(this.user.stat.rate);
+                    console.log("viewstat", this.viewStat);
+                }
             });
         }
     }
