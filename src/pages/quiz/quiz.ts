@@ -270,25 +270,24 @@ export class QuizPage {
             }
         };
         //Add stat to USER MODEL
-        let User = UserModel.find(this.db, this.afAuth.auth.currentUser.uid);
+        let user = UserModel.find(this.db, this.afAuth.auth.currentUser.uid);
         let key = this.quiz.$key;
-        let StatArray: Array<any> = [];
+        let statArray: Array<any> = [];
 
-        let subscription = User.subscribe((x) => {
+        let subscription = user.subscribe((x) => {
             subscription.unsubscribe();
             if (x.val() && !this.isStatSaved) {
                 if ("stat" in x.val() && "quizPlayed" in x.val().stat && key in x.val().stat.quizPlayed) {
-                    StatArray = x.val().stat.quizPlayed[key];
+                    statArray = x.val().stat.quizPlayed[key];
                 }
-                StatArray.push({
+                statArray.push({
                     date: Date.now()
                 });
                 this.isStatSaved = true;
 
-                //User.update({stat: {quizPlayed: {[key]: StatArray}}});
+                //user.update({stat: {quizPlayed: {[key]: statArray}}});
                 console.log('user/' + this.afAuth.auth.currentUser.uid + '/stat/quizPlayed/' + key);
-                this.db.object('users/' + this.afAuth.auth.currentUser.uid + '/stat/quizPlayed/' + key).update(StatArray);
-                this.db.object('users/' + this.afAuth.auth.currentUser.uid + '/stat/quizPlayed/' + key).update(StatArray);
+                this.db.object('users/' + this.afAuth.auth.currentUser.uid + '/stat/quizPlayed/' + key).update(statArray);
             }
         });
 
