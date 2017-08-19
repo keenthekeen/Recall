@@ -14,7 +14,9 @@ import {AngularFireOfflineDatabase} from "angularfire2-offline";
 export class FeaturesPage {
     public quizzes: Array<QuizModel> = [];
     public isLoaded: boolean;
-    private limit: number = 5;
+    private limit: number = 5
+    public isSearchOn: boolean;
+    public searchIcon: string = "search";
 
     @ViewChild(Content) contentRef: Content;
 
@@ -70,4 +72,30 @@ export class FeaturesPage {
         });
     }
 
+    toggleSearch() {
+        this.isSearchOn = !this.isSearchOn;
+        this.searchIcon = this.isSearchOn ? "close" : 'search';
+    }
+
+    search(event) {
+        let keyword = event.target.value;
+        if (keyword.length >= 3) {
+            QuizModel.fetch(this.db, {
+                query: {
+                    orderByChild: 'name',
+                    startAt: keyword,
+                    endAt: keyword + "\uf8ff"
+                }
+            }).subscribe((list) => {
+                console.log(list);
+                this.quizzes = [];
+                list.forEach((item) => {
+                    this.quizzes.push(new QuizModel(item, this.firebaseApp));
+                });
+                this.isLoaded = true;
+            });
+        } else if (!keyword.length || keyword.length == 0) {
+            this.fetchQuizzes();
+        }
+    }
 }
