@@ -29,7 +29,7 @@ export class HomePage {
 
     constructor(public navCtrl: NavController, private afAuth: AngularFireAuth, private offlineDb: AngularFireOfflineDatabase, db: AngularFireDatabase, private loadingCtrl: LoadingController, private platform: Platform, private actionSheetCtrl: ActionSheetController, private firebaseApp: FirebaseApp, fb: Firebase, private helper: Helper, private translate: TranslateService, private alertCtrl: AlertController, private storage: Storage) {
 
-        this.afAuth.auth.onAuthStateChanged((userData) => {
+        afAuth.auth.onAuthStateChanged((userData) => {
             console.log("Auth state changed.");
             if (userData) {
                 let user;

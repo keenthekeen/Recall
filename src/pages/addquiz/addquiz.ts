@@ -313,4 +313,14 @@ export class AddquizPage {
         console.log('ionViewDidLoad AddquizPage');
     }
 
+    generateCategorySelect() {
+        let html: string = '';
+        for (let key in this.translate.instant("CATEGORY_VALUE")) {
+            let value = this.translate.instant("CATEGORY_VALUE."+key);
+            html += "<ion-option value='"+key+"'>"+value+"</ion-option>";
+        }
+        console.log(html);
+        return html;
+    }
+
 }

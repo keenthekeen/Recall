@@ -54,7 +54,7 @@
   "CHANGE_LANGUAGE": "언어 변경",
   "PLEASE_SIGN_IN": "계속하려면 로그인 하세요",
   "CATEGORY": "Category",
-  "CATEGORY-VALUE": {
+  "CATEGORY_VALUE": {
     "BIOLOGY": "Biology",
     "MEDICINE": "Medicine",
     "CHEMISTRY": "Chemistry",

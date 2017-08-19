@@ -52,7 +52,11 @@ export class UserModel implements UserInfo {
             let user = UserModel.find(db, obj.uid);
             if (user) {
                 user.subscribe(x => {
-                    resolve(new UserModel(x.val()));
+                    if (x.val()) {
+                        resolve(new UserModel(x.val()));
+                    } else {
+                        resolve(new UserModel(obj));
+                    }
                 });
             } else {
                 resolve(new UserModel(obj));

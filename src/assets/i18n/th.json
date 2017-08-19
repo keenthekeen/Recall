@@ -54,15 +54,15 @@
   "CHANGE_LANGUAGE": "เปลี่ยนภาษา",
   "PLEASE_SIGN_IN": "กรุณาเข้าสู่ระบบเพื่อดำเนินการต่อ",
   "CATEGORY": "หมวดหมู่",
-  "CATEGORY-VALUE": {
-    "BIOLOGY": "Biology",
-    "MEDICINE": "Medicine",
-    "CHEMISTRY": "Chemistry",
-    "PHYSICS": "Physics",
-    "GEOLOGY": "Geology",
-    "ASTRONOMY": "Astronomy",
-    "GEOGRAPHY": "Geography",
-    "SOCIAL": "Social Sciences",
-    "OTHER": "Other"
+  "CATEGORY_VALUE": {
+    "BIOLOGY": "ชีววิทยา",
+    "MEDICINE": "การแพทย์",
+    "CHEMISTRY": "เคมี",
+    "PHYSICS": "ฟิสิกส์",
+    "GEOLOGY": "ธรณีวิทยา",
+    "ASTRONOMY": "ดาราศาสตร์",
+    "GEOGRAPHY": "ภูมิศาสตร์",
+    "SOCIAL": "สังคมศึกษา",
+    "OTHER": "อื่นๆ"
   }
 }

@@ -30,6 +30,11 @@
                 <ion-input type="text" #iName></ion-input>
             </ion-item>
             <ion-item>
+                <ion-label>{{ "CATEGORY" | translate }}</ion-label>
+                <ion-select [innerHTML]="generateCategorySelect()">
+                </ion-select>
+            </ion-item>
+            <ion-item>
                 <ion-label stacked>{{ "QUIZ_CAPTION" | translate }}</ion-label>
                 <ion-textarea rows='5' type='text' #iCaption></ion-textarea>
             </ion-item>
