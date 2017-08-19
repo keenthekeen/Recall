@@ -265,7 +265,7 @@ export class QuizPage {
         };
         //Add stat to USER MODEL
         let User = UserModel.find(this.db, this.afAuth.auth.currentUser.uid);
-        let Key = this.quiz.$key;
+        let key = this.quiz.$key;
         let StatArray: Array<any> = [];
         User.subscribe((x) => {
             if (!this.isStatSaved) {

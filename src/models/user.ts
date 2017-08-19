@@ -46,7 +46,6 @@ export class UserModel implements UserInfo {
     static find(db: AngularFireDatabase, uid: string): FirebaseObjectObservable<any> {
         return db.object('/users/' + uid, {preserveSnapshot: true});
     }
-    static addToDB
 
     static findOrNew(db: AngularFireDatabase, obj: any): Promise<UserModel> {
         return new Promise((resolve) => {
