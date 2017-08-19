@@ -51,11 +51,13 @@ export class FeaturesPage {
      * @param infiniteScroll InfiniteScroll
      */
     doInfinite(infiniteScroll: InfiniteScroll) {
-        this.limit += 10;
-        console.log("Infinite scroll triggered (limit increased to", this.limit);
-        this.fetchQuizzes().then(() => {
-            infiniteScroll.complete();
-        });
+        if (this.limit <= 100) {
+            this.limit += 10;
+            console.log("Infinite scroll triggered (limit increased to" + this.limit + ")");
+            this.fetchQuizzes().then(() => {
+                infiniteScroll.complete();
+            });
+        }
     }
 
     quizPage(quiz: QuizModel) {

@@ -20,7 +20,9 @@ import {CameraMock, Helper} from './helper';
 import {IonicStorageModule} from "@ionic/storage";
 import {Firebase} from "@ionic-native/firebase";
 import {AngularFireOfflineModule} from "angularfire2-offline";
-
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 
 export const firebaseConfig = {
     apiKey: "AIzaSyDfUf1_8WfdaxNY5SJkA8SxMqPY-c1iNZs",
@@ -30,6 +32,10 @@ export const firebaseConfig = {
     storageBucket: "recall-6c78e.appspot.com",
     messagingSenderId: "642647451373"
 };
+
+export function createTranslateLoader(http: HttpClient) {
+    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
     declarations: [
@@ -49,7 +55,15 @@ export const firebaseConfig = {
         AngularFireModule.initializeApp(firebaseConfig),
         AngularFireDatabaseModule,
         AngularFireAuthModule,
-        AngularFireOfflineModule
+        AngularFireOfflineModule,
+        HttpClientModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: createTranslateLoader,
+                deps: [HttpClient]
+            }
+        })
     ],
     bootstrap: [IonicApp],
     entryComponents: [

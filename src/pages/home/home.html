@@ -1,8 +1,6 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>
-            My Quizzes
-        </ion-title>
+        <ion-title>{{ 'MY_QUIZZES' | translate }}</ion-title>
         <ion-buttons end>
             <div *ngIf='user' (click)="userAction()" id="avatar-container"><img src="{{user.photoURL}}" class="img-circle" id="avatar"/></div>
         </ion-buttons>
