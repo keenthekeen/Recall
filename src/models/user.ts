@@ -51,7 +51,8 @@ export class UserModel implements UserInfo {
         return new Promise((resolve) => {
             let user = UserModel.find(db, obj.uid);
             if (user) {
-                user.subscribe(x => {
+                let subscription = user.subscribe(x => {
+                    subscription.unsubscribe();
                     if (x.val()) {
                         resolve(new UserModel(x.val()));
                     } else {
