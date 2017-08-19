@@ -175,6 +175,12 @@ export class HomePage {
                     this.viewStat = this.user.stat;
                     this.user.stat.rate = Math.round(this.user.stat.rate);
                     console.log("viewstat", this.viewStat);
+                } else {
+                    this.viewStat = {
+                        quizPlayed: [],
+                        counter: 0,
+                        rate: 0
+                    };
                 }
             });
         }
