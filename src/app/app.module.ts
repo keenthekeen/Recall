@@ -23,6 +23,7 @@ import {AngularFireOfflineModule} from "angularfire2-offline";
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {FirebaseDynamicLinks} from "@ionic-native/firebase-dynamic-links";
 
 export const firebaseConfig = {
     apiKey: "AIzaSyDfUf1_8WfdaxNY5SJkA8SxMqPY-c1iNZs",
@@ -82,7 +83,8 @@ export function createTranslateLoader(http: HttpClient) {
         {provide: Camera, useClass: CameraMock},
         {provide: ErrorHandler, useClass: IonicErrorHandler},
         Firebase,
-        Helper
+        Helper,
+        FirebaseDynamicLinks
     ]
 })
 export class AppModule {

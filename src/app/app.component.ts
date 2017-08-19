@@ -8,6 +8,7 @@ import {MasterPage} from '../pages/master/master';
 import {AngularFireAuth} from "angularfire2/auth";
 import * as firebase from 'firebase/app';
 import {TranslateService} from "@ngx-translate/core";
+import {FirebaseDynamicLinks} from "@ionic-native/firebase-dynamic-links";
 
 @Component({
     templateUrl: 'app.html'
@@ -15,7 +16,7 @@ import {TranslateService} from "@ngx-translate/core";
 export class MyApp {
     rootPage: any = MasterPage;
 
-    constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, afAuth: AngularFireAuth, translate: TranslateService, alertCtrl: AlertController, storage: Storage) {
+    constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, afAuth: AngularFireAuth, translate: TranslateService, alertCtrl: AlertController, storage: Storage, firebaseDynamicLinks: FirebaseDynamicLinks) {
         platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
@@ -47,6 +48,11 @@ export class MyApp {
                     });
                 }
             });
+
+            // Listen for dynamic link
+            firebaseDynamicLinks.onDynamicLink()
+                .then((res: any) => console.log(res)) //Handle the logic here after opening the app with the Dynamic link
+                .catch((error:any) => console.log(error));
         });
 
     }

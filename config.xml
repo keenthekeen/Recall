@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="net.keendev.recall" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="net.keendev.recall" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Recall</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="recall@keendev.net" href="http://www.alcob.org">e-ICON World Contest Participant</author>
@@ -42,6 +42,7 @@
         <splash density="port-xhdpi" src="resources/android/splash/drawable-port-xhdpi-screen.png" />
         <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.png" />
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
+        <preference name="GoogleAndroidClientId" value="642647451373-n35idtefhj89megomsklc46adhfotjug.apps.googleusercontent.com" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
@@ -101,6 +102,11 @@
     </plugin>
     <plugin name="cordova-plugin-device" spec="^1.1.6" />
     <plugin name="cordova-plugin-firebase" spec="^0.1.23" />
+    <plugin name="cordova-plugin-firebase-dynamiclinks" spec="^0.10.1">
+        <variable name="APP_DOMAIN" value="recall.keendev.net" />
+        <variable name="APP_PATH" value="/" />
+        <variable name="REVERSED_CLIENT_ID" value="642647451373-n35idtefhj89megomsklc46adhfotjug.apps.googleusercontent.com" />
+    </plugin>
     <plugin name="cordova-plugin-inappbrowser" spec="^1.7.1" />
     <plugin name="cordova-plugin-splashscreen" spec="^4.0.3" />
     <plugin name="cordova-plugin-statusbar" spec="^2.2.3" />
