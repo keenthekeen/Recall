@@ -13,7 +13,9 @@ export class UserModel implements UserInfo {
         quizPlayed: Array<{
             uid: string,
             date: number,
-        }>;
+        }>,
+        counter: number,
+        rate: number,
     } | null;
 
     public deviceToken: string | null;
