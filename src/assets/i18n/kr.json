@@ -18,7 +18,7 @@
     "DESCRIPTION": "이미 존재하는 이름입니다. 다른 이름을 시도하세요.",
     "OK": "확인"
   },
-  "LABEL": "라벨",
+  "LABEL": "퀴즈",
   "LABEL_PROPERTY": {
     "NAME": "이름",
     "OTHER_NAME": "다른 이름",

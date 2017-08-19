@@ -14,7 +14,9 @@ import {AngularFireOfflineDatabase} from "angularfire2-offline";
 export class FeaturesPage {
     public quizzes: Array<QuizModel> = [];
     public isLoaded: boolean;
-    private limit: number = 5;
+    private limit: number = 5
+    public isSearchOn: boolean;
+    public searchIcon: string = "search";
 
     @ViewChild(Content) contentRef: Content;
 
@@ -69,5 +71,4 @@ export class FeaturesPage {
             quiz: quiz
         });
     }
-
 }
