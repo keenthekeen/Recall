@@ -8,38 +8,37 @@
     </ion-navbar>
 </ion-header>
 <ion-content padding>
-        <!--<p style="margin: 5px 0 0 10px;">Statistic</p>-->
+    <!--<p style="margin: 5px 0 0 10px;">Statistic</p>-->
     <ion-list>
         <div *ngIf='user'>
             <div *ngIf="!isLoaded" class="loading"></div>
-            <div (click)="goStat()" *ngIf='user' class="stat">
-            <ion-grid>
-                <ion-row>
-                    <ion-col col-6>
-
-                            <div class="c100 p25 small center">
-                                <span>25%</span>
+            <div (click)="goStat()" *ngIf='user && viewStat' class="stat">
+                <ion-grid>
+                    <ion-row>
+                        <ion-col col-6>
+                            <div id='counter' class="c100 p{{viewStat.counter}} small center">
+                                <span>{{ viewStat.counter}}</span>
                                 <div class="slice">
                                     <div class="bar"></div>
                                     <div class="fill"></div>
                                 </div>
                             </div>
-                        <h1 style="text-align: center">sdfsdfsd</h1>
+                            <p style="text-align: center">counter</p>
 
-                    </ion-col>
-                    <ion-col col-6>
-                        <div class="c100 p28 small center">
-                            <span>28%</span>
-                            <div class="slice">
-                                <div class="bar"></div>
-                                <div class="fill"></div>
+                        </ion-col>
+                        <ion-col col-6>
+                            <div class="c100 p{{viewStat.rate}} small center">
+                                <span>{{ viewStat.rate}}%</span>
+                                <div class="slice">
+                                    <div class="bar"></div>
+                                    <div class="fill"></div>
+                                </div>
                             </div>
-                        </div>
-                        <h1 style="text-align: center">sdfsdfsd</h1>
-                        <!-- <p style="text-align: center; margin:0;"><em>Win Stroke</em></p>-->
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
+                            <p style="text-align: center">Correctness</p>
+                            <!-- <p style="text-align: center; margin:0;"><em>Win Stroke</em></p>-->
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
             </div>
 
             <div *ngFor='let quiz of quizzes'>

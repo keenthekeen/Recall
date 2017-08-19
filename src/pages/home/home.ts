@@ -26,8 +26,8 @@ export class HomePage {
     public quizzes: Array<QuizModel>;
     public user: UserModel | null;
     public isLoaded: boolean;
-
-    constructor(public navCtrl: NavController, private afAuth: AngularFireAuth, private offlineDb: AngularFireOfflineDatabase, db: AngularFireDatabase, private loadingCtrl: LoadingController, private platform: Platform, private actionSheetCtrl: ActionSheetController, private firebaseApp: FirebaseApp, fb: Firebase, private helper: Helper, private translate: TranslateService, private alertCtrl: AlertController, private storage: Storage) {
+    public viewStat: object;
+    constructor(public navCtrl: NavController, private afAuth: AngularFireAuth, private offlineDb: AngularFireOfflineDatabase,public db: AngularFireDatabase, private loadingCtrl: LoadingController, private platform: Platform, private actionSheetCtrl: ActionSheetController, private firebaseApp: FirebaseApp, fb: Firebase, private helper: Helper, private translate: TranslateService, private alertCtrl: AlertController, private storage: Storage) {
 
         afAuth.auth.onAuthStateChanged((userData) => {
             console.log("Auth state changed.");
@@ -163,5 +163,22 @@ export class HomePage {
 
     goStat() {
         this.navCtrl.push(StatPage);
+    }
+    ionViewDidLoad(){
+
+
+
+    }
+    ionViewDidEnter(){
+        if(this.afAuth.auth.currentUser) {
+            UserModel.findOrNew(this.db, {
+                uid: this.afAuth.auth.currentUser.uid,
+            }).then((model) => {
+                this.user = model;
+                this.viewStat = this.user.stat;
+                this.user.stat.rate = Math.round(this.user.stat.rate);
+                console.log("viewstatfsdlkjsadlkfjsdlkjsdlksda", this.viewStat);
+            });
+        }
     }
 }
