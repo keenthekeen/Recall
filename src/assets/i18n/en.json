@@ -1,4 +1,30 @@
 {
   "FEATURED_QUIZZES": "Featured Quizzes",
-  "MY_QUIZZES": "My Quizzes"
+  "MY_QUIZZES": "My Quizzes",
+  "ADD_NEW_QUIZ": "Add new quiz",
+  "SELECT_PICTURE": "Select picture",
+  "QUIZ_NAME": "Name",
+  "QUIZ_CAPTION": "Caption",
+  "SAVE": "Save",
+  "SAVING": "Saving...",
+  "UPLOADING": "Uploading...",
+  "DELETE": "Delete",
+  "CANCEL": "Cancel",
+  "ADD": "Add",
+  "LABEL_NAME_CONFLICT": {
+    "TITLE": "Name conflict!",
+    "DESCRIPTION": "Label name is existed. Try other name.",
+    "OK": "OK"
+  },
+  "LABEL": "Label",
+  "LABEL_PROPERTY": {
+    "NAME": "Name",
+    "OTHER_NAME": "Other names"
+  }
+  "VALIDATION": {
+    "QUIZ_NAME_LENGTH": "Name must be 3-100 characters long.",
+    "NO_PICTURE": "Please select picture.",
+    "PICTURE_TOO_BIG": "The selected picture is too big.",
+    "NO_LABEL": "Please label the picture."
+  }
 }

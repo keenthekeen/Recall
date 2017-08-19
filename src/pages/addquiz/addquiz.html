@@ -1,12 +1,12 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>Add New Quiz</ion-title>
+        <ion-title>{{ "ADD_NEW_QUIZ" | translate }}</ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content padding>
     <div *ngIf="errorText" class="sector">
-        {{ errorText }}
+        {{ errorText | translate }}
     </div>
 
     <div *ngIf="!isUp" class="file-upload" (click)="getPicture()">
@@ -14,7 +14,7 @@
             <div class="drag-text">
                 <h3>
                     <ion-icon name="image"></ion-icon>
-                    Select picture
+                    {{ "SELECT_PICTURE" | translate }}
                 </h3>
             </div>
         </div>
@@ -26,16 +26,16 @@
     <div *ngIf="isUp">
         <ion-list>
             <ion-item>
-                <ion-label stacked>Name</ion-label>
+                <ion-label stacked>{{ "QUIZ_NAME" | translate }}</ion-label>
                 <ion-input type="text" #iName></ion-input>
             </ion-item>
             <ion-item>
-                <ion-label stacked>Caption</ion-label>
+                <ion-label stacked>{{ "QUIZ_CAPTION" | translate }}</ion-label>
                 <ion-textarea rows='5' type='text' #iCaption></ion-textarea>
             </ion-item>
 
         </ion-list>
-        <button ion-button full (click)='submit(iName.value, iCaption.value)'>Save</button>
+        <button ion-button full (click)='submit(iName.value, iCaption.value)'>{{ "SAVE" | translate }}</button>
     </div>
 
 </ion-content>

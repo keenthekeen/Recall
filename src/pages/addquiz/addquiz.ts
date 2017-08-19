@@ -12,6 +12,7 @@ import * as firebase from 'firebase/app';
 import 'firebase/storage';
 import {Helper} from "../../app/helper";
 import UploadTaskSnapshot = firebase.storage.UploadTaskSnapshot;
+import {TranslateService} from "@ngx-translate/core";
 
 /**
  * Generated class for the AddquizPage page.
@@ -44,22 +45,22 @@ export class AddquizPage {
 
     @ViewChild('canvas') canvasEl: ElementRef;
 
-    constructor(public navCtrl: NavController, private Camera: Camera, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private afAuth: AngularFireAuth, private toastCtrl: ToastController, private actionSheetCtrl: ActionSheetController, private platform: Platform, private modalCtrl: ModalController, private alertCtrl: AlertController, firebaseApp: FirebaseApp, private helper: Helper) {
+    constructor(public navCtrl: NavController, private Camera: Camera, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private afAuth: AngularFireAuth, private toastCtrl: ToastController, private actionSheetCtrl: ActionSheetController, private platform: Platform, private modalCtrl: ModalController, private alertCtrl: AlertController, firebaseApp: FirebaseApp, private helper: Helper, private translate: TranslateService) {
         this.pictureStorageRef = firebaseApp.storage().ref().child("quiz_pictures");
     }
 
     submit(name: string, caption: string) {
         if (name.length < 3 || name.length > 100) {
-            this.errorText = "Name must be 3-100 characters long.";
+            this.errorText = "VALIDATION.QUIZ_NAME_LENGTH";
             return false;
         } else if (this.picture.length == 0) {
-            this.errorText = "Please select picture.";
+            this.errorText = "VALIDATION.NO_PICTURE";
             return false;
         } else if (this.picture.length > 2000000) {
-            this.errorText = "The selected picture is too big.";
+            this.errorText = "VALIDATION.PICTURE_TOO_BIG";
             return false;
         } else if (this.coordinates.length == 0) {
-            this.errorText = "Please label the picture.";
+            this.errorText = "VALIDATION.NO_LABEL";
             return false;
         }
 
@@ -69,6 +70,9 @@ export class AddquizPage {
             content: "Uploading..."
         });
         loader.present();
+        this.translate.get('UPLOADING').subscribe((res: string) => {
+            loader.setContent(res);
+        });
 
         let quiz = new QuizModel({
             name: name,
@@ -124,7 +128,9 @@ export class AddquizPage {
         }
 
         afterPrepare.then((quiz) => {
-            loader.setContent("Saving...");
+            this.translate.get('SAVING').subscribe((res: string) => {
+                loader.setContent(res);
+            });
             console.log("Saving quiz...", quiz);
             quiz.save(this.db).then(() => {
                 loader.dismiss();
@@ -209,11 +215,20 @@ export class AddquizPage {
                 let exist = this.coordinates.filter(function (element) {
                     return element.name == existName;
                 })[0];
+                let tDelete: string = "Delete";
+                let tCancel: string = "Cancel";
+                // This may cause bug!
+                this.translate.get("DELETE").subscribe(res => {
+                    tDelete = res;
+                })
+                this.translate.get("CANCEL").subscribe(res => {
+                    tCancel = res;
+                });
                 this.actionSheetCtrl.create({
                     title: (exist.other_name.length <= 0) ? existName : (existName + " (" + exist.other_name.join(", ") + ")"),
                     buttons: [
                         {
-                            text: 'Delete',
+                            text: tDelete,
                             role: 'destructive',
                             icon: !this.platform.is('ios') ? 'trash' : null,
                             handler: () => {
@@ -227,7 +242,7 @@ export class AddquizPage {
                                 }).present();
                             }
                         }, {
-                            text: 'Cancel',
+                            text: tCancel,
                             role: 'cancel', // will always sort to be on the bottom
                             icon: !this.platform.is('ios') ? 'close' : null,
                             handler: () => {
@@ -249,11 +264,14 @@ export class AddquizPage {
                                 e.name = e.name.toUpperCase();
                                 return e;
                             }).find(x => x.name == name.toUpperCase())) {
-                            this.alertCtrl.create({
-                                title: 'Name conflict!',
-                                subTitle: "Point's name is conflicted. Try use other name. ",
-                                buttons: ['OK']
-                            }).present();
+                            this.translate.get("LABEL_NAME_CONFLICT").subscribe(res => {
+                                console.log(res);
+                                this.alertCtrl.create({
+                                    title: res.TITLE,
+                                    subTitle: res.DESCRIPTION,
+                                    buttons: [res.OK]
+                                }).present();
+                            });
                         } else {
                             mousePos.name = name;
                             mousePos.other_name = data.OtherNames;

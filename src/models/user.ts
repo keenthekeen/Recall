@@ -1,5 +1,5 @@
 import {AngularFireDatabase, FirebaseObjectObservable} from "angularfire2/database";
-import {User, UserInfo} from "firebase/app";
+import {UserInfo} from "firebase/app";
 
 export class UserModel implements UserInfo {
 
