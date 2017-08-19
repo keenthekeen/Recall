@@ -38,7 +38,7 @@ export class MyApp {
                     }).catch(() => {
                         // User refuse to select language, guess language from browser
                         let browserLang = translate.getBrowserLang();
-                        let availableLang: Array<string> = ["en", "th"];
+                        let availableLang: Array<string> = ["en", "th", "kr"];
                         if (browserLang && availableLang.indexOf(browserLang) > -1) {
                             translate.setDefaultLang(browserLang);
                         } else {
@@ -65,6 +65,11 @@ export class MyApp {
                 type: 'radio',
                 label: 'Thai',
                 value: 'th'
+            });
+            alert.addInput({
+                type: 'radio',
+                label: 'Korean',
+                value: 'kr'
             });
 
             alert.addButton({

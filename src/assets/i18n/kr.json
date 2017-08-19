@@ -1,0 +1,68 @@
+﻿{
+  "FEATURED_QUIZZES": "인기 퀴즈",
+  "MY_QUIZZES": "내 퀴즈",
+  "ADD_NEW_QUIZ": "새 퀴즈",
+  "SELECT_PICTURE": "사진 선택",
+  "QUIZ_NAME": "퀴즈 이름",
+  "QUIZ_CAPTION": "캡션",
+  "SAVE": "저장",
+  "SAVING": "저장 중...",
+  "UPLOADING": "업로드 중...",
+  "DELETE": "삭제",
+  "DELETING": "삭제 중...",
+  "DELETED": "삭제되었습니다!",
+  "CANCEL": "취소",
+  "ADD": "추가",
+  "LABEL_NAME_CONFLICT": {
+    "TITLE": "중복된 이름",
+    "DESCRIPTION": "이미 존재하는 이름입니다. 다른 이름을 시도하세요.",
+    "OK": "확인"
+  },
+  "LABEL": "라벨",
+  "LABEL_PROPERTY": {
+    "NAME": "이름",
+    "OTHER_NAME": "다른 이름",
+    "OTHER_NAME_DIRECTIVE": "다른 이름을 입력하세요"
+  },
+  "TAB": {
+    "FEATURED": "인기 퀴즈",
+    "MY": "내 퀴즈"
+  },
+  "CHECK_BUTTON": {
+    "CHECKED": "체크됨",
+    "CHECK": "체크"
+  },
+  "LABEL_ASK": {
+    "WHAT": "이것은 뭘까요?",
+    "ANSWER": "답",
+    "CANCEL": "취소",
+    "SUBMIT": "제출"
+  },
+  "MODE": {
+    "QUIZ": "퀴즈",
+    "KEY": "정답",
+    "MESSAGE": "{{mode}} 화면으로 바뀌었습니다!"
+  },
+  "STAT": "통계",
+  "VALIDATION": {
+    "QUIZ_NAME_LENGTH": "이름의 길이는 3-100자만 가능합니다.",
+    "NO_PICTURE": "사진을 선택해 주세요.",
+    "PICTURE_TOO_BIG": "선택된 사진이 너무 큽니다.",
+    "NO_LABEL": "사진에 이름을 붙여주세요"
+  },
+  "SIGN_OUT": "Sign out",
+  "CHANGE_LANGUAGE": "언어 변경",
+  "PLEASE_SIGN_IN": "계속하려면 로그인 하세요",
+  "CATEGORY": "Category",
+  "CATEGORY-VALUE": {
+    "BIOLOGY": "Biology",
+    "MEDICINE": "Medicine",
+    "CHEMISTRY": "Chemistry",
+    "PHYSICS": "Physics",
+    "GEOLOGY": "Geology",
+    "ASTRONOMY": "Astronomy",
+    "GEOGRAPHY": "Geography",
+    "SOCIAL": "Social Sciences",
+    "OTHER": "Other"
+  }
+}
