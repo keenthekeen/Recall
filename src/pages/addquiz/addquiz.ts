@@ -42,7 +42,7 @@ export class AddquizPage {
         this.pictureStorageRef = firebaseApp.storage().ref().child("quiz_pictures");
     }
 
-    submit(name: string, caption: string) {
+    submit(name: string, caption: string, category: string) {
         if (name.length < 3 || name.length > 100) {
             this.errorText = "VALIDATION.QUIZ_NAME_LENGTH";
             return false;
@@ -54,6 +54,9 @@ export class AddquizPage {
             return false;
         } else if (this.coordinates.length == 0) {
             this.errorText = "VALIDATION.NO_LABEL";
+            return false;
+        } else if (!category) {
+            this.errorText = "VALIDATION.NO_CATEGORY";
             return false;
         }
 
@@ -70,6 +73,7 @@ export class AddquizPage {
         let quiz = new QuizModel({
             name: name,
             caption: caption,
+            category: category,
             owner: userId,
             labels: this.coordinates,
             stat: {
@@ -314,13 +318,14 @@ export class AddquizPage {
     }
 
     generateCategorySelect() {
-        let html: string = '';
+        let category: Array<any> = [];
         for (let key in this.translate.instant("CATEGORY_VALUE")) {
-            let value = this.translate.instant("CATEGORY_VALUE."+key);
-            html += "<ion-option value='"+key+"'>"+value+"</ion-option>";
+            category.push({
+                alias: key,
+                name: this.translate.instant("CATEGORY_VALUE." + key)
+            });
         }
-        console.log(html);
-        return html;
+        return category;
     }
 
 }

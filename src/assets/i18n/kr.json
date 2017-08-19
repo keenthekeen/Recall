@@ -48,7 +48,8 @@
     "QUIZ_NAME_LENGTH": "이름의 길이는 3-100자만 가능합니다.",
     "NO_PICTURE": "사진을 선택해 주세요.",
     "PICTURE_TOO_BIG": "선택된 사진이 너무 큽니다.",
-    "NO_LABEL": "사진에 이름을 붙여주세요"
+    "NO_LABEL": "사진에 이름을 붙여주세요",
+    "NO_CATEGORY": "Please select category"
   },
   "SIGN_OUT": "Sign out",
   "CHANGE_LANGUAGE": "언어 변경",

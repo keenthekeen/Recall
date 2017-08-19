@@ -10,15 +10,16 @@ export class QuizModel {
     public picture: string | null;
     public picture_on_gz: string | null;
     public caption: string;
+    public category: string | null;
     public owner: string | null;
     public rate: number | null;
-    public counter : number | null;
-    public stat : {
+    public counter: number | null;
+    public stat: {
         counter: number,
         rate: number,
     };
     public labels: Array<{
-        name: string,label
+        name: string, label
         other_name: Array<string>,
         x: number,
         y: number,
@@ -30,6 +31,7 @@ export class QuizModel {
         this.name = obj.name;
         this.picture = obj.picture || null;
         this.picture_on_gz = obj.picture_on_gz || null;
+        this.category = obj.category || null;
         this.caption = obj.caption || '';
         this.owner = obj.owner;
         this.labels = obj.labels;
@@ -61,7 +63,7 @@ export class QuizModel {
         }
     }
 
-    public update(db:AngularFireDatabase, obj: any){
+    public update(db: AngularFireDatabase, obj: any) {
         return db.app.database().ref("/quizzes").child(this.$key).update(obj);
     }
 
