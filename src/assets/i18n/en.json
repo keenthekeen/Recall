@@ -49,5 +49,8 @@
     "NO_PICTURE": "Please select picture.",
     "PICTURE_TOO_BIG": "The selected picture is too big.",
     "NO_LABEL": "Please label the picture."
-  }
+  },
+  "SIGN_OUT": "Sign out",
+  "CHANGE_LANGUAGE": "Change language",
+  "PLEASE_SIGN_IN": "Please sign in to continue"
 }

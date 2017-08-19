@@ -64,7 +64,7 @@
         </div>
 
         <div *ngIf='!user'>
-            Please sign in to continue
+            {{ "PLEASE_SIGN_IN" | translate }}
             <button (click)='signIn()' class='btn-google' ion-button icon-left block>
                 <ion-icon name="logo-google"></ion-icon>
                 Sign in with Google

@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
-import {ActionSheetController, LoadingController, NavController, Platform} from 'ionic-angular';
+import {ActionSheetController, AlertController, LoadingController, NavController, Platform} from 'ionic-angular';
 import {QuizPage} from '../quiz/quiz';
+import {Storage} from '@ionic/storage';
 
 import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
@@ -14,6 +15,8 @@ import {Helper} from "../../app/helper";
 import {AngularFireDatabase} from "angularfire2/database";
 import {StatPage} from '../stat/stat';
 import {AngularFireOfflineDatabase} from "angularfire2-offline";
+import {TranslateService} from "@ngx-translate/core";
+import {MyApp} from "../../app/app.component";
 
 @Component({
     selector: 'page-home',
@@ -24,7 +27,7 @@ export class HomePage {
     public user: UserModel | null;
     public isLoaded: boolean;
 
-    constructor(public navCtrl: NavController, private afAuth: AngularFireAuth, private offlineDb: AngularFireOfflineDatabase, db: AngularFireDatabase, private loadingCtrl: LoadingController, private platform: Platform, private actionSheetCtrl: ActionSheetController, private firebaseApp: FirebaseApp, fb: Firebase, private helper: Helper) {
+    constructor(public navCtrl: NavController, private afAuth: AngularFireAuth, private offlineDb: AngularFireOfflineDatabase, db: AngularFireDatabase, private loadingCtrl: LoadingController, private platform: Platform, private actionSheetCtrl: ActionSheetController, private firebaseApp: FirebaseApp, fb: Firebase, private helper: Helper, private translate: TranslateService, private alertCtrl: AlertController, private storage: Storage) {
 
         this.afAuth.auth.onAuthStateChanged((userData) => {
             console.log("Auth state changed.");
@@ -33,23 +36,23 @@ export class HomePage {
                 UserModel.findOrNew(db, userData).then((userModel) => {
                     user = this.user = userModel;
                     user.save(db);
-                if (platform.is("android")) {
-                    console.log("Platform is android.");
-                    fb.setUserId(user.uid);
-                    fb.hasPermission().then((data) => {
-                        console.log("Permission to notify", data);
-                        if (data.isEnabled) {
-                            fb.getToken()
-                                .then(token => user.setDeviceToken(token).save(db)) // save the token server-side and use it to push notifications to this device
-                                .catch(error => this.helper.error("Error while getting device token."));
-                            fb.onTokenRefresh()
-                                .subscribe((token: string) => this.user.setDeviceToken(token).save(db));
-                        }
-                    });
-                }
-                this.getSigninResult();
-                this.fetchQuiz();
-                // (Native) Firebase setup
+                    if (platform.is("android")) {
+                        console.log("Platform is android.");
+                        fb.setUserId(user.uid);
+                        fb.hasPermission().then((data) => {
+                            console.log("Permission to notify", data);
+                            if (data.isEnabled) {
+                                fb.getToken()
+                                    .then(token => user.setDeviceToken(token).save(db)) // save the token server-side and use it to push notifications to this device
+                                    .catch(error => this.helper.error("Error while getting device token."));
+                                fb.onTokenRefresh()
+                                    .subscribe((token: string) => this.user.setDeviceToken(token).save(db));
+                            }
+                        });
+                    }
+                    this.getSigninResult();
+                    this.fetchQuiz();
+                    // (Native) Firebase setup
                 });
             } else {
                 this.user = null;
@@ -101,7 +104,17 @@ export class HomePage {
             title: this.user.displayName + " (" + this.user.email + ")",
             buttons: [
                 {
-                    text: 'Sign out',
+                    text: this.translate.instant('CHANGE_LANGUAGE'),
+                    icon: !this.platform.is('ios') ? 'globe' : null,
+                    handler: () => {
+                        MyApp.showLanguageSelect(this.alertCtrl).then((lang) => {
+                            this.storage.set('language', lang);
+                            this.translate.use(lang);
+                        });
+                    }
+                },
+                {
+                    text: this.translate.instant('SIGN_OUT'),
                     role: 'destructive',
                     icon: !this.platform.is('ios') ? 'log-out' : null,
                     handler: () => {
@@ -109,7 +122,7 @@ export class HomePage {
                     }
                 },
                 {
-                    text: 'Cancel',
+                    text: this.translate.instant('CANCEL'),
                     role: 'cancel', // will always sort to be on the bottom
                     icon: !this.platform.is('ios') ? 'close' : null,
                     handler: () => {
