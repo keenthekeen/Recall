@@ -25,7 +25,14 @@ export class MyApp {
             afAuth.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
             // Translation service setup
-            translate.setDefaultLang('en');
+            let browserLang = translate.getBrowserLang();
+            let availableLang: Array<string> = ["en", "th"];
+            if (browserLang && availableLang.indexOf(browserLang) > -1) {
+                translate.setDefaultLang(browserLang);
+            } else {
+                translate.setDefaultLang('en');
+            }
+            console.log("Browser lang: " + browserLang);
         });
 
     }

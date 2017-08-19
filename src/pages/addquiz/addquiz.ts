@@ -14,13 +14,6 @@ import {Helper} from "../../app/helper";
 import UploadTaskSnapshot = firebase.storage.UploadTaskSnapshot;
 import {TranslateService} from "@ngx-translate/core";
 
-/**
- * Generated class for the AddquizPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
-
 @Component({
     selector: 'page-addquiz',
     templateUrl: 'addquiz.html',
@@ -220,7 +213,7 @@ export class AddquizPage {
                 // This may cause bug!
                 this.translate.get("DELETE").subscribe(res => {
                     tDelete = res;
-                })
+                });
                 this.translate.get("CANCEL").subscribe(res => {
                     tCancel = res;
                 });
@@ -265,11 +258,10 @@ export class AddquizPage {
                                 return e;
                             }).find(x => x.name == name.toUpperCase())) {
                             this.translate.get("LABEL_NAME_CONFLICT").subscribe(res => {
-                                console.log(res);
                                 this.alertCtrl.create({
                                     title: res.TITLE,
                                     subTitle: res.DESCRIPTION,
-                                    buttons: [res.OK]
+                                    buttons: ['OK']
                                 }).present();
                             });
                         } else {

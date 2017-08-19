@@ -1,4 +1,53 @@
 {
   "FEATURED_QUIZZES": "ควิซแนะนำ",
-  "MY_QUIZZES": "ควิซของฉัน"
+  "MY_QUIZZES": "ควิซของฉัน",
+  "ADD_NEW_QUIZ": "เพิ่มควิซใหม่",
+  "SELECT_PICTURE": "เลือกรูปภาพ",
+  "QUIZ_NAME": "ชื่อควิซ",
+  "QUIZ_CAPTION": "คำอธิบาย",
+  "SAVE": "บันทึก",
+  "SAVING": "กำลังบันทึก...",
+  "UPLOADING": "กำลังอัพโหลด...",
+  "DELETE": "ลบ",
+  "DELETING": "กำลังลบ...",
+  "DELETED": "ลบแล้ว!",
+  "CANCEL": "ยกลเิก",
+  "ADD": "เพิ่ม",
+  "LABEL_NAME_CONFLICT": {
+    "TITLE": "ชื่อซ้ำกัน!",
+    "DESCRIPTION": "มีจุดที่ใช้ชื่อนี้อยู่แล้ว",
+    "OK": "OK"
+  },
+  "LABEL": "ชื่อจุด",
+  "LABEL_PROPERTY": {
+    "NAME": "ชื่อ",
+    "OTHER_NAME": "ชื่ออื่นๆ",
+    "OTHER_NAME_DIRECTIVE": "กด Enter เพื่อเพิ่มชื่ออื่นนี้"
+  },
+  "TAB": {
+    "FEATURED": "แนะนำ",
+    "MY": "ของฉัน"
+  },
+  "CHECK_BUTTON": {
+    "CHECKED": "ตรวจแล้ว",
+    "CHECK": "ตรวจ"
+  },
+  "LABEL_ASK": {
+    "WHAT": "นี่คืออะไร?",
+    "ANSWER": "คำตอบ",
+    "CANCEL": "ยกเลิก",
+    "SUBMIT": "ตอบ"
+  },
+  "MODE": {
+    "QUIZ": "ถาม",
+    "KEY": "เฉลย",
+    "MESSAGE": "เปลี่ยนเป็นโหมด{{mode}}แล้ว!"
+  },
+  "STAT": "สถิติ",
+  "VALIDATION": {
+    "QUIZ_NAME_LENGTH": "ชื่อต้องยาวระหว่าง 3-100 ตัวอักษร",
+    "NO_PICTURE": "กรุณาเลือกรูปภาพ",
+    "PICTURE_TOO_BIG": "รูปภาพมีขนาดใหญ่เกินไป",
+    "NO_LABEL": "กรุญาบันทึกชื่อของจุดในภาพ"
+  }
 }
