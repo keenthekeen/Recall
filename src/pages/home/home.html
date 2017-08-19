@@ -2,15 +2,46 @@
     <ion-navbar>
         <ion-title>{{ 'MY_QUIZZES' | translate }}</ion-title>
         <ion-buttons end>
-            <div *ngIf='user' (click)="userAction()" id="avatar-container"><img src="{{user.photoURL}}" class="img-circle" id="avatar"/></div>
+            <div *ngIf='user' (click)="userAction()" id="avatar-container"><img src="{{user.photoURL}}"
+                                                                                class="img-circle" id="avatar"/></div>
         </ion-buttons>
     </ion-navbar>
 </ion-header>
-
 <ion-content padding>
+        <!--<p style="margin: 5px 0 0 10px;">Statistic</p>-->
     <ion-list>
         <div *ngIf='user'>
             <div *ngIf="!isLoaded" class="loading"></div>
+            <div (click)="goStat()" *ngIf='user' class="stat">
+            <ion-grid>
+                <ion-row>
+                    <ion-col col-6>
+
+                            <div class="c100 p25 small center">
+                                <span>25%</span>
+                                <div class="slice">
+                                    <div class="bar"></div>
+                                    <div class="fill"></div>
+                                </div>
+                            </div>
+                        <h1 style="text-align: center">sdfsdfsd</h1>
+
+                    </ion-col>
+                    <ion-col col-6>
+                        <div class="c100 p28 small center">
+                            <span>28%</span>
+                            <div class="slice">
+                                <div class="bar"></div>
+                                <div class="fill"></div>
+                            </div>
+                        </div>
+                        <h1 style="text-align: center">sdfsdfsd</h1>
+                        <!-- <p style="text-align: center; margin:0;"><em>Win Stroke</em></p>-->
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            </div>
+
             <div *ngFor='let quiz of quizzes'>
                 <ion-card (click)="quizPage(quiz)">
                     <img src="{{ quiz.picture }}"/>
@@ -28,7 +59,7 @@
                 <ion-icon name="sunny"></ion-icon>
                 <br/>
                 You have no quiz.
-                <button (click)="gostat()">gostat</button>
+
             </div>
         </div>
 

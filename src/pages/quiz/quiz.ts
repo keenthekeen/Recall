@@ -78,6 +78,7 @@ export class QuizPage {
 
         // Get screen size
         // screen size may be changed, e.g. keyboard on, so save for later use
+
         this.screenSize = {
             width: window.innerWidth,
             height: window.innerHeight
@@ -257,19 +258,21 @@ export class QuizPage {
         };
         //Add stat to USER MODEL
         let User = UserModel.find(this.db, this.afAuth.auth.currentUser.uid);
-        let Key = this.quiz.$key;
+        let key = this.quiz.$key;
         let StatArray:Array<any> = [];
         User.subscribe((x) => {
             if (!this.isStatSaved) {
-                if ("stat" in x.val() && "quizPlayed" in x.val().stat && Key in x.val().stat.quizPlayed) {
-                    StatArray = x.val().stat.quizPlayed[Key];
+                if ("stat" in x.val() && "quizPlayed" in x.val().stat && key in x.val().stat.quizPlayed) {
+                    StatArray = x.val().stat.quizPlayed[key];
                 }
                 StatArray.push({
                     date: Date.now()
                 });
                 this.isStatSaved = true;
 
-                User.update({stat: {quizPlayed: {[Key]: StatArray}}});
+                //User.update({stat: {quizPlayed: {[key]: StatArray}}});
+                console.log('user/' + this.afAuth.auth.currentUser.uid + '/stat/quizPlayed/' + key);
+                this.db.object('users/' + this.afAuth.auth.currentUser.uid + '/stat/quizPlayed/' + key ).update( StatArray );
             }
         });
 

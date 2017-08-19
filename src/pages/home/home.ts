@@ -29,9 +29,10 @@ export class HomePage {
         this.afAuth.auth.onAuthStateChanged((userData) => {
             console.log("Auth state changed.");
             if (userData) {
-                let user = this.user = new UserModel(userData);
-                user.save(db);
-                // (Native) Firebase setup
+                let user;
+                UserModel.findOrNew(db, userData).then((userModel) => {
+                    user = this.user = userModel;
+                    user.save(db);
                 if (platform.is("android")) {
                     console.log("Platform is android.");
                     fb.setUserId(user.uid);
@@ -42,17 +43,22 @@ export class HomePage {
                                 .then(token => user.setDeviceToken(token).save(db)) // save the token server-side and use it to push notifications to this device
                                 .catch(error => this.helper.error("Error while getting device token."));
                             fb.onTokenRefresh()
-                                .subscribe((token: string) => user.setDeviceToken(token).save(db));
+                                .subscribe((token: string) => this.user.setDeviceToken(token).save(db));
                         }
                     });
                 }
+                this.getSigninResult();
+                this.fetchQuiz();
+                // (Native) Firebase setup
+                });
             } else {
                 this.user = null;
+                this.getSigninResult();
+                this.fetchQuiz();
             }
-            this.fetchQuiz();
+
         });
 
-        this.getSigninResult();
     }
 
     signIn() {
@@ -141,7 +147,8 @@ export class HomePage {
             this.helper.error("Error while signing in.");
         });
     }
-    gostat(){
+
+    gostat() {
         this.navCtrl.push(StatPage);
     }
 }
