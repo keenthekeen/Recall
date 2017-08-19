@@ -29,7 +29,11 @@ export class UserModel implements UserInfo {
         this.photoURL = obj.photoURL || null;
         this.providerId = obj.providerId;
         this.uid = obj.uid;
-        this.stat = obj.stat || null;
+        this.stat = obj.stat || {
+            counter: 0,
+            rate: 0,
+            quizPlayed: {},
+        };
 
         this.createdAt = obj.createdAt || Date.now();
         this.modifiedAt = Date.now();
