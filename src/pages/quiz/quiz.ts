@@ -298,7 +298,8 @@ export class QuizPage {
 
                     }
                     statArray.push({
-                        date: Date.now()
+                        date: Date.now(),
+                        score: thisQuizRate,
                     });
                     this.isStatSaved = true;
 
