@@ -7,6 +7,7 @@ import {AngularFireAuth} from "angularfire2/auth";
 import {AngularFireDatabase} from "angularfire2/database";
 import {Firebase} from "@ionic-native/firebase";
 import {UserModel} from '../../models/user';
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'page-quiz',
@@ -40,7 +41,7 @@ export class QuizPage {
      */
     @ViewChild('canvas') canvasEl: ElementRef;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public afAuth: AngularFireAuth, private db: AngularFireDatabase, public toastCtrl: ToastController, public loadingCtrl: LoadingController, private storage: Storage, public alertCtrl: AlertController, fb: Firebase) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public afAuth: AngularFireAuth, private db: AngularFireDatabase, public toastCtrl: ToastController, public loadingCtrl: LoadingController, private storage: Storage, public alertCtrl: AlertController, fb: Firebase, private translate: TranslateService) {
         this.quiz = navParams.get('quiz');
         fb.setScreenName("quiz");
 
@@ -58,10 +59,14 @@ export class QuizPage {
         this.modeIcon = mode ? "key" : "help";
         this.storage.set('quiz_mode', mode);
         if (isModeChanged) {
-            this.toastCtrl.create({
-                message: "Switched to " + (mode ? "quiz" : "key") + " mode",
-                duration: 3000
-            }).present();
+            this.translate.get("MODE." + (mode ? "QUIZ" : "KEY")).subscribe(currentModeName => {
+                this.translate.get("MODE.MESSAGE", {mode: currentModeName}).subscribe(res => {
+                    this.toastCtrl.create({
+                        message: res,
+                        duration: 3000
+                    }).present();
+                });
+            });
             this.navCtrl.pop();
             this.navCtrl.push(QuizPage, {
                 quiz: this.quiz
@@ -100,38 +105,40 @@ export class QuizPage {
             let exist = QuizPage.isCoordinateExist(mousePos.x / canvas.width, mousePos.y / canvas.height, coordinates, this.pinSize / this.vMin);
             if (exist) {
                 if (this.isQuizMode) {
-                    this.alertCtrl.create({
-                        title: 'What is this?',
-                        inputs: [
-                            {
-                                name: 'answer',
-                                placeholder: 'Answer',
-                                type: "text",
-                                value: (typeof exist === "string" && exist in this.answers) ? this.answers[exist] : ""
-                            },
-                        ],
-                        buttons: [
-                            {
-                                text: 'Cancel',
-                                handler: () => {
-                                    console.log('Cancel clicked');
-                                }
-                            },
-                            {
-                                text: 'Submit',
-                                handler: function (data) {
-                                    if (typeof exist === "string" && data.answer.trim().length > 0) {
-                                        this.answers[exist] = data.answer.trim();
-                                        this.renderCanvas(canvas, coordinates);
-                                        this.canCheck = true;
-                                        this.isChecked = false;
-                                        this.answerCheck = {};
-                                        console.log('Answered!', this.answers);
+                    this.translate.get("LABEL_ASK").subscribe(res => {
+                        this.alertCtrl.create({
+                            title: res.WHAT,
+                            inputs: [
+                                {
+                                    name: 'answer',
+                                    placeholder: res.ANSWER,
+                                    type: "text",
+                                    value: (typeof exist === "string" && exist in this.answers) ? this.answers[exist] : ""
+                                },
+                            ],
+                            buttons: [
+                                {
+                                    text: res.CANCEL,
+                                    handler: () => {
+                                        console.log('Cancel clicked');
                                     }
-                                }.bind(this)
-                            }
-                        ]
-                    }).present();
+                                },
+                                {
+                                    text: res.SUBMIT,
+                                    handler: function (data) {
+                                        if (typeof exist === "string" && data.answer.trim().length > 0) {
+                                            this.answers[exist] = data.answer.trim();
+                                            this.renderCanvas(canvas, coordinates);
+                                            this.canCheck = true;
+                                            this.isChecked = false;
+                                            this.answerCheck = {};
+                                            console.log('Answered!', this.answers);
+                                        }
+                                    }.bind(this)
+                                }
+                            ]
+                        }).present();
+                    });
                 } else {
                     this.toastCtrl.create({
                         message: exist,
@@ -223,8 +230,8 @@ export class QuizPage {
     }
 
     public checkAnswer() {
-        let AnswerCount :number = this.quiz.labels.length;
-        let CorrectAnswer : number = 0;
+        let AnswerCount: number = this.quiz.labels.length;
+        let CorrectAnswer: number = 0;
         if (this.canCheck) {
             this.quiz.labels.forEach(function (label) {
                 if (label.name in this.answers) {
@@ -232,7 +239,7 @@ export class QuizPage {
                     this.answerCheck[label.name] = answer == label.name.trim().toUpperCase() || (label.other_name instanceof Array && label.other_name.map(function (i) {
                         return i.trim().toUpperCase();
                     }).includes(answer));
-                    if(this.answerCheck[label.name] === true){
+                    if (this.answerCheck[label.name] === true) {
                         CorrectAnswer++;
                     }
                 } else {
@@ -242,12 +249,12 @@ export class QuizPage {
             }.bind(this));
             this.canCheck = false;
             this.isChecked = true;
-            }
-            this.renderCanvas(this.canvasEl.nativeElement, this.quiz.labels);
+        }
+        this.renderCanvas(this.canvasEl.nativeElement, this.quiz.labels);
         //Perform Rate Calculation here
         let Counter = this.quiz.stat['counter'];
         let Rate = this.quiz.stat['rate'];
-        let thisQuizRate = CorrectAnswer/AnswerCount * 100;
+        let thisQuizRate = CorrectAnswer / AnswerCount * 100;
         let GlobalQuizRate = ((Rate * Counter ) + thisQuizRate ) / (Counter + 1);
         let updateQuiz = {
             stat: {
@@ -258,7 +265,7 @@ export class QuizPage {
         //Add stat to USER MODEL
         let User = UserModel.find(this.db, this.afAuth.auth.currentUser.uid);
         let Key = this.quiz.$key;
-        let StatArray:Array<any> = [];
+        let StatArray: Array<any> = [];
         User.subscribe((x) => {
             if (!this.isStatSaved) {
                 if ("stat" in x.val() && "quizPlayed" in x.val().stat && Key in x.val().stat.quizPlayed) {
@@ -281,17 +288,21 @@ export class QuizPage {
 
     public deleteQuiz() {
         console.log("Deleting quiz " + this.quiz.$key);
-        let loader = this.loadingCtrl.create({
-            content: "Deleting..."
-        });
-        loader.present();
-        (new QuizModel(this.quiz)).deleteMe(this.db).then(() => {
-            this.toastCtrl.create({
-                message: 'Deleted quiz!',
-                duration: 3000
-            }).present();
-            this.navCtrl.pop();
-            loader.dismissAll();
+        this.translate.get("DELETING").subscribe(res => {
+            let loader = this.loadingCtrl.create({
+                content: res
+            });
+            loader.present();
+            (new QuizModel(this.quiz)).deleteMe(this.db).then(() => {
+                this.translate.get("DELETED").subscribe(res => {
+                    this.toastCtrl.create({
+                        message: res,
+                        duration: 3000
+                    }).present();
+                    this.navCtrl.pop();
+                    loader.dismiss();
+                });
+            });
         });
     }
 

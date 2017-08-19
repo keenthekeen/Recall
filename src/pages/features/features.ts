@@ -14,7 +14,7 @@ import {AngularFireOfflineDatabase} from "angularfire2-offline";
 export class FeaturesPage {
     public quizzes: Array<QuizModel> = [];
     public isLoaded: boolean;
-    private limit: number = 10;
+    private limit: number = 5;
 
     @ViewChild(Content) contentRef: Content;
 
@@ -52,11 +52,14 @@ export class FeaturesPage {
      */
     doInfinite(infiniteScroll: InfiniteScroll) {
         if (this.limit <= 100) {
-            this.limit += 10;
+            this.limit += 8;
             console.log("Infinite scroll triggered (limit increased to" + this.limit + ")");
             this.fetchQuizzes().then(() => {
                 infiniteScroll.complete();
             });
+        } else {
+            infiniteScroll.complete();
+            infiniteScroll.enable(false);
         }
     }
 

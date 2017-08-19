@@ -3,12 +3,14 @@
   "MY_QUIZZES": "My Quizzes",
   "ADD_NEW_QUIZ": "Add new quiz",
   "SELECT_PICTURE": "Select picture",
-  "QUIZ_NAME": "Name",
+  "QUIZ_NAME": "Quiz name",
   "QUIZ_CAPTION": "Caption",
   "SAVE": "Save",
   "SAVING": "Saving...",
   "UPLOADING": "Uploading...",
   "DELETE": "Delete",
+  "DELETING": "Deleting...",
+  "DELETED": "Deleted!",
   "CANCEL": "Cancel",
   "ADD": "Add",
   "LABEL_NAME_CONFLICT": {
@@ -19,8 +21,29 @@
   "LABEL": "Label",
   "LABEL_PROPERTY": {
     "NAME": "Name",
-    "OTHER_NAME": "Other names"
-  }
+    "OTHER_NAME": "Other names",
+    "OTHER_NAME_DIRECTIVE": "Enter to add other name"
+  },
+  "TAB": {
+    "FEATURED": "Featured",
+    "MY": "My"
+  },
+  "CHECK_BUTTON": {
+    "CHECKED": "Checked",
+    "CHECK": "Check"
+  },
+  "LABEL_ASK": {
+    "WHAT": "What is this?",
+    "ANSWER": "Answer",
+    "CANCEL": "Cancel",
+    "SUBMIT": "Submit"
+  },
+  "MODE": {
+    "QUIZ": "ask",
+    "KEY": "key",
+    "MESSAGE": "Switched to {{mode}} mode!"
+  },
+  "STAT": "Statistic",
   "VALIDATION": {
     "QUIZ_NAME_LENGTH": "Name must be 3-100 characters long.",
     "NO_PICTURE": "Please select picture.",

@@ -25,7 +25,7 @@
             <ion-label>{{ "LABEL_PROPERTY.OTHER_NAME" | translate }}</ion-label>
             <ion-input (keyup.enter)="AddMoreName(NewOtherName)" [(ngModel)]='NewOtherName' type="text"></ion-input>
         </ion-item>
-        <p style="color:#a6a6a6">Enter to add other name</p>
+        <p style="color:#a6a6a6">{{ "LABEL_PROPERTY.OTHER_NAME_DIRECTIVE" | translate }}</p>
         <p style="font-style: italic; color:#999999; "></p>
         <ion-item-sliding *ngFor="let name of OtherNames" (ionSwipe)="deleteName(name)">
             <ion-item>{{name}}</ion-item>

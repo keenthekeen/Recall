@@ -1,4 +1,4 @@
 <ion-tabs>
-    <ion-tab tabIcon="star" tabTitle="Featured" [root]="tab1" (ionSelect)="tabChanged('featured')"></ion-tab>
-    <ion-tab tabIcon="person" tabTitle="My" [root]="tab2" (ionSelect)="tabChanged('my')"></ion-tab>
+    <ion-tab tabIcon="star" tabTitle="{{ 'TAB.FEATURED' | translate }}" [root]="tab1" (ionSelect)="tabChanged('featured')"></ion-tab>
+    <ion-tab tabIcon="person" tabTitle="{{ 'TAB.MY' | translate }}" [root]="tab2" (ionSelect)="tabChanged('my')"></ion-tab>
 </ion-tabs>
