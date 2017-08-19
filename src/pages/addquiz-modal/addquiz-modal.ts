@@ -44,4 +44,8 @@ export class AddquizModalPage {
         let index = this.OtherNames.indexOf(name);
         this.OtherNames.splice(index, 1);
     }
+
+    dismiss(){
+        this.viewCtrl.dismiss();
+    }
 }

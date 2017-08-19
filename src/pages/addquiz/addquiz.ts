@@ -249,27 +249,27 @@ export class AddquizPage {
                 let name: string;
                 AddquizModal.onDidDismiss(data => {
                     console.log(data);
-                    name = data.Title;
-
-                    if (name) {
-                        if (this.coordinates.map(function (e) {
-                                // Ignore case
-                                e.name = e.name.toUpperCase();
-                                return e;
-                            }).find(x => x.name == name.toUpperCase())) {
-                            this.translate.get("LABEL_NAME_CONFLICT").subscribe(res => {
-                                this.alertCtrl.create({
-                                    title: res.TITLE,
-                                    subTitle: res.DESCRIPTION,
-                                    buttons: ['OK']
-                                }).present();
-                            });
-                        } else {
-                            mousePos.name = name;
-                            mousePos.other_name = data.OtherNames;
-                            this.coordinates.push(mousePos);
-                            this.renderCanvas(canvas);
-                            console.log("AddQuiz page: Added label", mousePos);
+                    if(data) {
+                        if (data.Title) {
+                            if (this.coordinates.map(function (e) {
+                                    // Ignore case
+                                    e.name = e.name.toUpperCase();
+                                    return e;
+                                }).find(x => x.name == name.toUpperCase())) {
+                                this.translate.get("LABEL_NAME_CONFLICT").subscribe(res => {
+                                    this.alertCtrl.create({
+                                        title: res.TITLE,
+                                        subTitle: res.DESCRIPTION,
+                                        buttons: ['OK']
+                                    }).present();
+                                });
+                            } else {
+                                mousePos.name = name;
+                                mousePos.other_name = data.OtherNames;
+                                this.coordinates.push(mousePos);
+                                this.renderCanvas(canvas);
+                                console.log("AddQuiz page: Added label", mousePos);
+                            }
                         }
                     }
                 });

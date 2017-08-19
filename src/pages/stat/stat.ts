@@ -33,7 +33,7 @@ export class StatPage {
         }).then((UserModel)=>{
             //this.quizPlayed = UserModel.stat.quizPlayed;
             console.log(this.quizPlayed);
-            this.quizPlayedArray = Object.keys(this.quizPlayed);
+            //this.quizPlayedArray = Object.keys(this.quizPlayed);
             /*for (let property in this.quizPlayed) {
                 if (this.quizPlayed.hasOwnProperty(property)) {
                     this.quizPlayedArray.push(property);
