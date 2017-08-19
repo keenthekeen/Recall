@@ -11,8 +11,8 @@ import {FirebaseApp} from 'angularfire2';
 import * as firebase from 'firebase/app';
 import 'firebase/storage';
 import {Helper} from "../../app/helper";
-import UploadTaskSnapshot = firebase.storage.UploadTaskSnapshot;
 import {TranslateService} from "@ngx-translate/core";
+import UploadTaskSnapshot = firebase.storage.UploadTaskSnapshot;
 
 @Component({
     selector: 'page-addquiz',
@@ -38,11 +38,11 @@ export class AddquizPage {
 
     @ViewChild('canvas') canvasEl: ElementRef;
 
-    constructor(public navCtrl: NavController, private Camera: Camera, private db: AngularFireDatabase, private loadingCtrl: LoadingController, private afAuth: AngularFireAuth, private toastCtrl: ToastController, private actionSheetCtrl: ActionSheetController, private platform: Platform, private modalCtrl: ModalController, private alertCtrl: AlertController, firebaseApp: FirebaseApp, private helper: Helper, private translate: TranslateService) {
+    constructor(public navCtrl: NavController, private Camera: Camera, private db: AngularFireDatabase, public loadingCtrl: LoadingController, private afAuth: AngularFireAuth, public toastCtrl: ToastController, public actionSheetCtrl: ActionSheetController, public platform: Platform, public modalCtrl: ModalController, public alertCtrl: AlertController, firebaseApp: FirebaseApp, private helper: Helper, private translate: TranslateService) {
         this.pictureStorageRef = firebaseApp.storage().ref().child("quiz_pictures");
     }
 
-    submit(name: string, caption: string) {
+    submit(name: string, caption: string, category: string) {
         if (name.length < 3 || name.length > 100) {
             this.errorText = "VALIDATION.QUIZ_NAME_LENGTH";
             return false;
@@ -54,6 +54,9 @@ export class AddquizPage {
             return false;
         } else if (this.coordinates.length == 0) {
             this.errorText = "VALIDATION.NO_LABEL";
+            return false;
+        } else if (!category) {
+            this.errorText = "VALIDATION.NO_CATEGORY";
             return false;
         }
 
@@ -70,6 +73,7 @@ export class AddquizPage {
         let quiz = new QuizModel({
             name: name,
             caption: caption,
+            category: category,
             owner: userId,
             labels: this.coordinates,
             stat: {
@@ -249,27 +253,27 @@ export class AddquizPage {
                 let name: string;
                 AddquizModal.onDidDismiss(data => {
                     console.log(data);
-                    if(data) {
-                        if (data.Title) {
-                            if (this.coordinates.map(function (e) {
-                                    // Ignore case
-                                    e.name = e.name.toUpperCase();
-                                    return e;
-                                }).find(x => x.name == name.toUpperCase())) {
-                                this.translate.get("LABEL_NAME_CONFLICT").subscribe(res => {
-                                    this.alertCtrl.create({
-                                        title: res.TITLE,
-                                        subTitle: res.DESCRIPTION,
-                                        buttons: ['OK']
-                                    }).present();
-                                });
-                            } else {
-                                mousePos.name = name;
-                                mousePos.other_name = data.OtherNames;
-                                this.coordinates.push(mousePos);
-                                this.renderCanvas(canvas);
-                                console.log("AddQuiz page: Added label", mousePos);
-                            }
+                    name = data ? data.Title : false;
+
+                    if (name) {
+                        if (this.coordinates.map(function (e) {
+                                // Ignore case
+                                e.name = e.name.toUpperCase();
+                                return e;
+                            }).find(x => x.name == name.toUpperCase())) {
+                            this.translate.get("LABEL_NAME_CONFLICT").subscribe(res => {
+                                this.alertCtrl.create({
+                                    title: res.TITLE,
+                                    subTitle: res.DESCRIPTION,
+                                    buttons: ['OK']
+                                }).present();
+                            });
+                        } else {
+                            mousePos.name = name;
+                            mousePos.other_name = data.OtherNames;
+                            this.coordinates.push(mousePos);
+                            this.renderCanvas(canvas);
+                            console.log("AddQuiz page: Added label", mousePos);
                         }
                     }
                 });
@@ -314,13 +318,14 @@ export class AddquizPage {
     }
 
     generateCategorySelect() {
-        let html: string = '';
+        let category: Array<any> = [];
         for (let key in this.translate.instant("CATEGORY_VALUE")) {
-            let value = this.translate.instant("CATEGORY_VALUE."+key);
-            html += "<ion-option value='"+key+"'>"+value+"</ion-option>";
+            category.push({
+                alias: key,
+                name: this.translate.instant("CATEGORY_VALUE." + key)
+            });
         }
-        console.log(html);
-        return html;
+        return category;
     }
 
 }

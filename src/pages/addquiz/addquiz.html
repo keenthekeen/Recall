@@ -31,7 +31,8 @@
             </ion-item>
             <ion-item>
                 <ion-label>{{ "CATEGORY" | translate }}</ion-label>
-                <ion-select [innerHTML]="generateCategorySelect()">
+                <ion-select #iCategory>
+                    <ion-option *ngFor="let option of generateCategorySelect()" value="{{ option.alias }}">{{ option.name }}</ion-option>
                 </ion-select>
             </ion-item>
             <ion-item>
@@ -40,7 +41,7 @@
             </ion-item>
 
         </ion-list>
-        <button ion-button full (click)='submit(iName.value, iCaption.value)'>{{ "SAVE" | translate }}</button>
+        <button ion-button full (click)='submit(iName.value, iCaption.value, iCategory.value)'>{{ "SAVE" | translate }}</button>
     </div>
 
 </ion-content>

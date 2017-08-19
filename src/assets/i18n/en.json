@@ -48,7 +48,8 @@
     "QUIZ_NAME_LENGTH": "Name must be 3-100 characters long.",
     "NO_PICTURE": "Please select picture.",
     "PICTURE_TOO_BIG": "The selected picture is too big.",
-    "NO_LABEL": "Please label the picture."
+    "NO_LABEL": "Please label the picture.",
+    "NO_CATEGORY": "Please select category"
   },
   "SIGN_OUT": "Sign out",
   "CHANGE_LANGUAGE": "Change language",
