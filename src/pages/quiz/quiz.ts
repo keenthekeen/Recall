@@ -263,31 +263,28 @@ export class QuizPage {
                 rate: GlobalQuizRate,
             }
         };
-        let updateUser = {
-            stat: {
-                counter: Counter + 1,
-                rate: GlobalQuizRate,
-            }
-        };
-        //Add stat to USER MODEL
-        //@todo Check if user logged in
-        if(this.afAuth.auth.currentUser) {
-            let user = UserModel.find(this.db, this.afAuth.auth.currentUser.uid);
-            let userModel;
 
+        // Add stat to user model
+        if (this.afAuth.auth.currentUser) {
+            let user = UserModel.find(this.db, this.afAuth.auth.currentUser.uid);
 
             UserModel.findOrNew(this.db, {
                 uid: this.afAuth.auth.currentUser.uid,
-            }).then((uModel) => {
-                userModel = uModel;
+            }).then((userModel) => {
+                if (!userModel.stat || !userModel.stat.counter) {
+                    userModel.stat = {
+                        quizPlayed: [],
+                        counter: 0,
+                        rate: 0
+                    };
+                }
                 let pre = userModel.stat.rate * userModel.stat.counter;
-                userModel.stat.counter += 1;
+                userModel.stat.counter ++;
                 userModel.stat.rate = (pre + thisQuizRate) / userModel.stat.counter;
-                this.db.object('users/' + this.afAuth.auth.currentUser.uid + '/stat/').update({
+                this.db.object('users/' + userModel.uid + '/stat/').update({
                     counter: userModel.stat.counter,
                     rate: userModel.stat.rate,
                 });
-
             });
 
             let key = this.quiz.$key;
