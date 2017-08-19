@@ -16,15 +16,12 @@
                 <ion-grid>
                     <ion-row>
                         <ion-col col-6>
-                            <div id='counter' class="c100 p{{viewStat.counter}} small center">
-                                <span>{{ viewStat.counter}}</span>
-                                <div class="slice">
-                                    <div class="bar"></div>
-                                    <div class="fill"></div>
-                                </div>
+                            <div id="setHeight">
+                                <span class="counter align-center">{{viewStat.counter}}</span>
+                                <hr class="style1">
+                                <ion-icon class='icon-center' name="checkmark"></ion-icon>
+                                <p class="align-center">Quizzes Done</p>
                             </div>
-                            <p style="text-align: center">counter</p>
-
                         </ion-col>
                         <ion-col col-6>
                             <div class="c100 p{{viewStat.rate}} small center">
