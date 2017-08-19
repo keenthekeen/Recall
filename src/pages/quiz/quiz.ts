@@ -263,10 +263,16 @@ export class QuizPage {
                 rate: GlobalQuizRate,
             }
         };
+        let updateUser = {
+            stat: {
+                counter: Counter + 1,
+                rate: GlobalQuizRate,
+            } };
         //Add stat to USER MODEL
         let User = UserModel.find(this.db, this.afAuth.auth.currentUser.uid);
         let key = this.quiz.$key;
         let StatArray: Array<any> = [];
+
         User.subscribe((x) => {
             if (!this.isStatSaved) {
                 if ("stat" in x.val() && "quizPlayed" in x.val().stat && key in x.val().stat.quizPlayed) {
@@ -279,6 +285,7 @@ export class QuizPage {
 
                 //User.update({stat: {quizPlayed: {[key]: StatArray}}});
                 console.log('user/' + this.afAuth.auth.currentUser.uid + '/stat/quizPlayed/' + key);
+                this.db.object('users/' + this.afAuth.auth.currentUser.uid + '/stat/quizPlayed/' + key ).update( StatArray );
                 this.db.object('users/' + this.afAuth.auth.currentUser.uid + '/stat/quizPlayed/' + key ).update( StatArray );
             }
         });

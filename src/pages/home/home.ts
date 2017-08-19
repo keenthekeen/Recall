@@ -161,7 +161,7 @@ export class HomePage {
         });
     }
 
-    gostat() {
+    goStat() {
         this.navCtrl.push(StatPage);
     }
 }

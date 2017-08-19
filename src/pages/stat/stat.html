@@ -6,5 +6,11 @@
 
 
 <ion-content padding>
-  <canvas id="StatChart" ></canvas>
+    <canvas id="StatChart"></canvas>
+    <h1>Quiz you have played</h1>
+    <ul>
+        <li *ngFor="let quiz of quizPlayedArray">
+            {{quiz}}
+        </li>
+    </ul>
 </ion-content>
