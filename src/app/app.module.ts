@@ -23,6 +23,7 @@ import {AngularFireOfflineModule} from "angularfire2-offline";
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {KeytransformPipe} from '../pipes/keytransform/keytransform'
 
 export const firebaseConfig = {
     apiKey: "AIzaSyDfUf1_8WfdaxNY5SJkA8SxMqPY-c1iNZs",
@@ -46,7 +47,8 @@ export function createTranslateLoader(http: HttpClient) {
         AddquizPage,
         QuizPage,
         AddquizModalPage,
-        StatPage
+        StatPage,
+        KeytransformPipe
     ],
     imports: [
         BrowserModule,

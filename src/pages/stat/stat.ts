@@ -3,6 +3,7 @@ import * as Chart from 'chart.js/dist/Chart';
 import {UserModel} from '../../models/user';
 import {AngularFireDatabase} from "angularfire2/database";
 import {AngularFireAuth} from "angularfire2/auth";
+import {KeytransformPipe} from '../../pipes/keytransform/keytransform'
 
 @Component({
     selector: 'page-stat',
@@ -25,15 +26,19 @@ export class StatPage {
         }).then((userModel) => {
             this.quizPlayed = userModel.stat ? userModel.stat.quizPlayed: [];
             console.log(this.quizPlayed);
-            //this.quizPlayedArray = Object.keys(this.quizPlayed);
-            /*for (let property in this.quizPlayed) {
+            this.quizPlayedArray = Object.keys(this.quizPlayed);
+            for (let property in this.quizPlayed) {
                 if (this.quizPlayed.hasOwnProperty(property)) {
-                    this.quizPlayedArray.push(property);
+                    if(this.quizPlayedArray.indexOf(property) == -1 ) {
+                        this.quizPlayedArray.push(property);
+                    }
                 }
-            }*/
+            }
         });
     }
-
+    public goQuiz(){
+        this.
+    }
     ionViewDidLoad() {
         this.screenSize = {
             width: window.innerWidth,
