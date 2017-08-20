@@ -93,6 +93,11 @@ export class QuizModel {
         });
     }
 
+    public getOwner(db: AngularFireOfflineDatabase) {
+        console.log("Getting owner name of " + this.name);
+        return db.object('/users/' + this.owner + '/displayName');
+    }
+
     static newThenWaitPicture(obj: any, firebaseApp: FirebaseApp): Promise<QuizModel> {
         return new Promise(resolve => {
             let quiz = new QuizModel(obj, firebaseApp);

@@ -15,12 +15,10 @@ export class FeaturesPage {
     public quizzes: Array<QuizModel> = [];
     public isLoaded: boolean;
     private limit: number = 5;
-    public isSearchOn: boolean;
-    public searchIcon: string = "search";
 
     @ViewChild(Content) contentRef: Content;
 
-    constructor(public navCtrl: NavController, private db: AngularFireOfflineDatabase, private firebaseApp: FirebaseApp) {
+    constructor(public navCtrl: NavController, public db: AngularFireOfflineDatabase, private firebaseApp: FirebaseApp) {
         this.fetchQuizzes();
     }
 
