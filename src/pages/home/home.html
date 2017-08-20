@@ -10,8 +10,8 @@
 <ion-content padding>
     <!--<p style="margin: 5px 0 0 10px;">Statistic</p>-->
     <ion-list>
-        <div *ngIf='user'>
-            <div *ngIf="!isLoaded" class="loading"></div>
+        <div *ngIf="!isLoaded" class="loading"></div>
+        <div *ngIf='user && isLoaded'>
             <div (click)="goStat()" *ngIf='user && viewStat' class="stat">
                 <ion-grid>
                     <ion-row>
@@ -60,8 +60,7 @@
 
             </div>
         </div>
-
-        <div *ngIf='!user'>
+        <div *ngIf='!user && isLoaded'>
             {{ "PLEASE_SIGN_IN" | translate }}
             <button (click)='signIn()' class='btn-google' ion-button icon-left block>
                 <ion-icon name="logo-google"></ion-icon>
@@ -69,7 +68,6 @@
             </button>
 
         </div>
-
     </ion-list>
 
     <ion-fab right bottom *ngIf='user'>

@@ -27,10 +27,13 @@ export class HomePage {
     public user: UserModel | null;
     public isLoaded: boolean;
     public viewStat: object;
-    constructor(public navCtrl: NavController, private afAuth: AngularFireAuth, private offlineDb: AngularFireOfflineDatabase,public db: AngularFireDatabase, private loadingCtrl: LoadingController, private platform: Platform, private actionSheetCtrl: ActionSheetController, private firebaseApp: FirebaseApp, fb: Firebase, private helper: Helper, private translate: TranslateService, private alertCtrl: AlertController, private storage: Storage) {
+
+    constructor(public navCtrl: NavController, private afAuth: AngularFireAuth, private offlineDb: AngularFireOfflineDatabase, public db: AngularFireDatabase, private loadingCtrl: LoadingController, private platform: Platform, private actionSheetCtrl: ActionSheetController, private firebaseApp: FirebaseApp, fb: Firebase, private helper: Helper, private translate: TranslateService, private alertCtrl: AlertController, private storage: Storage) {
+
+        console.log("User at construct", afAuth.auth.currentUser);
 
         afAuth.auth.onAuthStateChanged((userData) => {
-            console.log("Auth state changed.");
+            console.log("Auth state changed.", userData);
             if (userData) {
                 let user;
                 UserModel.findOrNew(db, userData).then((userModel) => {
@@ -148,6 +151,8 @@ export class HomePage {
                 });
                 this.isLoaded = true;
             });
+        } else {
+            this.isLoaded = true;
         }
     }
 
@@ -165,8 +170,8 @@ export class HomePage {
         this.navCtrl.push(StatPage);
     }
 
-    ionViewDidEnter(){
-        if(this.afAuth.auth.currentUser) {
+    ionViewDidEnter() {
+        if (this.afAuth.auth.currentUser) {
             UserModel.findOrNew(this.db, {
                 uid: this.afAuth.auth.currentUser.uid,
             }).then((model) => {
