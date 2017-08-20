@@ -20,6 +20,7 @@ import {AngularFireAuthModule} from "angularfire2/auth";
 import {CameraMock, Helper} from './helper';
 import {IonicStorageModule} from "@ionic/storage";
 import {Firebase} from "@ionic-native/firebase";
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import {AngularFireOfflineModule} from "angularfire2-offline";
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {HttpClient, HttpClientModule} from "@angular/common/http";
@@ -87,7 +88,8 @@ export function createTranslateLoader(http: HttpClient) {
         {provide: Camera, useClass: CameraMock},
         {provide: ErrorHandler, useClass: IonicErrorHandler},
         Firebase,
-        Helper
+        Helper,
+        ScreenOrientation
     ]
 })
 export class AppModule {

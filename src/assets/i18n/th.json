@@ -72,5 +72,14 @@
   "ACCURACY": "ความถูกต้อง",
   "Quiz_you_have_done": "ควิซที่คุณทำ",
   "You_have_no_quiz": "คุณไม่มีควิซที่สร้าง",
-  "LOADING": "กำลังโหลด..."
+  "LOADING": "กำลังโหลด...",
+  "AN_APP_THAT_MAKE": "แอพพลิเคชั่นที่ทำให้การท่องจำเป็นเรื่องง่าย",
+  "TUTORIAL_SKIP_BUTTON": "ข้าม",
+  "RECALL_ALLOW_USERS": "ด้วยแอพ Recall ผู้ใช้สามารถเพิ่มคำถามของตัวเอง และใช้เป็นเครื่องมือในการท่องจำ",
+  "Open_platform": "ทุกคนมีส่วนร่วม",
+  "CHECK_THE_ANSWERS": "ตรวจคำตอบ",
+  "EVALUATE_YOURSELF": "ประเมิณตนเองด้วยการแตะเพียงครั้งเดียว",
+  "SPREAD_KNOWLEDGE": "เผยแพร่ความรู้ของคุณให้แก่มวลมนุษย์!",
+  "CONTINUE": "ต่อไป",
+  "SHARE_IT_WITH_FRIENDS": "แบ่งปันกับเพื่อนๆ"
 }

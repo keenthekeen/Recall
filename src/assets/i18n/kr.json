@@ -72,5 +72,14 @@
   "ACCURACY": "정답률",
   "Quiz_you_have_done": "당신이 푼 퀴즈",
   "You_have_no_quiz": "만든 퀴즈가 없습니다",
-  "LOADING": "로드 중..."
+  "LOADING": "로드 중...",
+  "AN_APP_THAT_MAKE": "An application that make memorization easier",
+  "TUTORIAL_SKIP_BUTTON": "Skip",
+  "RECALL_ALLOW_USERS": "Recall allow users to add their own quiz and use it as memorization tool",
+  "Open_platform": "Open Platform",
+  "CHECK_THE_ANSWERS": "Check the answers",
+  "EVALUATE_YOURSELF": "Evaluate yourself with a single touch.",
+  "SPREAD_KNOWLEDGE": "Spread your knowledge to humanity.",
+  "CONTINUE": "Continue",
+  "SHARE_IT_WITH_FRIENDS": "Share it with friends"
 }

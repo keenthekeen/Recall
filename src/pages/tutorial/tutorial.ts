@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
-import {MenuController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {MenuController, IonicPage, NavController,} from 'ionic-angular';
 import {MasterPage} from "../master/master"
+import {ScreenOrientation} from '@ionic-native/screen-orientation';
 
 /**
  * Generated class for the TutorialPage page.
@@ -23,7 +24,8 @@ export class TutorialPage {
     slides: Slide[];
     showSkip = true;
 
-    constructor(public navCtrl: NavController, public menu: MenuController,) {
+    constructor(public navCtrl: NavController, public menu: MenuController, private screenOrientation: ScreenOrientation) {
+        this.screenOrientation.lock('portrait');
     }
 
     onSlideChangeStart(slider) {
@@ -40,11 +42,12 @@ export class TutorialPage {
         this.menu.enable(true);
     }
 
-    goToHome(){
-    this.navCtrl.setRoot(MasterPage, {}, {
-        animate: true,
-        direction: 'forward'
-    });
-}
+    goToHome() {
+        this.screenOrientation.unlock();
+        this.navCtrl.setRoot(MasterPage, {}, {
+            animate: true,
+            direction: 'forward'
+        });
+    }
 
 }

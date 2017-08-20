@@ -72,5 +72,14 @@
   "ACCURACY": "Accuracy",
   "Quiz_you_have_done": "Quizzes you have done",
   "You_have_no_quiz": "You have no quiz.",
-  "LOADING": "Loading..."
+  "LOADING": "Loading...",
+  "AN_APP_THAT_MAKE": "An application that make memorization easier",
+  "TUTORIAL_SKIP_BUTTON": "Skip",
+  "RECALL_ALLOW_USER": "Recall allow users to add their own quiz and use it as memorization tool",
+  "Open_platform": "Open Platform",
+  "CHECK_THE_ANSWERS": "Check the answers",
+  "EVALUATE_YOURSELF": "Evaluate yourself with a single touch.",
+  "SPREAD_KNOWLEDGE": "Spread your knowledge to humanity.",
+  "CONTINUE": "Continue",
+  "SHARE_IT_WITH_FRIENDS": "Share it with friends"
 }

@@ -23,6 +23,7 @@
         "@ionic-native/camera": "^4.1.0",
         "@ionic-native/core": "^3.14.0",
         "@ionic-native/firebase": "^4.1.0",
+        "@ionic-native/screen-orientation": "^4.1.0",
         "@ionic-native/splash-screen": "^3.14.0",
         "@ionic-native/status-bar": "^3.14.0",
         "@ionic/storage": "2.0.1",
@@ -51,7 +52,8 @@
         "promise-polyfill": "6.0.2",
         "rxjs": "5.4.0",
         "sw-toolbox": "3.6.0",
-        "zone.js": "0.8.12"
+        "zone.js": "0.8.12",
+        "cordova-plugin-screen-orientation": "~2.0.1"
     },
     "devDependencies": {
         "@ionic/app-scripts": "^2.1.4",
@@ -82,7 +84,8 @@
                 "ANDROID_PATHPREFIX": "/"
             },
             "cordova-plugin-firebase": {},
-            "cordova-plugin-compat": {}
+            "cordova-plugin-compat": {},
+            "cordova-plugin-screen-orientation": {}
         },
         "platforms": [
             "android"
