@@ -11,7 +11,7 @@
     <!-- Quiz display -->
     <div>
         <ion-card *ngFor="let quiz of quizzes" (click)="quizPage(quiz)">
-            <img src="{{quiz.picture}}"/>  <!--perform image loading function-->
+            <img src="{{quiz.picture || 'assets/loading.gif' }}"/>  <!--perform image loading function-->
             <ion-card-content>
                 <ion-card-title>
                     {{ quiz.name }}
