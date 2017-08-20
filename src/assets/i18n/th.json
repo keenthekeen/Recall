@@ -11,7 +11,7 @@
   "DELETE": "ลบ",
   "DELETING": "กำลังลบ...",
   "DELETED": "ลบแล้ว!",
-  "CANCEL": "ยกลเิก",
+  "CANCEL": "ยกเลิก",
   "ADD": "เพิ่ม",
   "LABEL_NAME_CONFLICT": {
     "TITLE": "ชื่อซ้ำกัน!",
