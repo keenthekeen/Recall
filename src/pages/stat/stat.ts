@@ -12,10 +12,6 @@ import {FirebaseApp} from "angularfire2";
     templateUrl: 'stat.html',
 })
 export class StatPage {
-    private screenSize = {
-        width: 0,
-        height: 0
-    };
     public quizPlayed: Array<{
         uid: string,
         date: number,
@@ -43,12 +39,11 @@ export class StatPage {
     }
 
     public goQuiz(quiz) {
-        QuizModel.find(this.db,quiz).subscribe((quizModelSnapshot)=>{
+        QuizModel.find(this.db, quiz).subscribe((quizModelSnapshot) => {
             this.navCtrl.push(QuizPage, {
                 quiz: new QuizModel(quizModelSnapshot.val(), this.firebaseApp),
             });
         })
-
 
 
     }
