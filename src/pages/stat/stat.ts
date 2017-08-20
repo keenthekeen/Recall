@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {UserModel} from '../../models/user';
 import {AngularFireDatabase} from "angularfire2/database";
 import {AngularFireAuth} from "angularfire2/auth";
-import {LoadingController, NavController, NavParams} from 'ionic-angular';
+import {LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
 import {QuizModel} from "../../models/quiz";
 import {QuizPage} from "../quiz/quiz";
 import {FirebaseApp} from "angularfire2";
@@ -21,7 +21,7 @@ export class StatPage {
     public quizPlayedArray = [];
     public viewStat;
 
-    constructor(public db: AngularFireDatabase, public afAuth: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams, private firebaseApp: FirebaseApp, private loadingCtrl: LoadingController, private translate: TranslateService) {
+    constructor(public db: AngularFireDatabase, public afAuth: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams, private firebaseApp: FirebaseApp, private loadingCtrl: LoadingController, private translate: TranslateService, public toastCtrl: ToastController) {
         this.viewStat = this.navParams.get('viewStat');
         console.log('viewstat', this.viewStat);
         UserModel.findOrNew(db, {
@@ -48,15 +48,23 @@ export class StatPage {
         this.translate.get('LOADING').subscribe((res: string) => {
             loader.setContent(res);
         });
-
         QuizModel.find(this.db, quiz).subscribe((quizModelSnapshot) => {
-            QuizModel.newThenWaitPicture(quizModelSnapshot.val(), this.firebaseApp).then(quiz => {
-                this.navCtrl.push(QuizPage, {
-                    quiz: quiz
-                }).then(() => {
-                    loader.dismiss();
+            if (quizModelSnapshot.val() != null) {
+                QuizModel.newThenWaitPicture(quizModelSnapshot.val(), this.firebaseApp).then(quiz => {
+                    this.navCtrl.push(QuizPage, {
+                        quiz: quiz
+                    }).then(() => {
+                        loader.dismiss();
+                    });
                 });
-            });
+            }
+            else {
+                loader.dismiss();
+                this.toastCtrl.create({
+                    message: 'This quiz has been deleted',
+                    duration: 3000
+                }).present();
+            }
         });
     }
 

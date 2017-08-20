@@ -16,7 +16,12 @@ export class KeytransformPipe implements PipeTransform {
         return new Promise(resolve => {
             let quizzes = this.db.object('/quizzes');
             let subscription = quizzes.subscribe((quizzes) => {
-                resolve(quizzes[key].name);
+                if(quizzes[key] &&quizzes[key].name) {
+                    resolve(quizzes[key].name);
+                }
+                else{
+                    resolve('DELETED QUIZ');
+                }
                 subscription.unsubscribe();
             });
         });
