@@ -71,6 +71,13 @@ export class QuizModel {
         return db.app.database().ref("/quizzes").child(this.$key).remove();
     }
 
+    public getRate(): string {
+        if (!this.stat || !this.stat.rate) {
+            return "N/A";
+        }
+        return Math.round((100-this.stat.rate)*15/100).toString();
+    }
+
     private setPictureUrl() {
         if (this.picture_on_gz) {
             console.log("Getting picture url");

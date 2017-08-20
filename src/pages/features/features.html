@@ -20,6 +20,23 @@
                     {{ quiz.caption }}
                 </p>
             </ion-card-content>
+            <ion-row>
+                <ion-col text-left>
+                    <ion-note>
+                        {{ quiz.category ? (("CATEGORY_VALUE."+quiz.category) | translate) : '' }}
+                    </ion-note>
+                </ion-col>
+                <ion-col text-center>
+                    <ion-note>
+                        {{ quiz.stat.counter }}
+                    </ion-note>
+                </ion-col>
+                <ion-col text-right>
+                    <ion-note>
+                        {{ "LEVEL" | translate }} {{ quiz.getRate() }}
+                    </ion-note>
+                </ion-col>
+            </ion-row>
         </ion-card>
     </div>
 
