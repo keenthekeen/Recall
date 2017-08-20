@@ -23,7 +23,7 @@
             <ion-row>
                 <ion-col text-left>
                     <ion-note>
-                        by {{ (quiz.getOwner(db) | async)?.$value }}<br/>
+                        by {{ quiz.ownerName }}<br/>
                         {{ quiz.category ? (("CATEGORY_VALUE."+quiz.category) | translate) : '' }}
                     </ion-note>
                 </ion-col>

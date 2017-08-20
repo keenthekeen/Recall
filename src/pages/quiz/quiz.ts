@@ -8,6 +8,7 @@ import {AngularFireDatabase} from "angularfire2/database";
 import {Firebase} from "@ionic-native/firebase";
 import {UserModel} from '../../models/user';
 import {TranslateService} from "@ngx-translate/core";
+import {AngularFireOfflineDatabase} from "angularfire2-offline";
 
 @Component({
     selector: 'page-quiz',
@@ -41,8 +42,9 @@ export class QuizPage {
      */
     @ViewChild('canvas') canvasEl: ElementRef;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public afAuth: AngularFireAuth, private db: AngularFireDatabase, public toastCtrl: ToastController, public loadingCtrl: LoadingController, private storage: Storage, public alertCtrl: AlertController, fb: Firebase, private translate: TranslateService) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public afAuth: AngularFireAuth, private db: AngularFireDatabase, public toastCtrl: ToastController, public loadingCtrl: LoadingController, private storage: Storage, public alertCtrl: AlertController, fb: Firebase, private translate: TranslateService, odb: AngularFireOfflineDatabase) {
         this.quiz = navParams.get('quiz');
+        this.quiz.setOwnerPhoto(odb);
         fb.setScreenName("quiz");
 
         storage.get('quiz_mode').then((val) => {
