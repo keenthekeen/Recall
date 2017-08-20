@@ -37,7 +37,7 @@ export class StatPage {
         });
     }
     public goQuiz(){
-        this.
+
     }
     ionViewDidLoad() {
         this.screenSize = {
