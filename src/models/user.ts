@@ -46,6 +46,7 @@ export class UserModel implements UserInfo {
     }
 
     public save(db: AngularFireDatabase) {
+        this.modifiedAt = Date.now();
         return db.app.database().ref("/users").child(this.uid).set(this);
     }
 
