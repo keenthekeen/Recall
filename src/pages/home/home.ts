@@ -184,5 +184,6 @@ export class HomePage {
                 }
             });
         }
+
     }
 }
