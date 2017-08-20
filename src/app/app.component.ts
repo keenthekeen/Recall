@@ -46,6 +46,7 @@ export class MyApp {
                             translate.setDefaultLang('en');
                         }
                     });
+                    
                 }
             });
         });

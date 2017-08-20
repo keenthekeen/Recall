@@ -8,6 +8,7 @@ import {QuizPage} from "../quiz/quiz";
 import {FirebaseApp} from "angularfire2";
 import {TranslateService} from "@ngx-translate/core";
 
+
 @Component({
     selector: 'page-stat',
     templateUrl: 'stat.html',
