@@ -6,11 +6,11 @@
 
 
 <ion-content padding>
-   <canvas id="StatChart"></canvas>
     <ion-grid>
+        <div class="stat">
         <ion-row>
             <ion-col col-6>
-                <div style='background-color: #00bcd4' class="c100 fixing p0 big center">
+                <div style='background-color: #00bcd4' class="c100 fixing p0 center">
                     <span style="color: #00bcd4;">{{viewStat.counter}}</span>
                     <div class="slice">
                         <div class="bar"></div>
@@ -20,7 +20,7 @@
                 <p class="align-center middle graph-text" >{{ "QUIZ_DONE" | translate }}</p>
             </ion-col>
             <ion-col col-6>
-                <div style='background-color: #cccccc' class="c100 p{{viewStat.rate}} big center">
+                <div style='background-color: #cccccc' class="c100 p{{viewStat.rate}} center">
                     <span style="color: #ccc;">{{ viewStat.rate}}%</span>
                     <div class="slice">
                         <div class="bar"></div>
@@ -31,12 +31,14 @@
                 <!-- <p style="text-align: center; margin:0;"><em>Win Stroke</em></p>-->
             </ion-col>
         </ion-row>
+        </div>
     </ion-grid>
-
-    <h1>Quiz you have done</h1>
+<div *ngIf="quizPlayedArray.length != 0">
+    <h1>{{ "Quiz_you_have_done" | translate}}</h1>
     <ul>
         <li *ngFor="let quiz of quizPlayedArray">
             <a (click)="goQuiz(quiz)">{{quiz | keytransform | async}}</a>
         </li>
     </ul>
+</div>
 </ion-content>

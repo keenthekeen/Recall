@@ -52,12 +52,28 @@
                         </p>
                     </ion-card-content>
                 </ion-card>
+                <ion-row>
+                    <ion-col text-left>
+                        <ion-note>
+                            {{ quiz.category ? (("CATEGORY_VALUE."+quiz.category) | translate) : '' }}
+                        </ion-note>
+                    </ion-col>
+                    <ion-col text-center>
+                        <ion-note>
+                            {{ quiz.stat.counter }}
+                        </ion-note>
+                    </ion-col>
+                    <ion-col text-right>
+                        <ion-note>
+                            {{ "LEVEL" | translate }} {{ quiz.getRate() }}
+                        </ion-note>
+                    </ion-col>
+                </ion-row>
             </div>
             <div *ngIf="isLoaded && (quizzes?.length <= 0)" class="center-alert">
                 <ion-icon name="sunny"></ion-icon>
                 <br/>
-                You have no quiz.
-
+                {{"You_have_no_quiz" | translate }}
             </div>
         </div>
         <div *ngIf='!user && isLoaded'>

@@ -68,5 +68,7 @@
   },
   "LEVEL": "Level",
   "QUIZ_DONE": "Quizzes Done",
-  "ACCURACY": "Accuracy"
+  "ACCURACY": "Accuracy",
+  "Quiz_you_have_done": "Quizzes you have done",
+  "You_have_no_quiz": "You have no quiz."
 }
