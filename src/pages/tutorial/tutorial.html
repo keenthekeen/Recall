@@ -6,34 +6,56 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>tutorial</ion-title>
-  </ion-navbar>
+    <ion-header no-shadow>
+        <ion-navbar>
+            <ion-buttons end *ngIf="showSkip">
+                <button ion-button (click)="goToHome()" color="primary">{{ 'TUTORIAL_SKIP_BUTTON' | translate}}</button>
+            </ion-buttons>
+        </ion-navbar>
+    </ion-header>
 
 </ion-header>
 
 
 <ion-content padding>
-  <ion-slides pager>
-    <ion-slide *ngFor="let slide of slides">
-      <ion-toolbar>
-        <ion-buttons end>
-          <button ion-button color="primary">Skip</button>
-        </ion-buttons>
-      </ion-toolbar>
-      <img [src]="slide.image" class="slide-image"/>
-      <h2 class="slide-title" [innerHTML]="slide.title"></h2>
-      <p [innerHTML]="slide.description"></p>
-    </ion-slide>
-    <ion-slide>
-      <ion-toolbar>
-      </ion-toolbar>
-      <img src="assets/img/ica-slidebox-img-4.png" class="slide-image"/>
-      <h2 class="slide-title">Ready to Play?</h2>
-      <button ion-button large clear icon-end color="primary">
-        Continue
-        <ion-icon name="arrow-forward"></ion-icon>
-      </button>
-    </ion-slide>
-  </ion-slides>
+    <ion-slides pager>
+        <ion-slide>
+            <ion-toolbar>
+
+            </ion-toolbar>
+            <img src="assets/intro/1.png" class="slide-image"/>
+            <h2 class="slide-title">Recall</h2>
+            <p>An application that make memorization easier</p>
+        </ion-slide>
+        <ion-slide>
+            <ion-toolbar>
+
+            </ion-toolbar>
+            <img src="assets/intro/4.png" class="slide-image"/>
+            <h2 class="slide-title">Open platform</h2>
+            <p>Recall allow users to add their own quiz and use it as memorization tool</p>
+        </ion-slide>
+        <ion-slide>
+            <ion-toolbar>
+
+            </ion-toolbar>
+            <img src="assets/intro/3.png" class="slide-image"/>
+            <h2 class="slide-title">Check the answers</h2>
+            <p>Evaluate yourself with a single touch.</p>
+        </ion-slide>
+        <ion-slide>
+            <ion-toolbar>
+
+            </ion-toolbar>
+            <img src="assets/intro/2.png" class="slide-image"/>
+            <h2 class="slide-title">Share it with friends</h2>
+            <p>Spread your knowledge to humanity.</p>
+            <button ion-button large clear icon-end color="primary">
+                Continue
+                <ion-icon name="arrow-forward"></ion-icon>
+            </button>
+        </ion-slide>
+
+
+</ion-slides>
 </ion-content>

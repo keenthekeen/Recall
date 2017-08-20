@@ -6,6 +6,7 @@ import {StatusBar} from '@ionic-native/status-bar';
 import {Camera} from '@ionic-native/camera';
 
 import {FeaturesPage} from '../pages/features/features';
+import {TutorialPage} from '../pages/tutorial/tutorial';
 import {MyApp} from './app.component';
 import {HomePage} from '../pages/home/home';
 import {MasterPage} from '../pages/master/master';
@@ -48,7 +49,8 @@ export function createTranslateLoader(http: HttpClient) {
         QuizPage,
         AddquizModalPage,
         StatPage,
-        KeytransformPipe
+        KeytransformPipe,
+        TutorialPage
     ],
     imports: [
         BrowserModule,
@@ -71,6 +73,7 @@ export function createTranslateLoader(http: HttpClient) {
     entryComponents: [
         MyApp,
         HomePage,
+        TutorialPage,
         FeaturesPage,
         MasterPage,
         QuizPage,

@@ -3,11 +3,11 @@ import {AlertController, Platform} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {Storage} from '@ionic/storage';
-
 import {MasterPage} from '../pages/master/master';
 import {AngularFireAuth} from "angularfire2/auth";
 import * as firebase from 'firebase/app';
 import {TranslateService} from "@ngx-translate/core";
+import {TutorialPage} from '../pages/tutorial/tutorial';
 
 @Component({
     templateUrl: 'app.html'
@@ -15,7 +15,7 @@ import {TranslateService} from "@ngx-translate/core";
 export class MyApp {
     rootPage: any = MasterPage;
 
-    constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, afAuth: AngularFireAuth, translate: TranslateService, alertCtrl: AlertController, storage: Storage) {
+    constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, afAuth: AngularFireAuth, translate: TranslateService, alertCtrl: AlertController, storage: Storage,) {
         platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
@@ -31,6 +31,7 @@ export class MyApp {
             storage.get('language').then((val) => {
                 if (val) {
                     translate.use(val);
+                    this.rootPage = MasterPage;
                 } else {
                     // No language setting saved, show dialog
                     MyApp.showLanguageSelect(alertCtrl).then((lang) => {
@@ -46,7 +47,7 @@ export class MyApp {
                             translate.setDefaultLang('en');
                         }
                     });
-                    
+                    this.rootPage = TutorialPage;
                 }
             });
         });
