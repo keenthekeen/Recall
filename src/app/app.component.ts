@@ -20,7 +20,7 @@ export class MyApp {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
             statusBar.styleDefault();
-            statusBar.backgroundColorByHexString("#1e88e5");
+            statusBar.backgroundColorByHexString("#488AFF");
             splashScreen.hide();
 
             // Firebase Authentication Setup (Angularfire2)
