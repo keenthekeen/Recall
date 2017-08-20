@@ -65,5 +65,8 @@
     "GEOGRAPHY": "Geography",
     "SOCIAL": "Social Sciences",
     "OTHER": "Other"
-  }
+  },
+  "LEVEL": "Level",
+  "QUIZ_DONE": "Quizzes Done",
+  "ACCURACY": "Accuracy"
 }
