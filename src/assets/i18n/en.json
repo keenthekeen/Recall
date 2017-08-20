@@ -70,5 +70,6 @@
   "QUIZ_DONE": "Quizzes Done",
   "ACCURACY": "Accuracy",
   "Quiz_you_have_done": "Quizzes you have done",
-  "You_have_no_quiz": "You have no quiz."
+  "You_have_no_quiz": "You have no quiz.",
+  "LOADING": "Loading..."
 }

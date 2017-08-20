@@ -75,19 +75,34 @@ export class QuizModel {
         if (!this.stat || !this.stat.rate) {
             return "N/A";
         }
-        return Math.round((100-this.stat.rate)*15/100).toString();
+        return Math.round((100 - this.stat.rate) * 15 / 100).toString();
     }
 
-    private setPictureUrl() {
-        if (this.picture_on_gz) {
-            console.log("Getting picture url");
-            this.firebaseApp.storage().ref().child("quiz_pictures").child(this.picture_on_gz).getDownloadURL().then((url) => {
-                this.picture = url;
+    public setPictureUrl() {
+        return new Promise(resolve => {
+            if (this.picture_on_gz) {
+                console.log("Getting picture url");
+                this.firebaseApp.storage().ref().child("quiz_pictures").child(this.picture_on_gz).getDownloadURL().then((url) => {
+                    this.picture = url;
+                    console.log("Got picture url: " + url);
+                    resolve(url);
+                });
+            } else {
+                resolve();
+            }
+        });
+    }
+
+    static newThenWaitPicture(obj: any, firebaseApp: FirebaseApp): Promise<QuizModel> {
+        return new Promise(resolve => {
+            let quiz = new QuizModel(obj, firebaseApp);
+            quiz.setPictureUrl().then(() => {
+                resolve(quiz);
             });
-        }
+        });
     }
 
-    static find(db:AngularFireDatabase, key:string): FirebaseObjectObservable<any> {
+    static find(db: AngularFireDatabase, key: string): FirebaseObjectObservable<any> {
         return db.object('/quizzes/' + key, {preserveSnapshot: true});
     }
 
