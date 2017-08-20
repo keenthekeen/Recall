@@ -40,7 +40,7 @@
                 </ion-grid>
             </div>
             <ion-card *ngFor='let quiz of quizzes' (click)="quizPage(quiz)">
-                <img src="{{ quiz.picture }}"/>
+                <img src="{{ quiz.picture || 'assets/loading.gif' }}"/>
                 <ion-card-content>
                     <ion-card-title>
                         {{ quiz.name }}
