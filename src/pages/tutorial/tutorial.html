@@ -18,7 +18,7 @@
 
 
 <ion-content padding>
-    <ion-slides pager>
+    <ion-slides pager (ionSlideWillChange)="onSlideChangeStart($event)">
         <ion-slide>
             <ion-toolbar></ion-toolbar>
             <img src="assets/intro/1.png" class="slide-image"/>
