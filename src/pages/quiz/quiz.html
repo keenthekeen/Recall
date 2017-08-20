@@ -14,11 +14,17 @@
     <div class="ion-canvas">
         <canvas #canvas></canvas>
     </div>
-    <button ion-button color="secondary" block *ngIf="isQuizMode" [disabled]="!canCheck" (click)="checkAnswer()">{{ "CHECK_BUTTON."+(isChecked ? "CHECKED" : "CHECK") | translate }}</button>
+    <button ion-button color="secondary" block *ngIf="isQuizMode" [disabled]="!canCheck" (click)="checkAnswer()" large>{{ "CHECK_BUTTON."+(isChecked ? "CHECKED" : "CHECK") | translate }}</button>
     <p>{{ quiz.caption }}</p><br/>
-
-    <button ion-button color="danger" *ngIf="isOwner" (click)="deleteQuiz()" icon-left>
-        <ion-icon name="trash"></ion-icon>
-        {{ 'DELETE' | translate }}
-    </button>
+    <ion-row>
+        <ion-col text-left>
+            by {{ quiz.ownerName }} <img class="img-circle" src="{{ quiz.ownerPhoto }}" style="height:2.5rem"/>
+        </ion-col>
+        <ion-col text-right>
+            <button ion-button color="danger" *ngIf="isOwner" (click)="deleteQuiz()" icon-left>
+                <ion-icon name="trash"></ion-icon>
+                {{ 'DELETE' | translate }}
+            </button>
+        </ion-col>
+    </ion-row>
 </ion-content>

@@ -23,7 +23,7 @@
             <ion-row>
                 <ion-col text-left>
                     <ion-note>
-                        {{ quiz.category ? (("CATEGORY_VALUE."+quiz.category) | translate) : '' }}
+                        by {{ quiz.ownerName }}
                     </ion-note>
                 </ion-col>
                 <ion-col text-center>
@@ -34,6 +34,7 @@
                 <ion-col text-right>
                     <ion-note>
                         {{ "LEVEL" | translate }} {{ quiz.getRate() }}
+                        {{ quiz.category ? (("CATEGORY_VALUE."+quiz.category) | translate) : '' }}
                     </ion-note>
                 </ion-col>
             </ion-row>

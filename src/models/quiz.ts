@@ -5,15 +5,12 @@ import {AngularFireOfflineDatabase} from "angularfire2-offline";
 
 export class QuizModel {
 
-    public $key: string | null;
     public name: string;
     public picture: string | null;
     public picture_on_gz: string | null;
     public caption: string;
     public category: string | null;
     public owner: string | null;
-    public rate: number | null;
-    public counter: number | null;
     public stat: {
         counter: number,
         rate: number,
@@ -25,6 +22,11 @@ export class QuizModel {
         y: number,
     }>;
     public created_at: number;
+
+    // Internal Use (Shouldn't be written to database)
+    public $key: string | null;
+    public ownerName: string;
+    public ownerPhoto: string;
 
     constructor(obj: any, protected firebaseApp?: FirebaseApp) {
         this.$key = obj.$key || null;
@@ -54,6 +56,8 @@ export class QuizModel {
             delete this.$key;
         }
         delete this.firebaseApp;
+        delete this.ownerName;
+        delete this.ownerPhoto;
         if (this.$key) {
             return db.app.database().ref("/quizzes").child(this.$key).set(this);
         } else {
@@ -90,6 +94,20 @@ export class QuizModel {
             } else {
                 resolve();
             }
+        });
+    }
+
+    public setOwnerName(db: AngularFireOfflineDatabase) {
+        console.log("Getting owner name of " + this.name);
+        db.object('/users/' + this.owner + '/displayName').subscribe(x => {
+            this.ownerName = x.$value;
+        });
+    }
+
+    public setOwnerPhoto(db: AngularFireOfflineDatabase) {
+        console.log("Getting owner picture of " + this.name);
+        db.object('/users/' + this.owner + '/photoURL').subscribe(x => {
+            this.ownerPhoto = x.$value;
         });
     }
 

@@ -15,12 +15,10 @@ export class FeaturesPage {
     public quizzes: Array<QuizModel> = [];
     public isLoaded: boolean;
     private limit: number = 5;
-    public isSearchOn: boolean;
-    public searchIcon: string = "search";
 
     @ViewChild(Content) contentRef: Content;
 
-    constructor(public navCtrl: NavController, private db: AngularFireOfflineDatabase, private firebaseApp: FirebaseApp) {
+    constructor(public navCtrl: NavController, public db: AngularFireOfflineDatabase, private firebaseApp: FirebaseApp) {
         this.fetchQuizzes();
     }
 
@@ -32,10 +30,15 @@ export class FeaturesPage {
                     limitToFirst: this.limit
                 }
             }).subscribe((list) => {
-                this.quizzes = [];
-                list.forEach((item) => {
-                    this.quizzes.push(new QuizModel(item, this.firebaseApp));
-                });
+                console.log("Featured Page: Quizzes list update (length=" + list.length + ")");
+                if (list.length != this.quizzes.length) {
+                    this.quizzes = [];
+                    list.forEach((item) => {
+                        let quiz = new QuizModel(item, this.firebaseApp);
+                        quiz.setOwnerName(this.db);
+                        this.quizzes.push(quiz);
+                    });
+                }
                 this.isLoaded = true;
                 resolve();
             });

@@ -1,4 +1,4 @@
-import {AngularFireDatabase, FirebaseObjectObservable} from "angularfire2/database";
+import {AngularFireDatabase} from "angularfire2/database";
 import {UserInfo} from "firebase/app";
 
 export class UserModel implements UserInfo {
@@ -50,7 +50,7 @@ export class UserModel implements UserInfo {
         return db.app.database().ref("/users").child(this.uid).set(this);
     }
 
-    static find(db: AngularFireDatabase, uid: string): FirebaseObjectObservable<any> {
+    static find(db, uid: string) {
         return db.object('/users/' + uid, {preserveSnapshot: true});
     }
 
@@ -59,7 +59,7 @@ export class UserModel implements UserInfo {
             let user = UserModel.find(db, obj.uid);
             if (user) {
                 let subscription = user.subscribe(x => {
-                    subscription.unsubscribe();
+                    if (subscription) subscription.unsubscribe();
                     if (x.val()) {
                         resolve(new UserModel(x.val()));
                     } else {
