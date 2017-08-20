@@ -150,14 +150,19 @@ export class AddquizPage {
             encodingType: this.Camera.EncodingType.JPEG,
             correctOrientation: true,
         };
-        this.isUp = true;
         this.Camera.getPicture(cameraOptions)
             .then(file_uri => this.initializeCanvas(file_uri),
-                err => this.helper.error("Error while getting picture"));
+                err => {
+                    if (!(typeof err === "string" && err.indexOf("cancel") > 0)) {
+                        // Log & display error, except when it has been rejected because user cancellation
+                        this.helper.error("Error while getting picture", err);
+                    }
+                });
 
     }
 
     initializeCanvas(uri) {
+        this.isUp = true;
         if (!(uri.startsWith('http') || uri.startsWith('data:'))) {
             uri = "data:image/jpeg;base64," + uri;
         }

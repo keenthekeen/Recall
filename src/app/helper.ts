@@ -23,8 +23,8 @@ export class Helper {
     constructor(private firebase: Firebase, private alertCtrl: AlertController) {
     }
 
-    error(message: string) {
-        console.error(message);
+    error(message: string, object ?: any) {
+        console.error(message, object);
         this.firebase.logError(message);
         this.alertCtrl.create({
             title: 'Error Occurred!',
