@@ -1,6 +1,5 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import {Pipe, PipeTransform, } from '@angular/core';
 import {AngularFireDatabase} from "angularfire2/database";
-
 @Pipe({
     name: 'keytransform',
 })
@@ -18,6 +17,7 @@ export class KeytransformPipe implements PipeTransform {
             let quizzes = this.db.object('/quizzes');
             let subscription = quizzes.subscribe((quizzes) => {
                 resolve(quizzes[key].name);
+                subscription.unsubscribe();
             });
         });
 

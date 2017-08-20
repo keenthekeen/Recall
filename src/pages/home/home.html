@@ -12,7 +12,7 @@
     <ion-list>
         <div *ngIf="!isLoaded" class="loading"></div>
         <div *ngIf='user && isLoaded'>
-            <div (click)="goStat()" *ngIf='user && viewStat' class="stat">
+            <div (click)="goStat(viewStat)" *ngIf='user && viewStat' class="stat">
                 <ion-grid>
                     <ion-row>
                         <ion-col col-6>

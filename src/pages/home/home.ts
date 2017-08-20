@@ -167,7 +167,7 @@ export class HomePage {
     }
 
     goStat() {
-        this.navCtrl.push(StatPage);
+        this.navCtrl.push(StatPage, {viewStat: this.viewStat});
     }
 
     ionViewDidEnter() {

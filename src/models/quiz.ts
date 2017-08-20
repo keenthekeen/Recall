@@ -1,4 +1,4 @@
-import {AngularFireDatabase} from "angularfire2/database";
+import {AngularFireDatabase, FirebaseObjectObservable} from "angularfire2/database";
 import {FirebaseApp} from "angularfire2";
 import {FirebaseListFactoryOpts} from "angularfire2/interfaces";
 import {AngularFireOfflineDatabase} from "angularfire2-offline";
@@ -85,6 +85,10 @@ export class QuizModel {
                 this.picture = url;
             });
         }
+    }
+
+    static find(db:AngularFireDatabase, key:string): FirebaseObjectObservable<any> {
+        return db.object('/quizzes/' + key, {preserveSnapshot: true});
     }
 
 }
