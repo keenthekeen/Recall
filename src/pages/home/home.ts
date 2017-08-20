@@ -23,7 +23,7 @@ import {MyApp} from "../../app/app.component";
     templateUrl: 'home.html'
 })
 export class HomePage {
-    public quizzes: Array<QuizModel>;
+    public quizzes: Array<QuizModel> = [];
     public user: UserModel | null;
     public isLoaded: boolean;
     public viewStat: object;
@@ -145,10 +145,14 @@ export class HomePage {
                     equalTo: this.user.uid
                 }
             }).subscribe((list) => {
-                this.quizzes = [];
-                list.forEach((item) => {
-                    this.quizzes.push(new QuizModel(item, this.firebaseApp));
-                });
+                if (list.length != this.quizzes.length) {
+                    this.quizzes = [];
+                    list.forEach((item) => {
+                        let quiz = new QuizModel(item, this.firebaseApp);
+                        quiz.setOwnerName(this.offlineDb);
+                        this.quizzes.push(quiz);
+                    });
+                }
                 this.isLoaded = true;
             });
         } else {
