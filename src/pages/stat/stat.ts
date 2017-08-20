@@ -5,6 +5,7 @@ import {AngularFireAuth} from "angularfire2/auth";
 import {NavController, NavParams} from 'ionic-angular';
 import {QuizModel} from "../../models/quiz";
 import {QuizPage} from "../quiz/quiz";
+import {FirebaseApp} from "angularfire2";
 
 @Component({
     selector: 'page-stat',
@@ -21,7 +22,8 @@ export class StatPage {
     }>;
     public quizPlayedArray = [];
     public viewStat;
-    constructor(public db: AngularFireDatabase, public afAuth: AngularFireAuth,  public navCtrl: NavController, public navParams: NavParams) {
+
+    constructor(public db: AngularFireDatabase, public afAuth: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams, private firebaseApp: FirebaseApp) {
         this.viewStat = this.navParams.get('viewStat');
         console.log('viewstat', this.viewStat);
         UserModel.findOrNew(db, {
@@ -43,7 +45,7 @@ export class StatPage {
     public goQuiz(quiz) {
         QuizModel.find(this.db,quiz).subscribe((quizModelSnapshot)=>{
             this.navCtrl.push(QuizPage, {
-                quiz: new QuizModel(quizModelSnapshot.val()),
+                quiz: new QuizModel(quizModelSnapshot.val(), this.firebaseApp),
             });
         })
 

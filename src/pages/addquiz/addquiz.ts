@@ -261,11 +261,7 @@ export class AddquizPage {
                     name = data ? data.Title : false;
 
                     if (name) {
-                        if (this.coordinates.map(function (e) {
-                                // Ignore case
-                                e.name = e.name.toUpperCase();
-                                return e;
-                            }).find(x => x.name == name.toUpperCase())) {
+                        if (this.coordinates.find(x => x.name.toUpperCase() == name.toUpperCase())) {
                             this.translate.get("LABEL_NAME_CONFLICT").subscribe(res => {
                                 this.alertCtrl.create({
                                     title: res.TITLE,

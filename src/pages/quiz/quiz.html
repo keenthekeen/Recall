@@ -17,5 +17,8 @@
     <button ion-button color="secondary" block *ngIf="isQuizMode" [disabled]="!canCheck" (click)="checkAnswer()">{{ "CHECK_BUTTON."+(isChecked ? "CHECKED" : "CHECK") | translate }}</button>
     <p>{{ quiz.caption }}</p><br/>
 
-    <button ion-button color="danger" *ngIf="isOwner" (click)="deleteQuiz()">{{ 'DELETE' | translate }}</button>
+    <button ion-button color="danger" *ngIf="isOwner" (click)="deleteQuiz()" icon-left>
+        <ion-icon name="trash"></ion-icon>
+        {{ 'DELETE' | translate }}
+    </button>
 </ion-content>
