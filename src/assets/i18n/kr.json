@@ -73,13 +73,13 @@
   "Quiz_you_have_done": "당신이 푼 퀴즈",
   "You_have_no_quiz": "만든 퀴즈가 없습니다",
   "LOADING": "로드 중...",
-  "AN_APP_THAT_MAKE": "An application that make memorization easier",
-  "TUTORIAL_SKIP_BUTTON": "Skip",
-  "RECALL_ALLOW_USERS": "Recall allow users to add their own quiz and use it as memorization tool",
+  "AN_APP_THAT_MAKE": "암기를 더 쉽게 해주는 앱",
+  "TUTORIAL_SKIP_BUTTON": "건너뛰기",
+  "RECALL_ALLOW_USERS": "Recall 은 당신이 퀴즈를 만들고 퀴즈를 더 쉽게 암기하기 위해 사용할 수 있도록 해줍니다 ",
   "Open_platform": "Open Platform",
-  "CHECK_THE_ANSWERS": "Check the answers",
-  "EVALUATE_YOURSELF": "Evaluate yourself with a single touch.",
-  "SPREAD_KNOWLEDGE": "Spread your knowledge to humanity.",
-  "CONTINUE": "Continue",
-  "SHARE_IT_WITH_FRIENDS": "Share it with friends"
+  "CHECK_THE_ANSWERS": "정답 확인",
+  "EVALUATE_YOURSELF": "단 한 번의 클릭으로 자기 자신을 평가해보세요.",
+  "SPREAD_KNOWLEDGE": "사람들에게 당신의 지식을 퍼뜨리세요.",
+  "CONTINUE": "계속",
+  "SHARE_IT_WITH_FRIENDS": "친구와 공유"
 }
