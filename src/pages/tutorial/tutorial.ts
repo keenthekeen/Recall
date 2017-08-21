@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {MenuController, IonicPage, NavController,} from 'ionic-angular';
+import {MenuController, NavController} from 'ionic-angular';
 import {MasterPage} from "../master/master"
 import {ScreenOrientation} from '@ionic-native/screen-orientation';
 
@@ -15,13 +15,11 @@ export interface Slide {
     image: string;
 }
 
-@IonicPage()
 @Component({
     selector: 'page-tutorial',
     templateUrl: 'tutorial.html',
 })
 export class TutorialPage {
-    slides: Slide[];
     showSkip = true;
 
     constructor(public navCtrl: NavController, public menu: MenuController, private screenOrientation: ScreenOrientation) {

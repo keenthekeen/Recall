@@ -1,5 +1,6 @@
-import {Pipe, PipeTransform, } from '@angular/core';
+import {Pipe, PipeTransform,} from '@angular/core';
 import {AngularFireDatabase} from "angularfire2/database";
+
 @Pipe({
     name: 'keytransform',
 })
@@ -15,10 +16,10 @@ export class KeytransformPipe implements PipeTransform {
         return new Promise(resolve => {
             let quizzes = this.db.object('/quizzes');
             let subscription = quizzes.subscribe((quizzes) => {
-                if(quizzes[key] &&quizzes[key].name) {
+                if (quizzes[key] && quizzes[key].name) {
                     resolve(quizzes[key].name);
                 }
-                else{
+                else {
                     resolve('DELETED QUIZ');
                 }
                 subscription.unsubscribe();
