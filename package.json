@@ -1,8 +1,8 @@
 {
     "name": "Recall",
-    "version": "0.0.1",
-    "author": "Ionic Framework",
-    "homepage": "http://ionicframework.com/",
+    "version": "0.0.3",
+    "author": "KeenDev",
+    "homepage": "http://www.alcob.org",
     "private": true,
     "scripts": {
         "clean": "ionic-app-scripts clean",
@@ -41,7 +41,7 @@
         "cordova-plugin-device": "^1.1.6",
         "cordova-plugin-firebase": "^0.1.23",
         "cordova-plugin-inappbrowser": "^1.7.1",
-      "cordova-plugin-screen-orientation": "^2.0.1",
+        "cordova-plugin-screen-orientation": "^2.0.1",
         "cordova-plugin-splashscreen": "^4.0.3",
         "cordova-plugin-statusbar": "^2.2.3",
         "cordova-plugin-whitelist": "^1.3.2",
@@ -53,11 +53,11 @@
         "promise-polyfill": "6.0.2",
         "rxjs": "5.4.0",
         "sw-toolbox": "3.6.0",
-      "zone.js": "0.8.12"
+        "zone.js": "0.8.12"
     },
     "devDependencies": {
         "@ionic/app-scripts": "^2.1.4",
-        "ionic": "3.9.2",
+        "ionic": "3.12.0",
         "typescript": "2.3.4"
     },
     "description": "An Ionic project",

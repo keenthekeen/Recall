@@ -1,3 +1,21 @@
+/*
+    Recall, an application that allow user to play a diagram quiz and create his own one, which is accessible by other users.
+    Copyright (C) 2017 Siwat Techavoranant and Sarat Limawongpranee
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {ActionSheetController, AlertController, LoadingController, ModalController, NavController, Platform, ToastController} from 'ionic-angular';
 import {Camera} from '@ionic-native/camera';
@@ -16,7 +34,7 @@ import UploadTaskSnapshot = firebase.storage.UploadTaskSnapshot;
 
 @Component({
     selector: 'page-addquiz',
-    templateUrl: 'addquiz.html',
+    templateUrl: 'addquiz.html'
 })
 
 export class AddquizPage {
@@ -78,7 +96,7 @@ export class AddquizPage {
             labels: this.coordinates,
             stat: {
                 counter: 0,
-                rate: 0,
+                rate: 0
             }
         });
 
@@ -148,14 +166,14 @@ export class AddquizPage {
             targetWidth: 1000,
             targetHeight: 1000,
             encodingType: this.Camera.EncodingType.JPEG,
-            correctOrientation: true,
+            correctOrientation: true
         };
         this.Camera.getPicture(cameraOptions)
             .then(file_uri => this.initializeCanvas(file_uri),
                 err => {
                     if (!(typeof err === "string" && err.indexOf("cancel") > 0)) {
                         // Log & display error, except when it has been rejected because user cancellation
-                        this.helper.error("Error while getting picture", err);
+                        this.helper.error("Your picture may be not supported.", err);
                     }
                 });
 
@@ -183,11 +201,11 @@ export class AddquizPage {
         this.bgImg.src = this.picture;
         this.bgImg.addEventListener("load", () => {
             // Calculate canvas size
-            if (this.bgImg.height < this.bgImg.width) {
-                canvas.width = (this.screenSize.width) * 0.90;
+            if (this.screenSize.width < this.screenSize.height) {
+                canvas.width = (this.screenSize.width) * 0.95;
                 canvas.height = this.bgImg.height * canvas.width / this.bgImg.width;
             } else {
-                canvas.height = (this.screenSize.height) * 0.90;
+                canvas.height = (this.screenSize.height) * 0.95;
                 canvas.width = this.bgImg.width * canvas.height / this.bgImg.height;
             }
             console.log("Image size: " + this.bgImg.height + " x " + this.bgImg.width + " / Canvas size: " + canvas.height + " x " + canvas.width);

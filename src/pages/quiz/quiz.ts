@@ -1,3 +1,21 @@
+/*
+    Recall, an application that allow user to play a diagram quiz and create his own one, which is accessible by other users.
+    Copyright (C) 2017 Siwat Techavoranant and Sarat Limawongpranee
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {AlertController, LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
 import {Storage} from '@ionic/storage';
@@ -12,7 +30,7 @@ import {AngularFireOfflineDatabase} from "angularfire2-offline";
 
 @Component({
     selector: 'page-quiz',
-    templateUrl: 'quiz.html',
+    templateUrl: 'quiz.html'
 })
 export class QuizPage {
     public quiz: QuizModel;
@@ -117,7 +135,7 @@ export class QuizPage {
                                     placeholder: res.ANSWER,
                                     type: "text",
                                     value: (typeof exist === "string" && exist in this.answers) ? this.answers[exist] : ""
-                                },
+                                }
                             ],
                             buttons: [
                                 {
@@ -174,7 +192,7 @@ export class QuizPage {
         bg.src = this.quiz.picture;
         bg.addEventListener("load", () => {
             // Calculate canvas size
-            if (bg.height < bg.width) {
+            if (this.screenSize.width < this.screenSize.height) {
                 canvas.width = (this.screenSize.width) * 0.95;
                 canvas.height = bg.height * canvas.width / bg.width;
             } else {
@@ -262,7 +280,7 @@ export class QuizPage {
         let updateQuiz = {
             stat: {
                 counter: Counter + 1,
-                rate: GlobalQuizRate,
+                rate: GlobalQuizRate
             }
         };
 
@@ -271,7 +289,7 @@ export class QuizPage {
             let user = UserModel.find(this.db, this.afAuth.auth.currentUser.uid);
 
             UserModel.findOrNew(this.db, {
-                uid: this.afAuth.auth.currentUser.uid,
+                uid: this.afAuth.auth.currentUser.uid
             }).then((userModel) => {
                 if (!userModel.stat || !userModel.stat.counter) {
                     userModel.stat = {
@@ -281,11 +299,11 @@ export class QuizPage {
                     };
                 }
                 let pre = userModel.stat.rate * userModel.stat.counter;
-                userModel.stat.counter ++;
+                userModel.stat.counter++;
                 userModel.stat.rate = (pre + thisQuizRate) / userModel.stat.counter;
                 this.db.object('users/' + userModel.uid + '/stat/').update({
                     counter: userModel.stat.counter,
-                    rate: userModel.stat.rate,
+                    rate: userModel.stat.rate
                 });
             });
 
@@ -301,7 +319,7 @@ export class QuizPage {
                     }
                     statArray.push({
                         date: Date.now(),
-                        score: thisQuizRate,
+                        score: thisQuizRate
                     });
                     this.isStatSaved = true;
 

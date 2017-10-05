@@ -1,14 +1,8 @@
 import {Component} from '@angular/core';
 import {MenuController, NavController} from 'ionic-angular';
-import {MasterPage} from "../master/master"
+import {MasterPage} from "../master/master";
 import {ScreenOrientation} from '@ionic-native/screen-orientation';
 
-/**
- * Generated class for the TutorialPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 export interface Slide {
     title: string;
     description: string;
@@ -17,7 +11,7 @@ export interface Slide {
 
 @Component({
     selector: 'page-tutorial',
-    templateUrl: 'tutorial.html',
+    templateUrl: 'tutorial.html'
 })
 export class TutorialPage {
     showSkip = true;
